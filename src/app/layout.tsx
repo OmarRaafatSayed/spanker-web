@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cairo } from "next/font/google";
+import { I18nProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const cairo = Cairo({
+  subsets: ["latin", "arabic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-cairo",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Website Clone",
-  description: "Pixel-perfect website clone",
+  title: "سبانكر - طر أينما تريد | Spanker - Fly Wherever You Want",
+  description:
+    "سبانكر — احجز رحلاتك إلى مصر وما بعدها. عروض خاصة على رحلات مرسى علم، الغردقة، شرم الشيخ، الأقصر، أسوان وأكثر.",
 };
 
 export default function RootLayout({
@@ -23,11 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    // lang and dir are managed dynamically by I18nProvider via useEffect
+    // We set the default (Arabic/RTL) here as the initial HTML attribute
+    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col font-sans">
+        <I18nProvider>{children}</I18nProvider>
+      </body>
     </html>
   );
 }
