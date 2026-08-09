@@ -60,12 +60,9 @@ export function Navbar() {
       links: [],
     },
     {
-      label: t.nav.experience,
-      links: [
-        { label: t.nav.onBoard, href: "/en-eg/on-board" },
-        { label: t.nav.ourFleet, href: "/en-eg/our-fleet" },
-        { label: t.nav.passengerReviews, href: "/en-eg/passenger-reviews" },
-      ],
+      label: t.nav.passengerReviews,
+      href: "/en-eg/passenger-reviews",
+      links: [],
     },
     {
       label: t.nav.about,
