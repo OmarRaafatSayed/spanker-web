@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
+import { FlightSearchWidget } from "@/components/home/FlightSearchWidget";
 
-// Overlay gradients per slide — dark enough to keep text readable
 const OVERLAYS = [
   "from-[#1A3A2A]/70 via-[#3D6833]/40 to-transparent",
   "from-[#1A3A2A]/80 via-[#2473BC]/30 to-transparent",
@@ -43,8 +43,8 @@ export function HeroBanner() {
   const slide = slides[current];
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      {/* Hero background image */}
+    <section className="relative min-h-screen flex flex-col overflow-hidden">
+      {/* Background image */}
       <Image
         src="/images/hero/hero-1.jpg"
         alt="Spanker hero"
@@ -54,7 +54,7 @@ export function HeroBanner() {
         sizes="100vw"
       />
 
-      {/* Dark overlay gradient — changes per slide */}
+      {/* Gradient overlay */}
       <div
         className={cn(
           "absolute inset-0 bg-linear-to-br transition-opacity duration-700",
@@ -62,12 +62,11 @@ export function HeroBanner() {
         )}
         aria-hidden="true"
       />
-
-      {/* Extra dark base layer for text contrast */}
       <div className="absolute inset-0 bg-black/40" aria-hidden="true" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 pt-20 pb-16 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-4 pt-24 pb-8 text-center">
+        {/* Headline */}
         <div
           className={cn(
             "transition-all duration-300 mb-8 md:mb-10",
@@ -85,8 +84,17 @@ export function HeroBanner() {
           </p>
         </div>
 
+        {/* Flight Search Widget */}
+        <div className="w-full max-w-5xl px-0 md:px-4">
+          <FlightSearchWidget />
+        </div>
+
         {/* Slide Indicators */}
-        <div className="flex gap-2 mt-6 md:mt-8" role="tablist" aria-label={isRTL ? "شرائح العرض" : "Hero slides"}>
+        <div
+          className="flex gap-2 mt-6 md:mt-8"
+          role="tablist"
+          aria-label={isRTL ? "شرائح العرض" : "Hero slides"}
+        >
           {slides.map((_, i) => (
             <button
               key={i}

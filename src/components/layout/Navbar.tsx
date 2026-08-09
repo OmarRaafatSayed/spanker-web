@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth-context";
@@ -11,10 +12,16 @@ import { LoginModal } from "@/components/ui/LoginModal";
 export function Navbar() {
   const { t, locale, isRTL, toggleLocale } = useI18n();
   const { user, logout } = useAuth();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
+
+  // Only the homepage has a full-screen hero behind the navbar
+  const isHomePage = pathname === "/";
+  // Navbar is "dark" (solid bg, dark text) when scrolled OR not on homepage
+  const isDark = isScrolled || !isHomePage;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
@@ -22,7 +29,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const NAV_ITEMS = [
+  const NAV_ITEMS: { label: string; href?: string; links: { label: string; href: string }[] }[] = [
     {
       label: t.nav.book,
       links: [
@@ -49,10 +56,8 @@ export function Navbar() {
     },
     {
       label: t.nav.destinationsOffers,
-      links: [
-        { label: t.nav.specialOffers, href: "/en-eg/special-offers" },
-        { label: t.nav.charterFlights, href: "/en-eg/charter-flights" },
-      ],
+      href: "/en-eg/special-offers",
+      links: [],
     },
     {
       label: t.nav.experience,
@@ -79,7 +84,7 @@ export function Navbar() {
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+        isDark ? "bg-white shadow-md" : "bg-transparent"
       )}
     >
       <nav className="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between h-18">
@@ -93,7 +98,7 @@ export function Navbar() {
           </svg>
           <span className={cn(
             "font-bold text-xl tracking-tight transition-colors duration-300",
-            isScrolled ? "text-brand-red" : "text-white"
+            isDark ? "text-brand-red" : "text-white"
           )}>
             {isRTL ? "سبانكر" : "Spanker"}
           </span>
@@ -101,7 +106,22 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-1">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.map((item) =>
+            item.href ? (
+              // Direct link — no dropdown
+              <Link
+                key={item.label}
+                href={item.href}
+                className={cn(
+                  "px-3 py-2 rounded text-sm font-medium transition-colors duration-200",
+                  isDark
+                    ? "text-text-primary hover:text-brand-red"
+                    : "text-white hover:text-white/80"
+                )}
+              >
+                {item.label}
+              </Link>
+            ) : (
             <div
               key={item.label}
               className="relative group"
@@ -111,7 +131,7 @@ export function Navbar() {
               <button
                 className={cn(
                   "flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors duration-200",
-                  isScrolled
+                  isDark
                     ? "text-text-primary hover:text-brand-red"
                     : "text-white hover:text-white/80"
                 )}
@@ -145,7 +165,8 @@ export function Navbar() {
                 ))}
               </div>
             </div>
-          ))}
+            )
+          )}
         </div>
 
         {/* Language Toggle + Login + Mobile */}
@@ -156,7 +177,7 @@ export function Navbar() {
             aria-label={locale === "ar" ? "Switch to English" : "التبديل إلى العربية"}
             className={cn(
               "flex items-center gap-1.5 text-sm font-semibold border rounded-full px-4 py-1.5 transition-all duration-200",
-              isScrolled
+              isDark
                 ? "border-border-light text-text-primary hover:border-brand-red hover:text-brand-red"
                 : "border-white/50 text-white hover:border-white hover:bg-white/10"
             )}
@@ -175,7 +196,7 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <span className={cn(
                   "text-xs font-medium max-w-[120px] truncate",
-                  isScrolled ? "text-text-secondary" : "text-white/80"
+                  isDark ? "text-text-secondary" : "text-white/80"
                 )}>
                   {user.email}
                 </span>
@@ -183,7 +204,7 @@ export function Navbar() {
                   onClick={logout}
                   className={cn(
                     "text-xs font-semibold border rounded-full px-3 py-1.5 transition-all duration-200",
-                    isScrolled
+                    isDark
                       ? "border-border-light text-text-primary hover:border-red-400 hover:text-red-500"
                       : "border-white/40 text-white hover:border-white/80"
                   )}
@@ -196,7 +217,7 @@ export function Navbar() {
                 onClick={() => setLoginOpen(true)}
                 className={cn(
                   "text-sm font-semibold rounded-full px-4 py-1.5 transition-all duration-200",
-                  isScrolled
+                  isDark
                     ? "bg-brand-red text-white hover:bg-brand-red-dark"
                     : "bg-white/15 text-white border border-white/50 hover:bg-white/25"
                 )}
@@ -210,7 +231,7 @@ export function Navbar() {
           <button
             className={cn(
               "lg:hidden p-2 rounded transition-colors",
-              isScrolled ? "text-text-primary" : "text-white"
+              isDark ? "text-text-primary" : "text-white"
             )}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
@@ -224,7 +245,21 @@ export function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="lg:hidden bg-white border-t border-border-light max-h-[80vh] overflow-y-auto">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.map((item) =>
+            item.href ? (
+              <div key={item.label} className="border-b border-border-light">
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "block w-full px-4 py-3 text-sm font-semibold text-text-primary",
+                    isRTL ? "text-right" : "text-left"
+                  )}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              </div>
+            ) : (
             <div key={item.label} className="border-b border-border-light">
               <button
                 className={cn(
@@ -262,7 +297,8 @@ export function Navbar() {
                 </div>
               )}
             </div>
-          ))}
+            )
+          )}
 
           {/* Mobile language toggle */}
           <div className={cn("px-4 py-3", isRTL ? "text-right" : "text-left")}>
