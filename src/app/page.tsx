@@ -6,7 +6,6 @@ import { FlyingServiceSection } from "@/components/home/FlyingServiceSection";
 import { SpecialOffersSection } from "@/components/home/SpecialOffersSection";
 import { DestinationsSection } from "@/components/home/DestinationsSection";
 import { TravelNewsSection } from "@/components/home/TravelNewsSection";
-import { MobileAppBanner } from "@/components/home/MobileAppBanner";
 
 export default function Home() {
   return (
@@ -18,7 +17,6 @@ export default function Home() {
         <SpecialOffersSection />
         <DestinationsSection />
         <TravelNewsSection />
-        <MobileAppBanner />
       </main>
       <Footer />
       <BottomNav />
