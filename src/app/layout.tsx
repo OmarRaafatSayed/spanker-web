@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
+import { AuthProvider } from "@/lib/auth-context";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -26,7 +27,7 @@ export default function RootLayout({
     // We set the default (Arabic/RTL) here as the initial HTML attribute
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans">
-        <I18nProvider>{children}</I18nProvider>
+        <I18nProvider><AuthProvider>{children}</AuthProvider></I18nProvider>
       </body>
     </html>
   );

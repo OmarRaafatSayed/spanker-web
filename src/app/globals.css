@@ -8,8 +8,11 @@
   /* Spanker Brand Colors */
   /* Primary green — most dominant */
   --color-brand-red: #3D6833;
+  --color-brand-green: #3D6833;
   --color-brand-red-dark: #2E5026;
+  --color-brand-green-dark: #2E5026;
   --color-brand-red-light: #4E8340;
+  --color-brand-green-light: #4E8340;
 
   /* Yellow — equal importance to green */
   --color-brand-yellow: #FDD12A;

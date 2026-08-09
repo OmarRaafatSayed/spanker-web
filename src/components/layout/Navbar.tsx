@@ -4,13 +4,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
+import { useAuth } from "@/lib/auth-context";
 import { MenuIcon, XIcon, ChevronDownIcon } from "@/components/icons";
+import { LoginModal } from "@/components/ui/LoginModal";
 
 export function Navbar() {
   const { t, locale, isRTL, toggleLocale } = useI18n();
+  const { user, logout } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
@@ -55,6 +59,7 @@ export function Navbar() {
       links: [
         { label: t.nav.onBoard, href: "/en-eg/on-board" },
         { label: t.nav.ourFleet, href: "/en-eg/our-fleet" },
+        { label: t.nav.passengerReviews, href: "/en-eg/passenger-reviews" },
       ],
     },
     {
@@ -143,8 +148,8 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Language Toggle + Mobile */}
-        <div className="flex items-center gap-3">
+        {/* Language Toggle + Login + Mobile */}
+        <div className="flex items-center gap-2">
           {/* Language switcher */}
           <button
             onClick={toggleLocale}
@@ -156,7 +161,6 @@ export function Navbar() {
                 : "border-white/50 text-white hover:border-white hover:bg-white/10"
             )}
           >
-            {/* Globe icon */}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10" />
               <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
@@ -164,6 +168,43 @@ export function Navbar() {
             </svg>
             {locale === "ar" ? "English" : "عربي"}
           </button>
+
+          {/* Auth button — desktop only */}
+          <div className="hidden lg:block">
+            {user ? (
+              <div className="flex items-center gap-2">
+                <span className={cn(
+                  "text-xs font-medium max-w-[120px] truncate",
+                  isScrolled ? "text-text-secondary" : "text-white/80"
+                )}>
+                  {user.email}
+                </span>
+                <button
+                  onClick={logout}
+                  className={cn(
+                    "text-xs font-semibold border rounded-full px-3 py-1.5 transition-all duration-200",
+                    isScrolled
+                      ? "border-border-light text-text-primary hover:border-red-400 hover:text-red-500"
+                      : "border-white/40 text-white hover:border-white/80"
+                  )}
+                >
+                  {locale === "ar" ? "خروج" : "Logout"}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setLoginOpen(true)}
+                className={cn(
+                  "text-sm font-semibold rounded-full px-4 py-1.5 transition-all duration-200",
+                  isScrolled
+                    ? "bg-brand-red text-white hover:bg-brand-red-dark"
+                    : "bg-white/15 text-white border border-white/50 hover:bg-white/25"
+                )}
+              >
+                {locale === "ar" ? "دخول" : "Login"}
+              </button>
+            )}
+          </div>
 
           {/* Mobile hamburger */}
           <button
@@ -173,6 +214,7 @@ export function Navbar() {
             )}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
           </button>
@@ -236,8 +278,32 @@ export function Navbar() {
               {locale === "ar" ? "English" : "عربي"}
             </button>
           </div>
+
+          {/* Mobile auth */}
+          <div className={cn("px-4 py-3 border-t border-border-light", isRTL ? "text-right" : "text-left")}>
+            {user ? (
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-text-muted truncate max-w-[180px]">{user.email}</span>
+                <button
+                  onClick={() => { logout(); setMobileOpen(false); }}
+                  className="text-xs font-semibold text-red-500"
+                >
+                  {locale === "ar" ? "خروج" : "Logout"}
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => { setLoginOpen(true); setMobileOpen(false); }}
+                className="w-full py-2.5 bg-brand-red text-white text-sm font-semibold rounded-lg"
+              >
+                {locale === "ar" ? "تسجيل الدخول" : "Login"}
+              </button>
+            )}
+          </div>
         </div>
       )}
+
+      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
     </header>
   );
 }
