@@ -6,43 +6,18 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 
+import {
+  UtensilsIcon, MonitorIcon, ArmchairIcon, ShoppingBagIcon,
+  BabyIcon, AccessibilityIcon,
+} from "@/components/icons";
+
 const SERVICES = [
-  {
-    icon: "🍽️",
-    titleEn: "Meals & Beverages",  titleAr: "الوجبات والمشروبات",
-    descEn: "Freshly prepared meals tailored to your destination. Hot and cold beverages served throughout the flight. Special dietary meals available on request.",
-    descAr: "وجبات طازجة مُعدّة خصيصاً لوجهتك. مشروبات ساخنة وباردة طوال الرحلة. وجبات خاصة متاحة بالطلب المسبق.",
-  },
-  {
-    icon: "🎬",
-    titleEn: "Entertainment",  titleAr: "الترفيه",
-    descEn: "Personal seatback screens with movies, TV shows, music, and games on select aircraft. Complimentary Wi-Fi available on long-haul routes.",
-    descAr: "شاشات شخصية على بعض الطائرات تتضمن أفلاماً ومسلسلات وموسيقى وألعاباً. واي-فاي مجاني على الرحلات الطويلة.",
-  },
-  {
-    icon: "💺",
-    titleEn: "Comfort & Seats",  titleAr: "الراحة والمقاعد",
-    descEn: "Ergonomically designed seats with adjustable headrests. Extra legroom and business class seats available for purchase during booking.",
-    descAr: "مقاعد مُصمَّمة بشكل مريح مع مساند رأس قابلة للتعديل. مقاعد بمساحة أرجل إضافية ودرجة الأعمال متاحة للشراء عند الحجز.",
-  },
-  {
-    icon: "🛍️",
-    titleEn: "Duty-Free Shopping",  titleAr: "التسوق المعفى من الرسوم",
-    descEn: "Browse and purchase from our exclusive duty-free catalogue on board. Fragrances, cosmetics, accessories and more.",
-    descAr: "تصفّح وشترِ من كتالوج الـ duty-free الحصري على متن الطائرة. عطور ومستحضرات تجميل وإكسسوارات والمزيد.",
-  },
-  {
-    icon: "👶",
-    titleEn: "Travelling with Children",  titleAr: "السفر مع الأطفال",
-    descEn: "Children's meals, bassinets (on request), and priority boarding for families with young children.",
-    descAr: "وجبات للأطفال، مهود للرضع (بالطلب المسبق)، وصعود أولوية للعائلات مع الأطفال الصغار.",
-  },
-  {
-    icon: "♿",
-    titleEn: "Special Assistance",  titleAr: "المساعدة الخاصة",
-    descEn: "Dedicated support for passengers with reduced mobility, medical needs, or special requirements. Notify us at booking.",
-    descAr: "دعم مخصص لركاب ذوي الاحتياجات الخاصة أو الاحتياجات الطبية. أخبرنا عند الحجز.",
-  },
+  { Icon: UtensilsIcon, titleEn: "Meals & Beverages",  titleAr: "الوجبات والمشروبات", descEn: "Freshly prepared meals tailored to your destination. Hot and cold beverages served throughout the flight. Special dietary meals available on request.", descAr: "وجبات طازجة مُعدّة خصيصاً لوجهتك. مشروبات ساخنة وباردة طوال الرحلة. وجبات خاصة متاحة بالطلب المسبق." },
+  { Icon: MonitorIcon, titleEn: "Entertainment",  titleAr: "الترفيه", descEn: "Personal seatback screens with movies, TV shows, music, and games on select aircraft. Complimentary Wi-Fi on long-haul routes.", descAr: "شاشات شخصية على بعض الطائرات تتضمن أفلاماً ومسلسلات وموسيقى وألعاباً. واي-فاي مجاني على الرحلات الطويلة." },
+  { Icon: ArmchairIcon, titleEn: "Comfort & Seats",  titleAr: "الراحة والمقاعد", descEn: "Ergonomically designed seats with adjustable headrests. Extra legroom and business class seats available for purchase during booking.", descAr: "مقاعد مُصمَّمة بشكل مريح مع مساند رأس قابلة للتعديل. مقاعد بمساحة أرجل إضافية ودرجة الأعمال متاحة للشراء عند الحجز." },
+  { Icon: ShoppingBagIcon, titleEn: "Duty-Free Shopping",  titleAr: "التسوق المعفى من الرسوم", descEn: "Browse and purchase from our exclusive duty-free catalogue on board. Fragrances, cosmetics, accessories and more.", descAr: "تصفّح وشترِ من كتالوج الـ duty-free الحصري على متن الطائرة. عطور ومستحضرات تجميل وإكسسوارات والمزيد." },
+  { Icon: BabyIcon, titleEn: "Travelling with Children",  titleAr: "السفر مع الأطفال", descEn: "Children's meals, bassinets (on request), and priority boarding for families with young children.", descAr: "وجبات للأطفال، مهود للرضع (بالطلب المسبق)، وصعود أولوية للعائلات مع الأطفال الصغار." },
+  { Icon: AccessibilityIcon, titleEn: "Special Assistance",  titleAr: "المساعدة الخاصة", descEn: "Dedicated support for passengers with reduced mobility, medical needs, or special requirements. Notify us at booking.", descAr: "دعم مخصص لركاب ذوي الاحتياجات الخاصة أو الاحتياجات الطبية. أخبرنا عند الحجز." },
 ];
 
 const CABINS = [
@@ -130,7 +105,9 @@ export default function OnBoardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {SERVICES.map((s) => (
                 <div key={s.titleEn} className="bg-white rounded-2xl border border-border-light p-5 flex gap-4">
-                  <span className="text-3xl shrink-0">{s.icon}</span>
+                  <div className="w-11 h-11 bg-brand-red/10 rounded-xl flex items-center justify-center shrink-0">
+                    <s.Icon size={22} className="text-brand-red" />
+                  </div>
                   <div>
                     <h3 className="font-bold text-text-primary mb-1.5 text-sm">{isAr ? s.titleAr : s.titleEn}</h3>
                     <p className={cn("text-xs text-text-secondary leading-relaxed", isAr ? "text-right" : "")}>{isAr ? s.descAr : s.descEn}</p>

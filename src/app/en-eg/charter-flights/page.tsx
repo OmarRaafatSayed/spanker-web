@@ -7,11 +7,13 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 
+import { BuildingIcon, UsersIcon, UmbrellaIcon, AmbulanceIcon, CheckIcon, PlaneIcon } from "@/components/icons";
+
 const USES = [
-  { icon: "🏢", titleEn: "Corporate Travel", titleAr: "السفر للأعمال", descEn: "Move your team anywhere, on your schedule.", descAr: "انقل فريقك إلى أي مكان وفق جدولك." },
-  { icon: "🎉", titleEn: "Events & Groups", titleAr: "الفعاليات والمجموعات", descEn: "Sports teams, weddings, conferences — we handle the logistics.", descAr: "فرق رياضية، حفلات زفاف، مؤتمرات — نحن نتولى اللوجستيات." },
-  { icon: "🏖️", titleEn: "Leisure Packages", titleAr: "باقات الترفيه", descEn: "Exclusive resort packages with a private aircraft.", descAr: "باقات منتجع حصرية مع طائرة خاصة." },
-  { icon: "🚑", titleEn: "Medical Evacuation", titleAr: "الإخلاء الطبي", descEn: "24/7 medical flight support with equipped aircraft.", descAr: "دعم طيران طبي على مدار الساعة مع طائرات مجهّزة." },
+  { Icon: BuildingIcon, titleEn: "Corporate Travel", titleAr: "السفر للأعمال", descEn: "Move your team anywhere, on your schedule.", descAr: "انقل فريقك إلى أي مكان وفق جدولك." },
+  { Icon: UsersIcon, titleEn: "Events & Groups", titleAr: "الفعاليات والمجموعات", descEn: "Sports teams, weddings, conferences — we handle the logistics.", descAr: "فرق رياضية، حفلات زفاف، مؤتمرات — نحن نتولى اللوجستيات." },
+  { Icon: UmbrellaIcon, titleEn: "Leisure Packages", titleAr: "باقات الترفيه", descEn: "Exclusive resort packages with a private aircraft.", descAr: "باقات منتجع حصرية مع طائرة خاصة." },
+  { Icon: AmbulanceIcon, titleEn: "Medical Evacuation", titleAr: "الإخلاء الطبي", descEn: "24/7 medical flight support with equipped aircraft.", descAr: "دعم طيران طبي على مدار الساعة مع طائرات مجهّزة." },
 ];
 
 const FLEET_OPTIONS = [
@@ -59,7 +61,9 @@ export default function CharterFlightsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {USES.map((u) => (
                 <div key={u.titleEn} className="bg-white rounded-2xl border border-border-light p-5 flex gap-4">
-                  <span className="text-3xl shrink-0">{u.icon}</span>
+                  <div className="w-11 h-11 bg-brand-red/10 rounded-xl flex items-center justify-center shrink-0">
+                    <u.Icon size={22} className="text-brand-red" />
+                  </div>
                   <div>
                     <h3 className="font-bold text-text-primary mb-1">{isAr ? u.titleAr : u.titleEn}</h3>
                     <p className={cn("text-sm text-text-secondary", isAr ? "text-right" : "")}>{isAr ? u.descAr : u.descEn}</p>
@@ -77,7 +81,9 @@ export default function CharterFlightsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {FLEET_OPTIONS.map((f) => (
                 <div key={f.model} className="bg-white rounded-2xl border border-border-light p-5 text-center">
-                  <p className="text-4xl mb-3">✈️</p>
+                  <div className="w-12 h-12 bg-brand-red/10 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <PlaneIcon size={24} className="text-brand-red" />
+                  </div>
                   <h3 className="font-bold text-text-primary">{f.model}</h3>
                   <p className="text-sm text-text-secondary mt-1">{f.seats} {isAr ? "مقعد" : "seats"}</p>
                   <p className="text-xs text-text-muted mt-0.5">{isAr ? f.rangeAr : f.rangeEn}</p>
@@ -93,7 +99,9 @@ export default function CharterFlightsPage() {
             </h2>
             {submitted ? (
               <div className="bg-white rounded-2xl border border-emerald-200 p-8 text-center">
-                <p className="text-4xl mb-3">✅</p>
+                <div className="w-14 h-14 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckIcon size={28} className="text-emerald-600" />
+                </div>
                 <h3 className="font-bold text-text-primary mb-2">
                   {isAr ? "تم استلام طلبك!" : "Request received!"}
                 </h3>

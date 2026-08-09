@@ -7,6 +7,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 
+import { ShieldIcon, HeartPulseIcon, PillIcon, SunIcon } from "@/components/icons";
+
 const VISA_INFO = [
   {
     country: "Egypt", countryAr: "مصر",
@@ -35,30 +37,10 @@ const VISA_INFO = [
 ];
 
 const HEALTH_TIPS = [
-  {
-    icon: "💉",
-    titleEn: "Vaccinations", titleAr: "التطعيمات",
-    bodyEn: "Ensure routine vaccinations are up to date. Yellow fever certificate required if travelling from endemic countries.",
-    bodyAr: "تأكد من تحديث التطعيمات الروتينية. شهادة الحمى الصفراء مطلوبة عند السفر من الدول الموبوءة.",
-  },
-  {
-    icon: "🩺",
-    titleEn: "Travel Insurance", titleAr: "تأمين السفر",
-    bodyEn: "We strongly recommend comprehensive travel insurance including medical coverage before every trip.",
-    bodyAr: "نوصي بشدة بالحصول على تأمين سفر شامل يتضمن التغطية الطبية قبل كل رحلة.",
-  },
-  {
-    icon: "💊",
-    titleEn: "Medications", titleAr: "الأدوية",
-    bodyEn: "Carry sufficient medication for the trip duration plus extra days. Keep prescriptions in their original packaging.",
-    bodyAr: "احمل أدوية كافية لمدة الرحلة مع أيام احتياطية. احتفظ بالوصفات الطبية في عبواتها الأصلية.",
-  },
-  {
-    icon: "☀️",
-    titleEn: "Climate & Sun", titleAr: "المناخ والشمس",
-    bodyEn: "Egypt's sun is intense year-round. Use SPF 50+ sunscreen, stay hydrated, and avoid peak-hour exposure.",
-    bodyAr: "شمس مصر قوية على مدار السنة. استخدم واقياً شمسياً 50+، اشرب الماء باستمرار، وتجنب التعرض في أشد ساعات الحرارة.",
-  },
+  { Icon: HeartPulseIcon, titleEn: "Vaccinations", titleAr: "التطعيمات", bodyEn: "Ensure routine vaccinations are up to date. Yellow fever certificate required if travelling from endemic countries.", bodyAr: "تأكد من تحديث التطعيمات الروتينية. شهادة الحمى الصفراء مطلوبة عند السفر من الدول الموبوءة." },
+  { Icon: ShieldIcon, titleEn: "Travel Insurance", titleAr: "تأمين السفر", bodyEn: "We strongly recommend comprehensive travel insurance including medical coverage before every trip.", bodyAr: "نوصي بشدة بالحصول على تأمين سفر شامل يتضمن التغطية الطبية قبل كل رحلة." },
+  { Icon: PillIcon, titleEn: "Medications", titleAr: "الأدوية", bodyEn: "Carry sufficient medication for the trip duration plus extra days. Keep prescriptions in their original packaging.", bodyAr: "احمل أدوية كافية لمدة الرحلة مع أيام احتياطية. احتفظ بالوصفات الطبية في عبواتها الأصلية." },
+  { Icon: SunIcon, titleEn: "Climate & Sun", titleAr: "المناخ والشمس", bodyEn: "Egypt's sun is intense year-round. Use SPF 50+ sunscreen, stay hydrated, and avoid peak-hour exposure.", bodyAr: "شمس مصر قوية على مدار السنة. استخدم واقياً شمسياً 50+، اشرب الماء باستمرار، وتجنب التعرض في أشد ساعات الحرارة." },
 ];
 
 export default function VisaHealthPage() {
@@ -142,7 +124,9 @@ export default function VisaHealthPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {HEALTH_TIPS.map((h) => (
                 <div key={h.titleEn} className="bg-white rounded-2xl border border-border-light p-6 flex gap-4">
-                  <span className="text-3xl shrink-0">{h.icon}</span>
+                  <div className="w-11 h-11 bg-brand-red/10 rounded-xl flex items-center justify-center shrink-0">
+                    <h.Icon size={22} className="text-brand-red" />
+                  </div>
                   <div>
                     <h3 className="font-bold text-text-primary mb-2">{isAr ? h.titleAr : h.titleEn}</h3>
                     <p className={cn("text-sm text-text-secondary leading-relaxed", isAr ? "text-right" : "")}>

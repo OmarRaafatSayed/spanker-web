@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CalendarIcon } from "@/components/icons";
 import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
@@ -78,9 +79,9 @@ export default function MyBookingPage() {
 
           {searched && (
             <div className="mt-6 bg-white rounded-2xl border border-border-light p-6 text-center">
-              <svg className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M9 14l2 2 4-4" /><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
-              </svg>
+              <div className="w-14 h-14 bg-bg-alt rounded-full flex items-center justify-center mx-auto mb-3">
+                <CalendarIcon size={26} className="text-text-muted opacity-60" />
+              </div>
               <p className="font-semibold text-text-primary mb-1">
                 {isAr ? "لم يتم العثور على حجز" : "No booking found"}
               </p>

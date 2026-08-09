@@ -1,5 +1,6 @@
 "use client";
 
+import { CheckIcon, ClockIcon } from "@/components/icons";
 import { useI18n } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/Navbar";
@@ -87,7 +88,9 @@ export default function AirportCheckinPage() {
 
           {/* Tip */}
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex gap-3">
-            <span className="text-2xl shrink-0">⏰</span>
+            <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center shrink-0">
+              <ClockIcon size={20} className="text-amber-600" />
+            </div>
             <p className={cn("text-sm text-amber-800 leading-relaxed", isAr ? "text-right" : "")}>
               {isAr
                 ? "يُنصح بالوصول إلى المطار قبل موعد إقلاع رحلتك بـ 3 ساعات على الأقل للرحلات الدولية وساعتين للرحلات الداخلية."
