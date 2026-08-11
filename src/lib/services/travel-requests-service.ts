@@ -44,10 +44,15 @@ function fail<T>(error: string, status?: number): ServiceResult<T> {
 export const travelRequestsService = {
 
   /** Create a new travel request. Fetches document checklist from Supabase RPC. */
-  async create(data: TravelRequestForm): Promise<ServiceResult<TravelRequest>> {
+  async create(data: TravelRequestForm, clientUserId?: string): Promise<ServiceResult<TravelRequest>> {
     try {
-      const { data: authData } = await supabase.auth.getUser();
-      if (!authData?.user) return fail("Not authenticated", 401);
+      // Prefer explicit userId (JWT auth) over Supabase Auth session
+      let userId = clientUserId;
+      if (!userId) {
+        const { data: authData } = await supabase.auth.getUser();
+        userId = authData?.user?.id;
+      }
+      if (!userId) return fail("Not authenticated", 401);
 
       // Fetch document requirements for the chosen destination/type
       const { data: reqs } = await supabase
@@ -72,7 +77,7 @@ export const travelRequestsService = {
       const { data: request, error } = await supabase
         .from("travel_requests")
         .insert([{
-          client_user_id:       authData.user.id,
+          client_user_id:       userId,
           destination_country:  data.destination_country,
           travel_type:          data.travel_type,
           departure_date:       data.departure_date ?? null,

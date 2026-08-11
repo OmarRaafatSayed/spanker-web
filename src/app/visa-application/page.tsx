@@ -30,7 +30,7 @@ function StepBar({ step, isAr }: { step: number; isAr: boolean }) {
     ? ["تسجيل الدخول", "بيانات الطلب", "رفع المستندات", "مكتمل"]
     : ["Sign In", "Request Info", "Upload Docs", "Done"];
   return (
-    <div className="flex items-center justify-center gap-0 mb-8" role="list" aria-label={isAr ? "خطوات التقديم" : "Application steps"}>
+    <div className="flex items-center justify-center gap-0 mb-8" dir="ltr" role="list" aria-label={isAr ? "خطوات التقديم" : "Application steps"}>
       {steps.map((label, i) => {
         const active  = i + 1 === step;
         const done    = i + 1 < step;
@@ -157,7 +157,7 @@ export default function VisaApplicationPage() {
       return_date: formData.return || undefined,
       traveler_count: formData.travelers,
       customer_notes: formData.notes || undefined,
-    });
+    }, user.id);
     setFormLoading(false);
     if (!result.ok) { setFormError(result.error); return; }
     setRequest(result.data);
@@ -233,14 +233,14 @@ export default function VisaApplicationPage() {
                     <label className="block text-xs font-semibold text-text-secondary mb-1">{isAr ? "تاريخ المغادرة" : "Departure"}</label>
                     <input type="date" value={formData.departure} min={new Date().toISOString().split("T")[0]}
                       onChange={e => setFormData(p => ({ ...p, departure: e.target.value }))}
-                      className="w-full h-11 px-3 border border-border-light rounded-xl text-sm focus:outline-none focus:border-brand-green"
+                      className="w-full h-11 px-2 border border-border-light rounded-xl text-sm focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green/30 appearance-none"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-text-secondary mb-1">{isAr ? "تاريخ العودة" : "Return"}</label>
                     <input type="date" value={formData.return} min={formData.departure}
                       onChange={e => setFormData(p => ({ ...p, return: e.target.value }))}
-                      className="w-full h-11 px-3 border border-border-light rounded-xl text-sm focus:outline-none focus:border-brand-green"
+                      className="w-full h-11 px-2 border border-border-light rounded-xl text-sm focus:outline-none focus:border-brand-green appearance-none"
                     />
                   </div>
                 </div>
