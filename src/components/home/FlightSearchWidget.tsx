@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import {
@@ -42,8 +43,7 @@ export function FlightSearchWidget() {
   });
   const [passengerOpen, setPassengerOpen] = useState(false);
 
-  const { results, loading, error, searched, search, clear } =
-    useFlightSearch();
+  const { results, loading, error, searched, search, clear } = useFlightSearch();
 
   const totalPassengers =
     passengers.adults + passengers.children + passengers.infants;
@@ -64,19 +64,14 @@ export function FlightSearchWidget() {
 
   async function handleSearch() {
     if (!from.trim() || !to.trim() || !departure) return;
-
     await search({
       origin: from.trim().toUpperCase(),
       destination: to.trim().toUpperCase(),
       departure_date: departure,
-      ...(tripType !== "one-way" && returnDate
-        ? { return_date: returnDate }
-        : {}),
+      ...(tripType !== "one-way" && returnDate ? { return_date: returnDate } : {}),
       passenger_count: totalPassengers,
       travel_class: travelClass,
     });
-
-    // Scroll results into view
     setTimeout(() => {
       document
         .getElementById("flight-results")
@@ -84,63 +79,84 @@ export function FlightSearchWidget() {
     }, 100);
   }
 
-  const inputClass =
-    "w-full h-12 ps-9 pe-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition";
-
-  const iconClass = "absolute start-3 top-1/2 -translate-y-1/2 text-brand-red";
-
   const tabs = [
     { id: "one-way" as TripType, label: s.oneWay },
     { id: "round-trip" as TripType, label: s.roundTrip },
     { id: "multi-city" as TripType, label: s.multiCity },
   ];
 
-  const classOptions: TravelClass[] = [
-    "economy",
-    "premium_economy",
-    "business",
-    "first",
+  const classOptions: TravelClass[] = ["economy", "premium_economy", "business", "first"];
+
+  const passengerRows = [
+    { key: "adults"   as const, label: isAr ? "بالغون"  : "Adults",   sub: isAr ? "١٢ سنة فأكثر" : "12+ yrs" },
+    { key: "children" as const, label: isAr ? "أطفال"   : "Children", sub: isAr ? "٢–١١ سنة"     : "2–11 yrs" },
+    { key: "infants"  as const, label: isAr ? "رضّع"    : "Infants",  sub: isAr ? "أقل من سنتين" : "Under 2" },
   ];
 
-  return (
-    <div>
-      <div className="bg-white rounded-xl lg:rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.18)] p-4 md:p-6 w-full max-w-5xl mx-auto">
-        {/* Tabs */}
-        <div className="flex gap-1 mb-4 md:mb-6 border-b border-border-light overflow-x-auto scrollbar-hide">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => {
-                setTripType(tab.id);
-                clear();
-              }}
-              className={cn(
-                "px-4 md:px-5 py-2 md:py-2.5 text-sm font-semibold rounded-t transition-colors relative -mb-px whitespace-nowrap shrink-0",
-                tripType === tab.id
-                  ? "text-brand-red border-b-2 border-brand-red"
-                  : "text-text-secondary hover:text-text-primary"
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+  /* ── shared field styles ──
+     Fully transparent bg, solid white border so the line always shows,
+     white text so it reads on any hero image.
+  */
+  const fieldLabel = "block text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1 px-0.5";
 
-        {/* Form */}
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-2">
+  const fieldBox = cn(
+    "relative flex items-center h-12 w-full rounded-xl overflow-hidden",
+    "border border-white/40",
+    "bg-black/20 backdrop-blur-sm",
+    "transition-all duration-200",
+    "focus-within:border-brand-yellow focus-within:bg-black/30 focus-within:ring-1 focus-within:ring-brand-yellow/40"
+  );
+
+  const fieldInput = cn(
+    "w-full h-full bg-transparent outline-none",
+    "text-white text-sm font-medium",
+    "placeholder:text-white/40",
+    "px-3"
+  );
+
+  const fieldIcon = "shrink-0 text-brand-yellow ps-3";
+
+  return (
+    <motion.div
+      className="w-full"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* ── Trip-type tabs ── */}
+      <div className="flex gap-1 mb-4 w-fit">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => { setTripType(tab.id); clear(); }}
+            className={cn(
+              "px-4 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all duration-200",
+              tripType === tab.id
+                ? "bg-brand-green text-white shadow-lg shadow-brand-green/40"
+                : "border border-white/30 text-white/70 hover:text-white hover:border-white/60 bg-black/10 backdrop-blur-sm"
+            )}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Search card ── */}
+      <div className="rounded-2xl border border-white/30 bg-black/25 backdrop-blur-md p-4 space-y-3 shadow-2xl">
+
+        {/* Row 1 — From / Swap / To */}
+        <div className="grid grid-cols-[1fr_36px_1fr] items-end gap-2">
           {/* From */}
-          <div className="flex-1 min-w-0">
-            <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-              {s.from}
-            </label>
-            <div className="relative">
-              <PlaneIcon size={16} className={iconClass} />
+          <div>
+            <label className={fieldLabel}>{isAr ? "من" : "From"}</label>
+            <div className={fieldBox}>
+              <span className={fieldIcon}><PlaneIcon size={15} /></span>
               <input
                 type="text"
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
-                placeholder={s.cityOrAirport}
-                className={cn(inputClass, "placeholder:text-text-muted uppercase")}
+                placeholder={isAr ? "مطار أو مدينة" : "Airport or city"}
+                className={cn(fieldInput, "uppercase")}
                 maxLength={3}
               />
             </div>
@@ -150,215 +166,242 @@ export function FlightSearchWidget() {
           <button
             onClick={swapLocations}
             aria-label={s.swap}
-            className="self-end h-12 w-10 flex items-center justify-center text-brand-red border border-border-light rounded-lg hover:bg-bg-alt transition shrink-0"
+            className="mb-0.5 w-9 h-9 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-brand-yellow hover:bg-brand-yellow/20 hover:border-brand-yellow/70 transition-all duration-200"
           >
-            <SwapIcon size={18} />
+            <SwapIcon size={15} />
           </button>
 
           {/* To */}
-          <div className="flex-1 min-w-0">
-            <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-              {s.to}
-            </label>
-            <div className="relative">
-              <PlaneLandIcon size={16} className={iconClass} />
+          <div>
+            <label className={fieldLabel}>{isAr ? "إلى" : "To"}</label>
+            <div className={fieldBox}>
+              <span className={fieldIcon}><PlaneLandIcon size={15} /></span>
               <input
                 type="text"
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
-                placeholder={s.cityOrAirport}
-                className={cn(inputClass, "placeholder:text-text-muted uppercase")}
+                placeholder={isAr ? "مطار أو مدينة" : "Airport or city"}
+                className={cn(fieldInput, "uppercase")}
                 maxLength={3}
               />
             </div>
           </div>
+        </div>
 
-          {/* Departure */}
-          <div className="flex-1 min-w-0">
-            <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-              {s.departure}
-            </label>
-            <div className="relative">
-              <CalendarIcon size={16} className={iconClass} />
+        {/* Row 2 — Dates */}
+        <div className={cn("grid gap-2", tripType === "round-trip" ? "grid-cols-2" : "grid-cols-1")}>
+          <div>
+            <label className={fieldLabel}>{isAr ? "المغادرة" : "Departure"}</label>
+            <div className={fieldBox}>
+              <span className={fieldIcon}><CalendarIcon size={15} /></span>
               <input
                 type="date"
                 value={departure}
                 onChange={(e) => setDeparture(e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
-                className={inputClass}
-              />
-            </div>
-          </div>
-
-          {/* Return */}
-          {tripType !== "one-way" && (
-            <div className="flex-1 min-w-0">
-              <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-                {s.return}
-              </label>
-              <div className="relative">
-                <CalendarIcon size={16} className={iconClass} />
-                <input
-                  type="date"
-                  value={returnDate}
-                  onChange={(e) => setReturnDate(e.target.value)}
-                  min={departure}
-                  className={inputClass}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Class selector */}
-          <div className="flex-1 min-w-0 relative">
-            <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-              {isAr ? "الدرجة" : "Class"}
-            </label>
-            <button
-              onClick={() => setClassOpen(!classOpen)}
-              className="w-full h-12 px-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition flex items-center justify-between bg-white"
-            >
-              <span>{CLASS_LABELS[travelClass][locale]}</span>
-              <ChevronDownIcon
-                size={14}
-                className={cn("transition-transform text-text-muted", classOpen ? "rotate-180" : "")}
-              />
-            </button>
-
-            {classOpen && (
-              <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-border-light rounded-lg shadow-lg z-50 overflow-hidden">
-                {classOptions.map((cls) => (
-                  <button
-                    key={cls}
-                    onClick={() => {
-                      setTravelClass(cls);
-                      setClassOpen(false);
-                    }}
-                    className={cn(
-                      "w-full px-4 py-2.5 text-sm text-start hover:bg-bg-alt transition",
-                      travelClass === cls
-                        ? "text-brand-red font-semibold bg-brand-red/5"
-                        : "text-text-primary"
-                    )}
-                  >
-                    {CLASS_LABELS[cls][locale]}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Passengers */}
-          <div className="flex-1 min-w-0 relative">
-            <label className="block text-xs font-medium text-text-secondary mb-1 uppercase tracking-wide">
-              {s.passengers}
-            </label>
-            <button
-              onClick={() => setPassengerOpen(!passengerOpen)}
-              className="w-full h-12 ps-9 pe-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition flex items-center justify-between bg-white"
-            >
-              <PassengersIcon size={16} className={iconClass} />
-              <span>
-                {totalPassengers}{" "}
-                {totalPassengers === 1 ? s.passenger : s.passengers_plural}
-              </span>
-              <ChevronDownIcon
-                size={14}
                 className={cn(
-                  "transition-transform",
-                  passengerOpen ? "rotate-180" : ""
+                  fieldInput,
+                  "[color-scheme:dark]",
+                  "[&::-webkit-calendar-picker-indicator]:opacity-0",
+                  "[&::-webkit-calendar-picker-indicator]:absolute",
+                  "[&::-webkit-inner-spin-button]:hidden",
                 )}
               />
-            </button>
-
-            {passengerOpen && (
-              <div className="absolute top-full start-0 end-0 mt-1 bg-white border border-border-light rounded-lg shadow-lg p-4 z-50 space-y-3">
-                {(
-                  [
-                    {
-                      key: "adults" as const,
-                      label: s.adults,
-                      sub: s.adultsAge,
-                    },
-                    {
-                      key: "children" as const,
-                      label: s.children,
-                      sub: s.childrenAge,
-                    },
-                    {
-                      key: "infants" as const,
-                      label: s.infants,
-                      sub: s.infantsAge,
-                    },
-                  ] as const
-                ).map(({ key, label, sub }) => (
-                  <div key={key} className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-text-primary">
-                        {label}
-                      </p>
-                      <p className="text-xs text-text-muted">{sub}</p>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={() => adjustPassenger(key, -1)}
-                        className="w-7 h-7 rounded-full border border-border-light flex items-center justify-center text-text-secondary hover:border-brand-red hover:text-brand-red transition text-lg leading-none"
-                        aria-label={`-`}
-                      >
-                        −
-                      </button>
-                      <span className="w-5 text-center text-sm font-semibold">
-                        {passengers[key]}
-                      </span>
-                      <button
-                        onClick={() => adjustPassenger(key, 1)}
-                        className="w-7 h-7 rounded-full border border-border-light flex items-center justify-center text-text-secondary hover:border-brand-red hover:text-brand-red transition text-lg leading-none"
-                        aria-label={`+`}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <button
-                  onClick={() => setPassengerOpen(false)}
-                  className="w-full mt-2 py-2 bg-brand-red text-white text-sm font-semibold rounded-lg hover:bg-brand-red-dark transition"
-                >
-                  {s.done}
-                </button>
-              </div>
-            )}
+            </div>
           </div>
 
-          {/* Search button */}
-          <button
-            onClick={handleSearch}
-            disabled={loading || !from.trim() || !to.trim() || !departure}
-            className={cn(
-              "h-12 px-6 text-white font-semibold text-sm rounded-lg transition-colors w-full lg:w-auto shrink-0 whitespace-nowrap",
-              loading || !from.trim() || !to.trim() || !departure
-                ? "bg-brand-red/50 cursor-not-allowed"
-                : "bg-brand-red hover:bg-brand-red-dark"
+          <AnimatePresence>
+            {tripType === "round-trip" && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.18 }}
+              >
+                <label className={fieldLabel}>{isAr ? "العودة" : "Return"}</label>
+                <div className={fieldBox}>
+                  <span className={fieldIcon}><CalendarIcon size={15} /></span>
+                  <input
+                    type="date"
+                    value={returnDate}
+                    onChange={(e) => setReturnDate(e.target.value)}
+                    min={departure}
+                    className={cn(
+                      fieldInput,
+                      "[color-scheme:dark]",
+                      "[&::-webkit-calendar-picker-indicator]:opacity-0",
+                      "[&::-webkit-calendar-picker-indicator]:absolute",
+                      "[&::-webkit-inner-spin-button]:hidden",
+                    )}
+                  />
+                </div>
+              </motion.div>
             )}
-          >
-            {loading
-              ? isAr
-                ? "جاري البحث..."
-                : "Searching..."
-              : s.searchFlights}
-          </button>
+          </AnimatePresence>
         </div>
+
+        {/* Row 3 — Passengers + Class */}
+        <div className="grid grid-cols-2 gap-2">
+
+          {/* Passengers */}
+          <div className="relative">
+            <label className={fieldLabel}>{isAr ? "المسافرون" : "Passengers"}</label>
+            <button
+              onClick={() => { setPassengerOpen(!passengerOpen); setClassOpen(false); }}
+              className={cn(
+                fieldBox,
+                "cursor-pointer justify-between px-3",
+                passengerOpen && "border-brand-yellow ring-1 ring-brand-yellow/40"
+              )}
+            >
+              <span className="text-brand-yellow me-2 shrink-0"><PassengersIcon size={15} /></span>
+              <span className="flex-1 text-start text-white text-sm truncate">
+                {totalPassengers} {isAr ? (totalPassengers === 1 ? "مسافر" : "مسافرون") : "Pax"}
+              </span>
+              <ChevronDownIcon
+                size={13}
+                className={cn("text-white/50 shrink-0 transition-transform duration-200", passengerOpen && "rotate-180")}
+              />
+            </button>
+
+            <AnimatePresence>
+              {passengerOpen && (
+                <motion.div
+                  className="absolute top-full mt-2 start-0 end-0 z-50 rounded-xl border border-white/20 bg-[#0f2419]/95 backdrop-blur-xl shadow-2xl p-3 space-y-0.5"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {passengerRows.map(({ key, label, sub }) => (
+                    <div key={key} className="flex items-center justify-between py-2 border-b border-white/10 last:border-0">
+                      <div>
+                        <p className="text-sm font-semibold text-white leading-tight">{label}</p>
+                        <p className="text-[10px] text-white/40">{sub}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => adjustPassenger(key, -1)}
+                          className="w-7 h-7 rounded-full border border-brand-green-light/50 text-brand-green-light hover:bg-brand-green/30 flex items-center justify-center text-lg leading-none transition-all"
+                        >−</button>
+                        <span className="w-5 text-center text-sm font-bold text-white">{passengers[key]}</span>
+                        <button
+                          onClick={() => adjustPassenger(key, 1)}
+                          className="w-7 h-7 rounded-full border border-brand-green-light/50 text-brand-green-light hover:bg-brand-green/30 flex items-center justify-center text-lg leading-none transition-all"
+                        >+</button>
+                      </div>
+                    </div>
+                  ))}
+                  <button
+                    onClick={() => setPassengerOpen(false)}
+                    className="w-full mt-2 py-2 rounded-lg bg-brand-green text-white text-xs font-bold tracking-wide hover:bg-brand-green-light transition-colors"
+                  >
+                    {isAr ? "تأكيد" : "Done"}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Travel class */}
+          <div className="relative">
+            <label className={fieldLabel}>{isAr ? "الدرجة" : "Class"}</label>
+            <button
+              onClick={() => { setClassOpen(!classOpen); setPassengerOpen(false); }}
+              className={cn(
+                fieldBox,
+                "cursor-pointer justify-between px-3",
+                classOpen && "border-brand-yellow ring-1 ring-brand-yellow/40"
+              )}
+            >
+              <span className="flex-1 text-start text-white text-sm truncate">
+                {CLASS_LABELS[travelClass][locale as keyof typeof CLASS_LABELS[TravelClass]]}
+              </span>
+              <ChevronDownIcon
+                size={13}
+                className={cn("text-white/50 shrink-0 transition-transform duration-200", classOpen && "rotate-180")}
+              />
+            </button>
+
+            <AnimatePresence>
+              {classOpen && (
+                <motion.div
+                  className="absolute top-full mt-2 start-0 end-0 z-50 rounded-xl border border-white/20 bg-[#0f2419]/95 backdrop-blur-xl shadow-2xl overflow-hidden"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {classOptions.map((option) => (
+                    <button
+                      key={option}
+                      onClick={() => { setTravelClass(option); setClassOpen(false); }}
+                      className={cn(
+                        "w-full text-start px-4 py-2.5 text-sm border-b border-white/8 last:border-0 transition-colors",
+                        travelClass === option
+                          ? "bg-brand-green/40 text-brand-yellow font-bold"
+                          : "text-white/80 hover:bg-white/10"
+                      )}
+                    >
+                      {CLASS_LABELS[option][locale as keyof typeof CLASS_LABELS[TravelClass]]}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* ── Search button ── */}
+        <button
+          onClick={handleSearch}
+          disabled={loading || !from.trim() || !to.trim() || !departure}
+          className={cn(
+            "w-full h-12 rounded-xl font-bold text-sm tracking-wide",
+            "bg-brand-green text-white",
+            "border border-brand-green-light/40",
+            "shadow-lg shadow-brand-green/30",
+            "hover:bg-brand-green-light hover:shadow-xl hover:shadow-brand-green/40 hover:-translate-y-px",
+            "disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0",
+            "transition-all duration-200"
+          )}
+        >
+          <span className="flex items-center justify-center gap-2">
+            {loading ? (
+              <>
+                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                {isAr ? "جارٍ البحث..." : "Searching..."}
+              </>
+            ) : (
+              <>
+                <PlaneIcon size={16} />
+                {s.searchFlights}
+              </>
+            )}
+          </span>
+        </button>
       </div>
 
-      {/* Results */}
-      <div id="flight-results" className="w-full max-w-5xl mx-auto px-0">
-        <FlightResults
-          results={results}
-          loading={loading}
-          error={error}
-          searched={searched}
-        />
-      </div>
-    </div>
+      {/* ── Results ── */}
+      {searched && (
+        <motion.div
+          id="flight-results"
+          className="mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <FlightResults
+            results={results}
+            loading={loading}
+            error={error}
+            onClear={clear}
+          />
+        </motion.div>
+      )}
+    </motion.div>
   );
 }

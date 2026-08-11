@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { useAuth } from "@/lib/auth-context";
 import { MenuIcon, XIcon, ChevronDownIcon } from "@/components/icons";
 import { LoginModal } from "@/components/ui/LoginModal";
+import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const { t, locale, isRTL, toggleLocale } = useI18n();
@@ -78,265 +80,288 @@ export function Navbar() {
   ];
 
   return (
-    <header
+    <motion.header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isDark ? "bg-white shadow-md" : "bg-transparent"
+        isDark ? "glass-panel shadow-luxury" : "bg-transparent"
       )}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
     >
       <nav className="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between h-18">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <circle cx="18" cy="18" r="18" fill="#3D6833" />
-            <path d="M8 20 L18 10 L28 20 L24 20 L18 14 L12 20 Z" fill="white" />
-            <path d="M14 20 L18 16 L22 20 L20 20 L18 18 L16 20 Z" fill="#FDD12A" />
-            <rect x="16" y="20" width="4" height="6" rx="1" fill="white" />
-          </svg>
-          <span className={cn(
-            "font-bold text-xl tracking-tight transition-colors duration-300",
-            isDark ? "text-brand-red" : "text-white"
-          )}>
-            {isRTL ? "سبانكر" : "Spanker"}
-          </span>
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <motion.svg 
+              width="36" 
+              height="36" 
+              viewBox="0 0 36 36" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg" 
+              aria-hidden="true"
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.6 }}
+            >
+              <circle cx="18" cy="18" r="18" fill="url(#logoGradient)" />
+              <path d="M8 20 L18 10 L28 20 L24 20 L18 14 L12 20 Z" fill="white" />
+              <path d="M14 20 L18 16 L22 20 L20 20 L18 18 L16 20 Z" fill="#d4af37" />
+              <rect x="16" y="20" width="4" height="6" rx="1" fill="white" />
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#1b4332" />
+                  <stop offset="100%" stopColor="#2d6a4f" />
+                </linearGradient>
+              </defs>
+            </motion.svg>
+            <span className={cn(
+              "font-bold text-xl tracking-tight transition-colors duration-300",
+              isDark ? "text-brand-green" : "text-white"
+            )}>
+              {isRTL ? "سبانكر" : "Spanker"}
+            </span>
+          </Link>
+        </motion.div>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-1">
-          {NAV_ITEMS.map((item) =>
+        <motion.div 
+          className="hidden lg:flex items-center gap-1"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          {NAV_ITEMS.map((item, index) =>
             item.href ? (
               // Direct link — no dropdown
-              <Link
+              <motion.div
                 key={item.label}
-                href={item.href}
-                className={cn(
-                  "px-3 py-2 rounded text-sm font-medium transition-colors duration-200",
-                  isDark
-                    ? "text-text-primary hover:text-brand-red"
-                    : "text-white hover:text-white/80"
-                )}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
               >
-                {item.label}
-              </Link>
-            ) : (
-            <div
-              key={item.label}
-              className="relative group"
-              onMouseEnter={() => setOpenDropdown(item.label)}
-              onMouseLeave={() => setOpenDropdown(null)}
-            >
-              <button
-                className={cn(
-                  "flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors duration-200",
-                  isDark
-                    ? "text-text-primary hover:text-brand-red"
-                    : "text-white hover:text-white/80"
-                )}
-              >
-                {item.label}
-                <ChevronDownIcon size={14} />
-              </button>
-
-              {/* Dropdown */}
-              <div
-                className={cn(
-                  "absolute top-full mt-1 w-52 bg-white shadow-lg rounded-lg py-2 z-100",
-                  isRTL ? "right-0" : "left-0",
-                  "transition-all duration-150 origin-top",
-                  openDropdown === item.label
-                    ? "opacity-100 scale-y-100 pointer-events-auto"
-                    : "opacity-0 scale-y-95 pointer-events-none"
-                )}
-              >
-                {item.links.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className={cn(
-                      "block px-4 py-2 text-sm text-text-primary hover:bg-bg-alt hover:text-brand-red transition-colors",
-                      isRTL ? "text-right" : "text-left"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-            )
-          )}
-        </div>
-
-        {/* Language Toggle + Login + Mobile */}
-        <div className="flex items-center gap-2">
-          {/* Language switcher */}
-          <button
-            onClick={toggleLocale}
-            aria-label={locale === "ar" ? "Switch to English" : "التبديل إلى العربية"}
-            className={cn(
-              "flex items-center gap-1.5 text-sm font-semibold border rounded-full px-4 py-1.5 transition-all duration-200",
-              isDark
-                ? "border-border-light text-text-primary hover:border-brand-red hover:text-brand-red"
-                : "border-white/50 text-white hover:border-white hover:bg-white/10"
-            )}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-              <path d="M2 12h20" />
-            </svg>
-            {locale === "ar" ? "English" : "عربي"}
-          </button>
-
-          {/* Auth button — desktop only */}
-          <div className="hidden lg:block">
-            {user ? (
-              <div className="flex items-center gap-2">
-                <span className={cn(
-                  "text-xs font-medium max-w-[120px] truncate",
-                  isDark ? "text-text-secondary" : "text-white/80"
-                )}>
-                  {user.email}
-                </span>
-                <button
-                  onClick={logout}
-                  className={cn(
-                    "text-xs font-semibold border rounded-full px-3 py-1.5 transition-all duration-200",
-                    isDark
-                      ? "border-border-light text-text-primary hover:border-red-400 hover:text-red-500"
-                      : "border-white/40 text-white hover:border-white/80"
-                  )}
-                >
-                  {locale === "ar" ? "خروج" : "Logout"}
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => setLoginOpen(true)}
-                className={cn(
-                  "text-sm font-semibold rounded-full px-4 py-1.5 transition-all duration-200",
-                  isDark
-                    ? "bg-brand-red text-white hover:bg-brand-red-dark"
-                    : "bg-white/15 text-white border border-white/50 hover:bg-white/25"
-                )}
-              >
-                {locale === "ar" ? "دخول" : "Login"}
-              </button>
-            )}
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className={cn(
-              "lg:hidden p-2 rounded transition-colors",
-              isDark ? "text-text-primary" : "text-white"
-            )}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <XIcon size={24} /> : <MenuIcon size={24} />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="lg:hidden bg-white border-t border-border-light max-h-[80vh] overflow-y-auto">
-          {NAV_ITEMS.map((item) =>
-            item.href ? (
-              <div key={item.label} className="border-b border-border-light">
                 <Link
                   href={item.href}
                   className={cn(
-                    "block w-full px-4 py-3 text-sm font-semibold text-text-primary",
-                    isRTL ? "text-right" : "text-left"
+                    "px-3 py-2 rounded text-sm font-medium transition-all duration-300 hover:glass-card",
+                    isDark
+                      ? "text-text-luxury hover:text-brand-green"
+                      : "text-white hover:text-white/80"
                   )}
-                  onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
                 </Link>
-              </div>
+              </motion.div>
             ) : (
-            <div key={item.label} className="border-b border-border-light">
-              <button
-                className={cn(
-                  "w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-text-primary",
-                  isRTL ? "flex-row-reverse" : ""
-                )}
-                onClick={() =>
-                  setOpenDropdown(openDropdown === item.label ? null : item.label)
-                }
+              // Dropdown menu
+              <motion.div
+                key={item.label}
+                className="relative"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 * index }}
+                onMouseEnter={() => setOpenDropdown(item.label)}
+                onMouseLeave={() => setOpenDropdown(null)}
               >
-                {item.label}
-                <ChevronDownIcon
-                  size={16}
+                <button
                   className={cn(
-                    "transition-transform",
-                    openDropdown === item.label ? "rotate-180" : ""
+                    "px-3 py-2 rounded text-sm font-medium transition-all duration-300 flex items-center gap-1 hover:glass-card",
+                    isDark
+                      ? "text-text-luxury hover:text-brand-green"
+                      : "text-white hover:text-white/80"
                   )}
-                />
-              </button>
-              {openDropdown === item.label && (
-                <div className="bg-bg-alt pb-2">
-                  {item.links.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className={cn(
-                        "block py-2 text-sm text-text-secondary hover:text-brand-red",
-                        isRTL ? "pr-6 text-right" : "pl-6 text-left"
-                      )}
-                      onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                  <motion.div
+                    animate={{ rotate: openDropdown === item.label ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDownIcon size={16} />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence>
+                  {openDropdown === item.label && (
+                    <motion.div
+                      className="absolute top-full mt-2 min-w-56 glass-panel rounded-xl shadow-luxury overflow-hidden"
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+                      {item.links.map((link, linkIndex) => (
+                        <motion.div
+                          key={link.href}
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.2, delay: linkIndex * 0.05 }}
+                        >
+                          <Link
+                            href={link.href}
+                            className="block px-4 py-3 text-sm text-text-luxury hover:glass-card hover:text-brand-green transition-all duration-200"
+                            onClick={() => setOpenDropdown(null)}
+                          >
+                            {link.label}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
             )
           )}
+        </motion.div>
 
-          {/* Mobile language toggle */}
-          <div className={cn("px-4 py-3", isRTL ? "text-right" : "text-left")}>
-            <button
-              onClick={toggleLocale}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand-red"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                <path d="M2 12h20" />
-              </svg>
-              {locale === "ar" ? "English" : "عربي"}
-            </button>
-          </div>
-
-          {/* Mobile auth */}
-          <div className={cn("px-4 py-3 border-t border-border-light", isRTL ? "text-right" : "text-left")}>
-            {user ? (
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-text-muted truncate max-w-[180px]">{user.email}</span>
-                <button
-                  onClick={() => { logout(); setMobileOpen(false); }}
-                  className="text-xs font-semibold text-red-500"
-                >
-                  {locale === "ar" ? "خروج" : "Logout"}
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={() => { setLoginOpen(true); setMobileOpen(false); }}
-                className="w-full py-2.5 bg-brand-red text-white text-sm font-semibold rounded-lg"
-              >
-                {locale === "ar" ? "تسجيل الدخول" : "Login"}
-              </button>
+        {/* Right side actions */}
+        <motion.div 
+          className="flex items-center gap-4"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          {/* Language toggle */}
+          <motion.button
+            onClick={toggleLocale}
+            className={cn(
+              "px-3 py-1 rounded-md text-sm font-medium transition-all duration-300 hover:glass-card",
+              isDark
+                ? "text-text-luxury hover:text-brand-green"
+                : "text-white hover:text-white/80"
             )}
-          </div>
-        </div>
-      )}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {locale === "ar" ? "EN" : "عربي"}
+          </motion.button>
 
+          {/* Auth buttons */}
+          {user ? (
+            <motion.div className="flex items-center gap-2">
+              <span className={cn(
+                "text-sm",
+                isDark ? "text-text-luxury" : "text-white"
+              )}>
+                {user.name}
+              </span>
+              <Button
+                onClick={logout}
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "transition-all duration-300",
+                  !isDark && "border-white/20 text-white hover:glass-card"
+                )}
+              >
+                {t.common.logout}
+              </Button>
+            </motion.div>
+          ) : (
+            <Button
+              onClick={() => setLoginOpen(true)}
+              variant={isDark ? "default" : "glass"}
+              size="sm"
+            >
+              {t.common.login}
+            </Button>
+          )}
+
+          {/* Mobile menu button */}
+          <motion.button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className={cn(
+              "lg:hidden p-2 rounded-md transition-all duration-300",
+              isDark
+                ? "text-text-luxury hover:text-brand-green hover:glass-card"
+                : "text-white hover:text-white/80"
+            )}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            aria-label="Toggle menu"
+          >
+            <AnimatePresence mode="wait">
+              {mobileOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <XIcon size={24} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <MenuIcon size={24} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
+        </motion.div>
+      </nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            className="lg:hidden glass-panel border-t border-white/20"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <div className="max-w-7xl mx-auto px-4 py-6">
+              {NAV_ITEMS.map((item, index) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="mb-4"
+                >
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className="block py-2 text-text-luxury hover:text-brand-green transition-colors duration-200"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <div>
+                      <div className="py-2 text-text-luxury font-medium">{item.label}</div>
+                      <div className="pl-4 space-y-2">
+                        {item.links.map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            className="block py-1 text-sm text-text-secondary hover:text-brand-green transition-colors duration-200"
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Login Modal */}
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
-    </header>
+    </motion.header>
   );
 }

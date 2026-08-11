@@ -4,7 +4,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { HeroBanner } from "@/components/home/HeroBanner";
 import { FlyingServiceSection } from "@/components/home/FlyingServiceSection";
 import { SpecialOffersSection } from "@/components/home/SpecialOffersSection";
-import { DestinationsSection } from "@/components/home/DestinationsSection";
+import { BookingProcessSection } from "@/components/home/BookingProcessSection";
 import { TravelNewsSection } from "@/components/home/TravelNewsSection";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
         <HeroBanner />
         <FlyingServiceSection />
         <SpecialOffersSection />
-        <DestinationsSection />
+        <BookingProcessSection />
         <TravelNewsSection />
       </main>
       <Footer />

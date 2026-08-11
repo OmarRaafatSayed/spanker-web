@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { formatTime } from "@/hooks/useFlightSearch";
 import type { FlightOffer } from "@/types/flights";
 import { useI18n } from "@/lib/i18n/context";
+import { StaggerContainer, FadeInUp, HoverLift } from "@/components/ui/motion-wrapper";
+import { Button } from "@/components/ui/button";
 
 interface FlightResultsProps {
   results: FlightOffer[];
@@ -11,6 +13,8 @@ interface FlightResultsProps {
   error: string | null;
   searched: boolean;
   className?: string;
+  origin?: string;    // Add origin prop
+  destination?: string; // Add destination prop
 }
 
 export function FlightResults({
@@ -19,6 +23,8 @@ export function FlightResults({
   error,
   searched,
   className,
+  origin = "CAI",      // Default to CAI (Cairo)
+  destination = "DXB", // Default to DXB (Dubai) 
 }: FlightResultsProps) {
   const { locale } = useI18n();
   const isAr = locale === "ar";
@@ -26,22 +32,22 @@ export function FlightResults({
   // ── Loading skeleton ──────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className={cn("mt-6 space-y-3", className)}>
+      <StaggerContainer className={cn("mt-6 space-y-4", className)} stagger={0.15}>
         {[1, 2, 3].map((i) => (
-          <div
+          <FadeInUp
             key={i}
-            className="bg-white rounded-xl border border-border-light p-5 animate-pulse"
+            className="glass-card rounded-2xl p-6 animate-pulse"
           >
             <div className="flex items-center justify-between gap-4">
-              <div className="space-y-2 flex-1">
-                <div className="h-4 bg-bg-alt rounded w-1/3" />
-                <div className="h-3 bg-bg-alt rounded w-1/4" />
+              <div className="space-y-3 flex-1">
+                <div className="h-4 bg-bg-alt rounded-lg w-1/3" />
+                <div className="h-3 bg-bg-alt rounded-lg w-1/4" />
               </div>
-              <div className="h-8 bg-bg-alt rounded w-24" />
+              <div className="h-10 bg-bg-alt rounded-xl w-28" />
             </div>
-          </div>
+          </FadeInUp>
         ))}
-      </div>
+      </StaggerContainer>
     );
   }
 
@@ -54,9 +60,9 @@ export function FlightResults({
       error.toLowerCase().includes("could not validate");
 
     return (
-      <div
+      <FadeInUp
         className={cn(
-          "mt-6 bg-white border border-red-200 rounded-xl p-5 text-center",
+          "mt-6 glass-card border-red-200 rounded-2xl p-6 text-center",
           className
         )}
       >
@@ -67,16 +73,16 @@ export function FlightResults({
               : "Please log in first to search flights"
             : error}
         </p>
-      </div>
+      </FadeInUp>
     );
   }
 
   // ── No results ────────────────────────────────────────────────────────────
   if (searched && results.length === 0) {
     return (
-      <div
+      <FadeInUp
         className={cn(
-          "mt-6 bg-white border border-border-light rounded-xl p-8 text-center",
+          "mt-6 glass-card rounded-2xl p-8 text-center",
           className
         )}
       >
@@ -85,7 +91,7 @@ export function FlightResults({
             ? "لا توجد رحلات متاحة لهذا البحث"
             : "No flights found for this search"}
         </p>
-      </div>
+      </FadeInUp>
     );
   }
 
@@ -93,100 +99,110 @@ export function FlightResults({
 
   // ── Results ───────────────────────────────────────────────────────────────
   return (
-    <div className={cn("mt-6 space-y-3", className)}>
-      <p className="text-sm text-text-secondary font-medium px-1">
-        {isAr
-          ? `${results.length} رحلة متاحة`
-          : `${results.length} flight${results.length !== 1 ? "s" : ""} found`}
-      </p>
+    <StaggerContainer className={cn("mt-6 space-y-4", className)} stagger={0.1}>
+      <FadeInUp>
+        <p className="text-sm text-text-secondary font-medium px-1">
+          {isAr
+            ? `${results.length} رحلة متاحة`
+            : `${results.length} flight${results.length !== 1 ? "s" : ""} found`}
+        </p>
+      </FadeInUp>
 
-      {results.map((offer) => {
+      {results.map((offer, index) => {
         const depTime = formatTime(offer.departure_time);
         const arrTime = formatTime(offer.arrival_time);
-        // Extract IATA codes from departure/arrival times if present, else from raw_text
-        const originCode = offer.flight_id.split("-")[1]?.slice(0, 3) ?? "???";
-        const destCode   = offer.flight_id.split("-")[1]?.slice(3, 6) ?? "???";
+        
+        // WHITE LABEL: Use origin/destination props instead of parsing flight_id
+        // This eliminates "???" and ensures correct airport codes
+        const originCode = origin;
+        const destCode = destination;
 
         return (
-          <div
+          <HoverLift
             key={offer.flight_id}
-            className="bg-white rounded-xl border border-border-light hover:border-brand-red/40 hover:shadow-md transition-all p-4 md:p-5"
+            className="glass-card rounded-2xl border-white/30 hover:glass-panel transition-all duration-300 p-6"
           >
             <div className="flex flex-col md:flex-row md:items-center gap-4">
 
               {/* Airline badge */}
-              <div className="flex items-center gap-3 md:w-36 shrink-0">
-                <div className="w-10 h-10 rounded-lg bg-bg-alt flex items-center justify-center text-xs font-bold text-text-secondary shrink-0">
+              <div className="flex items-center gap-3 md:w-40 shrink-0">
+                <div className="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-sm font-bold text-brand-green shrink-0">
                   {offer.flight_number.split(" ")[0]}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-text-primary truncate">
+                  <p className="text-sm font-semibold text-text-luxury truncate">
                     {offer.airline}
                   </p>
-                  <p className="text-xs text-text-muted">{offer.flight_number}</p>
+                  <p className="text-xs text-text-secondary">{offer.flight_number}</p>
                 </div>
               </div>
 
               {/* Route */}
-              <div className="flex-1 flex items-center gap-3 min-w-0">
+              <div className="flex-1 flex items-center gap-4 min-w-0">
                 {/* Departure */}
                 <div className="text-center shrink-0">
-                  <p className="text-xl font-bold text-text-primary tabular-nums">
+                  <p className="text-2xl font-bold text-text-luxury tabular-nums">
                     {depTime}
                   </p>
-                  <p className="text-xs font-semibold text-text-muted uppercase">
+                  <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
                     {originCode}
                   </p>
                 </div>
 
                 {/* Line + duration + stops */}
-                <div className="flex-1 flex flex-col items-center gap-0.5 min-w-0">
-                  <p className="text-xs text-text-muted">{offer.duration}</p>
-                  <div className="w-full flex items-center gap-1">
-                    <div className="flex-1 h-px bg-border-light" />
+                <div className="flex-1 flex flex-col items-center gap-1 min-w-0">
+                  <p className="text-xs text-text-secondary font-medium">{offer.duration}</p>
+                  <div className="w-full flex items-center gap-2">
+                    <div className="flex-1 h-0.5 bg-gradient-to-r from-brand-green/20 to-brand-green/60" />
                     {offer.stops === 0 ? (
-                      <span className="text-[10px] text-green-600 font-semibold shrink-0 px-1.5 py-0.5 rounded-full bg-green-50 border border-green-200">
+                      <span className="text-[10px] text-emerald-700 font-bold shrink-0 px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200">
                         {isAr ? "مباشر" : "Direct"}
                       </span>
                     ) : (
-                      <span className="text-[10px] text-brand-red font-semibold shrink-0 px-1.5 py-0.5 rounded-full bg-brand-red/5 border border-brand-red/20">
+                      <span className="text-[10px] text-brand-yellow-dark font-bold shrink-0 px-2 py-1 rounded-full bg-brand-yellow/10 border border-brand-yellow/30">
                         {isAr
                           ? `${offer.stops} ${offer.stops === 1 ? "توقف" : "توقفات"}`
                           : `${offer.stops} stop${offer.stops > 1 ? "s" : ""}`}
                       </span>
                     )}
-                    <div className="flex-1 h-px bg-border-light" />
+                    <div className="flex-1 h-0.5 bg-gradient-to-r from-brand-green/60 to-brand-green/20" />
                   </div>
                   <p className="text-[10px] text-text-muted">{offer.flight_number}</p>
                 </div>
 
                 {/* Arrival */}
                 <div className="text-center shrink-0">
-                  <p className="text-xl font-bold text-text-primary tabular-nums">
+                  <p className="text-2xl font-bold text-text-luxury tabular-nums">
                     {arrTime}
                   </p>
-                  <p className="text-xs font-semibold text-text-muted uppercase">
+                  <p className="text-xs font-semibold text-text-secondary uppercase tracking-wider">
                     {destCode}
                   </p>
                 </div>
               </div>
 
               {/* Price + CTA */}
-              <div className="flex md:flex-col items-center md:items-end gap-3 md:gap-1 justify-between md:justify-start shrink-0 md:ms-4 border-t border-border-light md:border-none pt-3 md:pt-0">
+              <div className="flex md:flex-col items-center md:items-end gap-4 md:gap-3 justify-between md:justify-start shrink-0 md:ms-4 border-t border-white/20 md:border-none pt-4 md:pt-0">
                 <div className="text-end">
-                  <p className="text-xl font-bold text-brand-red tabular-nums">
+                  <p className="text-2xl font-bold text-brand-green tabular-nums">
                     {offer.price.toLocaleString()}{" "}
-                    <span className="text-sm font-semibold">{offer.price_currency}</span>
+                    <span className="text-sm font-semibold text-text-secondary">{offer.price_currency}</span>
                   </p>
+                  <p className="text-xs text-text-muted">{isAr ? "شامل الضرائب" : "incl. taxes"}</p>
                 </div>
-                <button className="px-5 py-2 bg-brand-red text-white text-sm font-semibold rounded-lg hover:bg-brand-red-dark transition-colors shrink-0">
+                <Button 
+                  variant="luxury" 
+                  size="sm"
+                  className="shrink-0 min-w-24"
+                  withShimmer
+                >
                   {isAr ? "احجز الآن" : "Book Now"}
-                </button>
+                </Button>
               </div>
             </div>
-          </div>
+          </HoverLift>
         );
       })}
-    </div>
+    </StaggerContainer>
   );
 }

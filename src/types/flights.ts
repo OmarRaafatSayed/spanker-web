@@ -55,7 +55,80 @@ export interface AuthSession {
 export interface AuthResponse {
   success: boolean;
   user?: { id: string; email: string };
-  session?: AuthSession;
+  session?: AuthSession | null;
   error?: string;
   detail?: string;
+  email_confirmation_required?: boolean;
+  message?: string;
+}
+
+// ─── Customer Portal Types ────────────────────────────────────────────────────
+
+export interface CustomerProfile {
+  user_id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone?: string;
+  role: "customer" | "staff" | "admin";
+  created_at?: string;
+  updated_at?: string;
+}
+
+export type VisaStatus =
+  | "documents_collected"
+  | "in_review"
+  | "embassy_appointment"
+  | "submitted_to_consulate"
+  | "approved"
+  | "rejected"
+  | "cancelled";
+
+export interface VisaApplication {
+  id: string;
+  client_user_id: string | null;
+  created_by: string;
+  client_name: string;
+  passport_number: string;
+  destination_country: string;
+  status: VisaStatus;
+  appointment_date?: string | null;
+  notes?: string | null;
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface VisaApplicationsResponse {
+  results: VisaApplication[];
+  count: number;
+}
+
+export type PaymentStatus = "pending" | "partial" | "full" | "refunded" | "cancelled";
+export type PaymentMethod = "cash" | "bank_transfer" | "pos" | "cheque";
+
+export interface PaymentRecord {
+  id: string;
+  client_user_id: string | null;
+  created_by: string;
+  client_name: string;
+  amount: number;
+  currency?: string;
+  method: PaymentMethod;
+  status: PaymentStatus;
+  booking_reference?: string | null;
+  notes?: string | null;
+  created_at: string;
+  updated_at?: string;
+}
+
+export interface PaymentsResponse {
+  results: PaymentRecord[];
+  count: number;
+  total_amount: number;
+}
+
+export interface UpdateProfileRequest {
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
 }

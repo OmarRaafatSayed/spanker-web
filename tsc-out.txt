@@ -1,0 +1,1033 @@
+﻿travel-agency-custom/src/components/ErrorBoundary.tsx(2,41): error TS2307: Cannot find module '@/components/ui/alert' or its corresponding type declarations.
+travel-agency-custom/src/components/ErrorBoundary.tsx(76,16): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ErrorBoundary.tsx(79,16): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(10,18): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectContent'.
+travel-agency-custom/src/components/FlightSearch.tsx(10,33): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectItem'.
+travel-agency-custom/src/components/FlightSearch.tsx(10,45): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectTrigger'.
+travel-agency-custom/src/components/FlightSearch.tsx(10,60): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectValue'.
+travel-agency-custom/src/components/FlightSearch.tsx(11,41): error TS2307: Cannot find module '@/components/ui/alert' or its corresponding type declarations.
+travel-agency-custom/src/components/FlightSearch.tsx(14,69): error TS2307: Cannot find module '@/services/api' or its corresponding type declarations.
+travel-agency-custom/src/components/FlightSearch.tsx(15,26): error TS2307: Cannot find module '@/hooks/use-toast' or its corresponding type declarations.
+travel-agency-custom/src/components/FlightSearch.tsx(134,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(135,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(136,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(140,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(142,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(147,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(148,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(156,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(157,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(165,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(166,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(173,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(174,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(182,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(183,16): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(184,17): error TS2322: Type '{ children: Element[]; value: string; onValueChange: (v: any) => void; disabled: boolean; }' is not assignable to type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'. Did you mean 'onVolumeChange'?
+travel-agency-custom/src/components/FlightSearch.tsx(184,32): error TS7006: Parameter 'v' implicitly has an 'any' type.
+travel-agency-custom/src/components/FlightSearch.tsx(197,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(198,16): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(199,17): error TS2322: Type '{ children: Element[]; value: "economy" | "premium_economy" | "business" | "first"; onValueChange: (v: any) => void; disabled: boolean; }' is not assignable to type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'. Did you mean 'onVolumeChange'?
+travel-agency-custom/src/components/FlightSearch.tsx(214,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(269,10): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(270,12): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(273,18): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(274,18): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(286,12): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(289,45): error TS7006: Parameter 'flight' implicitly has an 'any' type.
+travel-agency-custom/src/components/FlightSearch.tsx(289,53): error TS7006: Parameter 'idx' implicitly has an 'any' type.
+travel-agency-custom/src/components/FlightSearch.tsx(290,20): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/FlightSearch.tsx(291,22): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(18,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(21,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(24,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(28,26): error TS2307: Cannot find module '@/hooks/use-toast' or its corresponding type declarations.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(29,44): error TS2307: Cannot find module '@/services/api' or its corresponding type declarations.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(39,3): error TS2353: Object literal may only specify known properties, and 'hotel_name' does not exist in type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(84,17): error TS2339: Property 'hotel_name' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(84,41): error TS2339: Property 'hotel_location' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(85,17): error TS2339: Property 'hotel_city' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(85,41): error TS2339: Property 'hotel_country' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(86,17): error TS2339: Property 'room_type' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(86,41): error TS2339: Property 'price_per_night' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(87,17): error TS2339: Property 'available_from' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(87,45): error TS2339: Property 'available_to' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(96,39): error TS2339: Property 'hotel_name' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(97,39): error TS2339: Property 'hotel_location' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(98,39): error TS2339: Property 'hotel_city' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(99,39): error TS2339: Property 'hotel_country' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(100,39): error TS2339: Property 'hotel_rating' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(101,39): error TS2339: Property 'hotel_category' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(102,39): error TS2339: Property 'room_type' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(103,39): error TS2339: Property 'board_basis' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(104,39): error TS2339: Property 'price_per_night' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(105,39): error TS2339: Property 'price_currency' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(106,39): error TS2339: Property 'special_offer_price' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(107,39): error TS2339: Property 'available_from' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(108,39): error TS2339: Property 'available_to' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(109,39): error TS2339: Property 'booking_deadline' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(110,39): error TS2339: Property 'max_occupancy' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(111,39): error TS2339: Property 'available_rooms' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(112,39): error TS2339: Property 'description' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(113,39): error TS2339: Property 'terms_conditions' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(114,39): error TS2339: Property 'cancellation_policy' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(243,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(244,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(245,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(249,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(251,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(253,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(258,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(272,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(281,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(282,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(283,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(284,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(288,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(315,59): error TS2339: Property 'hotel_name' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(316,32): error TS2339: Property 'hotel_rating' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(319,36): error TS2339: Property 'hotel_rating' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(326,34): error TS2339: Property 'hotel_city' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(326,54): error TS2339: Property 'hotel_country' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(329,41): error TS2339: Property 'room_type' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(331,59): error TS2339: Property 'price_currency' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(331,82): error TS2339: Property 'price_per_night' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(332,32): error TS2339: Property 'special_offer_price' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(334,69): error TS2339: Property 'price_currency' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(334,98): error TS2339: Property 'special_offer_price' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(339,63): error TS2339: Property 'available_from' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(339,89): error TS2339: Property 'available_to' does not exist on type 'HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(343,28): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(350,28): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(380,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(381,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(381,52): error TS2339: Property 'hotel_name' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(381,80): error TS2345: Argument of type '"hotel_name"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(384,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(385,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(385,51): error TS2339: Property 'hotel_location' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(385,83): error TS2345: Argument of type '"hotel_location"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(391,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(392,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(392,52): error TS2339: Property 'hotel_city' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(392,80): error TS2345: Argument of type '"hotel_city"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(395,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(396,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(396,55): error TS2339: Property 'hotel_country' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(396,86): error TS2345: Argument of type '"hotel_country"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(402,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(403,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(404,35): error TS2339: Property 'hotel_rating' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(409,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(410,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(410,51): error TS2339: Property 'hotel_category' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(410,83): error TS2345: Argument of type '"hotel_category"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(416,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(417,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(417,52): error TS2339: Property 'room_type' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(417,79): error TS2345: Argument of type '"room_type"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(420,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(421,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(421,53): error TS2339: Property 'board_basis' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(421,82): error TS2345: Argument of type '"board_basis"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(427,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(428,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(429,35): error TS2339: Property 'price_per_night' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(434,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(435,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(435,52): error TS2339: Property 'price_currency' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(435,84): error TS2345: Argument of type '"price_currency"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(438,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(439,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(440,35): error TS2339: Property 'special_offer_price' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(448,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(449,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(449,64): error TS2339: Property 'available_from' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(449,96): error TS2345: Argument of type '"available_from"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(452,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(453,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(453,62): error TS2339: Property 'available_to' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(453,92): error TS2345: Argument of type '"available_to"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(456,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(457,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(457,62): error TS2339: Property 'booking_deadline' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(457,102): error TS2345: Argument of type '"booking_deadline"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(463,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(464,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(465,35): error TS2339: Property 'max_occupancy' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(470,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(471,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(472,35): error TS2339: Property 'available_rooms' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(479,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(480,53): error TS2339: Property 'description' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(480,82): error TS2345: Argument of type '"description"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(483,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(484,54): error TS2339: Property 'terms_conditions' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(484,88): error TS2345: Argument of type '"terms_conditions"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(487,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(488,55): error TS2339: Property 'cancellation_policy' does not exist on type 'Partial<HotelOffer>'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(488,92): error TS2345: Argument of type '"cancellation_policy"' is not assignable to parameter of type 'keyof HotelOffer'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(493,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/HotelManagement-simple.tsx(496,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/LangToggle.tsx(2,30): error TS2307: Cannot find module '@/i18n' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(25,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(29,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(32,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(37,26): error TS2307: Cannot find module '@/hooks/use-toast' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(41,8): error TS2307: Cannot find module '@/services/api' or its corresponding type declarations.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(307,20): error TS7006: Parameter 'prev' implicitly has an 'any' type.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(317,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(318,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(319,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(323,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(325,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(327,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(331,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(343,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(352,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(353,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(353,22): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(354,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(391,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(392,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(393,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(398,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(402,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(404,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(418,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(420,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(434,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(448,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(462,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(463,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(467,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(468,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(475,16): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(484,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(485,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(486,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(493,14): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(502,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(561,30): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(565,30): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(591,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(592,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(595,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(596,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(599,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(600,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(602,49): error TS7006: Parameter 'p' implicitly has an 'any' type.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(606,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(615,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(624,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(625,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(628,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(634,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(635,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(656,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(657,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(661,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/ManualPaymentLedger-simple.tsx(662,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/Sidebar.tsx(52,8): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'ElementType<any, keyof IntrinsicElements>' is not a valid JSX element type.
+    Type 'ComponentClass<any, any>' is not assignable to type 'ElementType'.
+      Type 'ComponentClass<any, any>' is not assignable to type 'new (props: any, deprecatedLegacyContext?: any) => Component<any, any, any>'.
+        Property 'refs' is missing in type 'React.Component<any, any, any>' but required in type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").Component<any, any, any>'.
+travel-agency-custom/src/components/Sidebar.tsx(161,16): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'ElementType<any, keyof IntrinsicElements>' is not a valid JSX element type.
+    Type 'ComponentClass<any, any>' is not assignable to type 'ElementType'.
+      Type 'ComponentClass<any, any>' is not assignable to type 'new (props: any, deprecatedLegacyContext?: any) => Component<any, any, any>'.
+        Property 'refs' is missing in type 'React.Component<any, any, any>' but required in type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").Component<any, any, any>'.
+travel-agency-custom/src/components/Sidebar.tsx(227,20): error TS2786: 'Icon' cannot be used as a JSX component.
+  Its type 'ElementType<any, keyof IntrinsicElements>' is not a valid JSX element type.
+    Type 'ComponentClass<any, any>' is not assignable to type 'ElementType'.
+      Type 'ComponentClass<any, any>' is not assignable to type 'new (props: any, deprecatedLegacyContext?: any) => Component<any, any, any>'.
+        Property 'refs' is missing in type 'React.Component<any, any, any>' but required in type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").Component<any, any, any>'.
+travel-agency-custom/src/components/ui/toaster.tsx(1,26): error TS2307: Cannot find module '@/hooks/use-toast' or its corresponding type declarations.
+travel-agency-custom/src/components/ui/toaster.tsx(9,8): error TS2307: Cannot find module '@/components/ui/toast' or its corresponding type declarations.
+travel-agency-custom/src/components/ui/toaster.tsx(16,31): error TS7031: Binding element 'id' implicitly has an 'any' type.
+travel-agency-custom/src/components/ui/toaster.tsx(16,35): error TS7031: Binding element 'title' implicitly has an 'any' type.
+travel-agency-custom/src/components/ui/toaster.tsx(16,42): error TS7031: Binding element 'description' implicitly has an 'any' type.
+travel-agency-custom/src/components/ui/toaster.tsx(16,55): error TS7031: Binding element 'action' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(19,8): error TS2307: Cannot find module '@/components/ui/dialog' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(25,8): error TS2307: Cannot find module '@/components/ui/table' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(26,26): error TS2307: Cannot find module '@/components/ui/textarea' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(29,3): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectContent'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(30,3): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectItem'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(31,3): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectTrigger'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(32,3): error TS2305: Module '"@/components/ui/select"' has no exported member 'SelectValue'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(40,8): error TS2307: Cannot find module '@/components/ui/dropdown-menu' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(41,26): error TS2307: Cannot find module '@/components/ui/checkbox' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(46,26): error TS2307: Cannot find module '@/hooks/use-toast' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(47,67): error TS2307: Cannot find module '@/services/api' or its corresponding type declarations.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(263,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(264,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(265,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(269,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(271,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(273,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(280,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(298,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(299,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(300,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(301,12): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(307,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(357,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(358,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(359,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(364,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(368,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(370,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(390,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(392,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(414,16): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(427,8): error TS2786: 'Card' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(428,10): error TS2786: 'CardHeader' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(429,12): error TS2786: 'CardTitle' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLHeadingElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(434,14): error TS2786: 'CardDescription' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLParagraphElement> & RefAttributes<HTMLParagraphElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(447,10): error TS2786: 'CardContent' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<HTMLAttributes<HTMLDivElement> & RefAttributes<HTMLDivElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(496,46): error TS7006: Parameter 'e' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(497,28): error TS2786: 'Select' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(499,29): error TS2322: Type '{ children: Element[]; value: string; onValueChange: (val: any) => Promise<void>; disabled: boolean; }' is not assignable to type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'.
+  Property 'onValueChange' does not exist on type 'IntrinsicAttributes & SelectHTMLAttributes<HTMLSelectElement> & RefAttributes<HTMLSelectElement>'. Did you mean 'onVolumeChange'?
+travel-agency-custom/src/components/VisaManagement-simple.tsx(499,51): error TS7006: Parameter 'val' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(564,67): error TS7006: Parameter 'e' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(567,32): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(612,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(613,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(621,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(622,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(633,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(634,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(644,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(645,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(654,18): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(655,18): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(665,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(666,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(675,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(679,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(687,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(690,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(710,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(711,16): error TS2786: 'Input' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<InputProps & RefAttributes<HTMLInputElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(720,16): error TS2786: 'Label' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<LabelProps & RefAttributes<HTMLLabelElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(724,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(732,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/components/VisaManagement-simple.tsx(735,14): error TS2786: 'Button' cannot be used as a JSX component.
+  Its type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not a valid JSX element type.
+    Type 'ForwardRefExoticComponent<ButtonProps & RefAttributes<HTMLButtonElement>>' is not assignable to type '(props: any, deprecatedLegacyContext?: any) => ReactNode'.
+      Type 'React.ReactNode' is not assignable to type 'import("C:/Users/EXPRESS/Downloads/coding/spanker/travel-agency-custom/node_modules/@types/react/index").ReactNode'.
+        Type 'bigint' is not assignable to type 'ReactNode'.
+travel-agency-custom/src/main.tsx(3,17): error TS5097: An import path can only end with a '.tsx' extension when 'allowImportingTsExtensions' is enabled.
+travel-agency-custom/src/pages/FlightSearch.tsx(6,55): error TS2307: Cannot find module '@/components/FlightSearch' or its corresponding type declarations.

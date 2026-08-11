@@ -1,8 +1,8 @@
 {
-  "name": "ai-website-clone-template",
-  "version": "0.3.1",
+  "name": "travel-platform-admin-portal",
+  "version": "1.0.0",
   "private": true,
-  "description": "Clone any website into a clean, modern Next.js codebase using AI coding agents",
+  "description": "Travel Platform Admin Dashboard & Client Portal System",
   "author": "JCodesMore",
   "license": "MIT",
   "repository": {
@@ -36,15 +36,22 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
+    "@hookform/resolvers": "^5.7.1",
+    "@supabase/supabase-js": "^2.39.0",
+    "@tanstack/react-query": "^5.17.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^13.1.0",
     "lucide-react": "^1.6.0",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-hook-form": "^7.85.0",
     "shadcn": "^4.1.0",
     "tailwind-merge": "^3.5.0",
-    "tw-animate-css": "^1.4.0"
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.4.3",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -73,13 +73,19 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
       } else {
         const res = await signup(email, password, firstName || undefined, lastName || undefined);
         if (res.success) {
-          setSuccessMsg(
-            isAr
-              ? "تم إنشاء الحساب! سجّل الدخول الآن."
-              : "Account created! Please log in."
-          );
-          setTab("login");
-          setPassword("");
+          if (res.session && res.user) {
+            // Backend returned session → already logged in, close modal
+            onClose();
+          } else {
+            // Email confirmation required
+            setSuccessMsg(
+              isAr
+                ? "تم إنشاء الحساب! إذا طُلب تأكيد الإيميل، افحص بريدك ثم سجّل الدخول."
+                : "Account created! Check your inbox for confirmation, then log in."
+            );
+            setTab("login");
+            setPassword("");
+          }
         } else {
           setError(res.error ?? (isAr ? "فشل إنشاء الحساب" : "Signup failed"));
         }

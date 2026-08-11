@@ -23,6 +23,7 @@ export const translations = {
       onBoard: "على متن الطائرة",
       ourFleet: "أسطولنا",
       passengerReviews: "آراء المسافرين",
+      passengerReviews: "آراء المسافرين",
       about: "عن الشركة",
       aboutAirCairo: "عن سبانكر",
       missionVision: "رسالتنا ورؤيتنا",
@@ -73,6 +74,7 @@ export const translations = {
       infantsAge: "أقل من سنتين",
       done: "تم",
       searchFlights: "ابحث عن رحلات",
+      searching: "جارٍ البحث...",
       swap: "تبديل الوجهة",
     },
     // Flying Services
@@ -137,6 +139,16 @@ export const translations = {
       googlePlay: "احصل عليه من",
       googlePlayName: "Google Play",
     },
+    // Common
+    common: {
+      login: "تسجيل الدخول",
+      logout: "تسجيل الخروج",
+      myAccount: "حسابي",
+      from: "من",
+      roundTrip: "ذهاب وإياب",
+      startingFrom: "يبدأ من",
+      bookNow: "احجز الآن",
+    },
     // Footer
     footer: {
       bookManage: "الحجز والإدارة",
@@ -196,6 +208,7 @@ export const translations = {
       onBoard: "On Board",
       ourFleet: "Our Fleet",
       passengerReviews: "Passenger Reviews",
+      passengerReviews: "Passenger Reviews",
       about: "About",
       aboutAirCairo: "About Spanker",
       missionVision: "Mission & Vision",
@@ -244,6 +257,7 @@ export const translations = {
       infantsAge: "Under 2",
       done: "Done",
       searchFlights: "Search Flights",
+      searching: "Searching...",
       swap: "Swap origin and destination",
     },
     services: {
@@ -303,8 +317,16 @@ export const translations = {
       googlePlay: "Get it on",
       googlePlayName: "Google Play",
     },
+    common: {
+      login: "Sign In",
+      logout: "Sign Out",
+      myAccount: "My Account",
+      from: "From",
+      roundTrip: "Round Trip",
+      startingFrom: "Starting from",
+      bookNow: "Book Now",
+    },
     footer: {
-      bookManage: "Book & Manage",
       travelInfo: "Travel Info",
       airCairo: "Spanker",
       helpContact: "Help & Contact",

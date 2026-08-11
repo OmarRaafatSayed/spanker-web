@@ -5,79 +5,157 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Spanker Brand Colors */
-  /* Primary green — most dominant */
-  --color-brand-red: #3D6833;
-  --color-brand-green: #3D6833;
-  --color-brand-red-dark: #2E5026;
-  --color-brand-green-dark: #2E5026;
-  --color-brand-red-light: #4E8340;
-  --color-brand-green-light: #4E8340;
+  /* Spanker Luxury Brand Colors */
+  /* Primary emerald green — elevated luxury */
+  --color-brand-red: #1b4332;
+  --color-brand-green: #1b4332;
+  --color-brand-red-dark: #081c15;
+  --color-brand-green-dark: #081c15;
+  --color-brand-red-light: #2d6a4f;
+  --color-brand-green-light: #2d6a4f;
 
-  /* Yellow — equal importance to green */
-  --color-brand-yellow: #FDD12A;
-  --color-brand-yellow-dark: #E6BC18;
-  --color-brand-yellow-light: #FEE068;
+  /* Premium gold — refined luxury accent */
+  --color-brand-yellow: #d4af37;
+  --color-brand-yellow-dark: #b8941f;
+  --color-brand-yellow-light: #f4d03f;
 
-  /* Blue — secondary / accent (sea, sky) */
-  --color-brand-dark: #1A3A2A;
-  --color-brand-navy: #2473BC;
+  /* Deep navy & charcoal — sophisticated backgrounds */
+  --color-brand-dark: #0f172a;
+  --color-brand-navy: #1e293b;
+  --color-luxury-charcoal: #334155;
 
-  /* Text */
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #555555;
-  --color-text-muted: #888888;
+  /* Elevated Text Hierarchy */
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #64748b;
+  --color-text-luxury: #1e293b;
 
-  /* Backgrounds */
-  --color-bg-alt: #F5F8F4;
-  --color-border-light: #E0E0E0;
+  /* Warm Luxury Backgrounds */
+  --color-bg-primary: #f8fafc;
+  --color-bg-alt: #f1f5f9;
+  --color-bg-warm: #fefbf6;
+  --color-bg-glass: rgba(255, 255, 255, 0.75);
+  --color-border-light: #e2e8f0;
+  --color-border-luxury: #cbd5e1;
+
+  /* Glassmorphism Variables */
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07);
+  --glass-blur: blur(16px);
+
+  /* Premium Gradients */
+  --gradient-luxury: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #52b788 100%);
+  --gradient-warm: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  --gradient-mesh: radial-gradient(ellipse at top, #f1f5f9, transparent),
+                   radial-gradient(ellipse at bottom, #e2e8f0, transparent);
 
   /* shadcn token mappings */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
+  --color-background: var(--color-bg-primary);
+  --color-foreground: var(--color-text-primary);
+  --color-primary: var(--color-brand-green);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-bg-alt);
+  --color-secondary-foreground: var(--color-text-secondary);
+  --color-muted: var(--color-bg-alt);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-accent: var(--color-brand-yellow);
+  --color-accent-foreground: var(--color-text-primary);
+  --color-destructive: #dc2626;
+  --color-border: var(--color-border-light);
+  --color-input: var(--color-bg-primary);
+  --color-ring: var(--color-brand-green);
+  --color-card: var(--color-bg-primary);
+}
 
-  /* Font */
-  --font-sans: var(--font-cairo), 'Open Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-cairo), 'Open Sans', ui-sans-serif, system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+/* Luxury Glassmorphism Utilities */
+@utility glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
 
-  /* Radius */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+@utility glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.1);
+}
+
+@utility luxury-gradient {
+  background: var(--gradient-luxury);
+}
+
+@utility mesh-bg {
+  background: var(--gradient-mesh);
+}
+
+/* Luxury Animation Utilities */
+@utility luxury-hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Luxury hover effect - used with className="[&:hover]:luxury-hover-lift" */
+.luxury-hover-lift:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.12);
+}
+
+/* Custom Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(27, 67, 50, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(27, 67, 50, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+  background-size: 200% 100%;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus states */
+.focus-luxury:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.2);
 }
 
 :root {
