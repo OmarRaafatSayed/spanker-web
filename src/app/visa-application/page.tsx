@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 import { useI18n } from "@/lib/i18n/context";
 import { LoginModal } from "@/components/ui/LoginModal";
-import { travelRequestsService } from "@/lib/services/travel-requests-service";
 import { uploadDocument } from "@/modules/visa";
 import type { TravelRequest } from "@/types";
 
@@ -150,29 +149,60 @@ export default function VisaApplicationPage() {
     if (!user) return;
     setFormError(null);
     setFormLoading(true);
-    const result = await travelRequestsService.create({
-      destination_country: formData.destination,
-      travel_type: "visa_only",
-      departure_date: formData.departure || undefined,
-      return_date: formData.return || undefined,
-      traveler_count: formData.travelers,
-      customer_notes: formData.notes || undefined,
-    }, user.id);
-    setFormLoading(false);
-    if (!result.ok) { setFormError(result.error); return; }
-    setRequest(result.data);
-    setStep(3);
+
+    try {
+      const res = await fetch("/api/travel-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          client_user_id:      user.id,
+          destination_country: formData.destination,
+          travel_type:         "visa_only",
+          departure_date:      formData.departure || null,
+          return_date:         formData.return    || null,
+          traveler_count:      formData.travelers,
+          customer_notes:      formData.notes     || null,
+        }),
+      });
+
+      const json = await res.json() as { success?: boolean; data?: TravelRequest; error?: string };
+
+      if (!res.ok || !json.success || !json.data) {
+        setFormError(json.error ?? (isAr ? "حدث خطأ، حاول مجدداً" : "Something went wrong, try again"));
+        return;
+      }
+
+      setRequest(json.data);
+      setStep(3);
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : isAr ? "خطأ في الشبكة" : "Network error");
+    } finally {
+      setFormLoading(false);
+    }
   }
 
   // ── Upload doc ──
   async function handleDocUpload(docType: string, file: File) {
     if (!request || !user) return;
     setDocStates(p => ({ ...p, [docType]: { status: "uploading" } }));
-    const res = await uploadDocument({ requestId: request.id, clientUserId: user.id, documentType: docType, file });
-    if (res.ok) {
-      setDocStates(p => ({ ...p, [docType]: { status: "done", fileName: file.name } }));
-    } else {
-      setDocStates(p => ({ ...p, [docType]: { status: "error", error: res.error } }));
+
+    try {
+      const form = new FormData();
+      form.append("file",         file);
+      form.append("requestId",    request.id);
+      form.append("clientUserId", user.id);
+      form.append("documentType", docType);
+
+      const res  = await fetch("/api/travel-requests/upload-document", { method: "POST", body: form });
+      const json = await res.json() as { success?: boolean; error?: string };
+
+      if (!res.ok || !json.success) {
+        setDocStates(p => ({ ...p, [docType]: { status: "error", error: json.error ?? "Upload failed" } }));
+      } else {
+        setDocStates(p => ({ ...p, [docType]: { status: "done", fileName: file.name } }));
+      }
+    } catch (err) {
+      setDocStates(p => ({ ...p, [docType]: { status: "error", error: err instanceof Error ? err.message : "Network error" } }));
     }
   }
 
