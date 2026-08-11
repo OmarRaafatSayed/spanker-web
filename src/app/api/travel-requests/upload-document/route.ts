@@ -31,6 +31,16 @@ export async function POST(req: NextRequest) {
 
     const db = getServiceClient();
 
+    // ── Step 1: verify bucket exists ─────────────────────────────────────────
+    const { data: buckets, error: bucketsErr } = await db.storage.listBuckets();
+    if (bucketsErr) {
+      return NextResponse.json({ error: `Cannot list buckets: ${bucketsErr.message}` }, { status: 500 });
+    }
+    const bucketNames = (buckets ?? []).map((b: { name: string }) => b.name);
+    const BUCKET = bucketNames.includes("customer-documents") ? "customer-documents"
+                 : bucketNames.includes("customer_documents") ? "customer_documents"
+                 : bucketNames[0] ?? "customer-documents";
+
     // Build storage path
     const ext      = file.name.split(".").pop() ?? "bin";
     const fileName = `${Date.now()}_${documentType}.${ext}`;
@@ -39,14 +49,19 @@ export async function POST(req: NextRequest) {
     // Upload to Supabase Storage
     const arrayBuffer = await file.arrayBuffer();
     const { error: uploadError } = await db.storage
-      .from("customer-documents")
+      .from(BUCKET)
       .upload(filePath, arrayBuffer, {
-        contentType: file.type,
-        upsert: false,
+        contentType: file.type || "application/octet-stream",
+        upsert: true,
       });
 
     if (uploadError) {
-      return NextResponse.json({ error: `Storage: ${uploadError.message}` }, { status: 500 });
+      console.error("[upload-document] Storage error:", uploadError);
+      return NextResponse.json({
+        error: `Storage: ${uploadError.message}`,
+        bucket: BUCKET,
+        availableBuckets: bucketNames,
+      }, { status: 500 });
     }
 
     // Insert document record
@@ -58,7 +73,7 @@ export async function POST(req: NextRequest) {
         document_type:     documentType,
         file_path:         filePath,
         file_name:         file.name,
-        file_size:         file.size,
+        file_size:         file.size ?? null,
         mime_type:         file.type,
         status:            "uploaded",
       }])
@@ -66,13 +81,17 @@ export async function POST(req: NextRequest) {
       .single();
 
     if (insertError) {
-      // Best-effort: clean up orphaned storage file
+      console.error("[upload-document] DB insert error:", insertError);
       await db.storage.from("customer-documents").remove([filePath]).catch(() => {});
       return NextResponse.json({ error: `DB: ${insertError.message}` }, { status: 500 });
     }
 
-    // Update completion percentage (non-blocking)
-    db.rpc("update_document_completion", { request_id: requestId }).catch(() => {});
+    // Update completion percentage (non-blocking, best-effort)
+    try {
+      await db.rpc("update_document_completion", { request_id: requestId });
+    } catch {
+      // non-fatal — ignore
+    }
 
     return NextResponse.json({ success: true, document: doc }, { status: 201 });
   } catch (err) {
