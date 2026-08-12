@@ -5,3 +5,23 @@ alwaysApply: true
 
 This project uses AGENTS.md as the single source of truth for all AI agent instructions.
 Cursor reads AGENTS.md automatically — see the project root for complete guidelines.
+
+## 📁 Project Structure Rules
+
+**Documentation & Reports:**
+- All new `.md` files must go in `docs/`
+- All test reports, logs, and output files must go in `docs/`
+- Keep documentation organized and centralized
+
+**Source Code:**
+- All new code files (`.ts`, `.tsx`, `.js`, `.jsx`) must go in `src/`
+- Maintain the existing module structure in `src/`
+- Follow the current directory organization patterns
+
+**Key Directories:**
+- `src/app/` — Next.js app routes and pages
+- `src/components/` — React components
+- `src/lib/` — Utility functions and helpers
+- `src/modules/` — Feature modules
+- `src/types/` — TypeScript type definitions
+- `docs/` — All documentation and reports

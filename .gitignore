@@ -27,6 +27,19 @@ yarn-error.log*
 *.swp
 *.swo
 
+# AI Tool Configurations (keeping only .cursor as primary tool)
+.amazonq/
+.augment/
+.claude/
+.codex/
+.continue/
+.gemini/
+.opencode/
+.windsurf/
+.aider.conf.yml
+.clinerules
+.windsurfrules
+
 # OS
 .DS_Store
 Thumbs.db
