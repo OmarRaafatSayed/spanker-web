@@ -85,7 +85,12 @@ const FEATURES_EN = [
   },
 ];
 
-// ─── Star rating visual ───────────────────────────────────────────────────────
+// ─── Hotel images from Unsplash (free, no download needed) ───────────────────
+const HOTEL_IMAGES = {
+  cairo:    "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=400&q=80&auto=format&fit=crop",   // luxury hotel lobby
+  hurghada: "https://images.unsplash.com/photo-1506059612708-99d6c258160e?w=400&q=80&auto=format&fit=crop", // resort pool
+  main:     "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80&auto=format&fit=crop", // hotel exterior
+};
 function Stars({ count = 5 }: { count?: number }) {
   return (
     <div className="flex gap-0.5">
@@ -100,24 +105,28 @@ function Stars({ count = 5 }: { count?: number }) {
 
 // ─── Floating hotel card (decorative) ────────────────────────────────────────
 function HotelCard({
-  name, location, price, stars, delay, className,
+  name, location, price, stars, delay, className, image,
 }: {
   name: string; location: string; price: string; stars: number;
-  delay: number; className?: string;
+  delay: number; className?: string; image: string;
 }) {
   return (
     <motion.div
-      className={`absolute bg-white rounded-2xl shadow-xl border border-border-light p-3 w-44 ${className ?? ""}`}
+      className={`absolute bg-white rounded-2xl shadow-xl border border-border-light p-3 w-48 ${className ?? ""}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.6 }}
-      whileHover={{ y: -4, shadow: "xl" }}
+      whileHover={{ y: -4 }}
     >
-      <div className="w-full h-20 rounded-xl bg-gradient-to-br from-brand-green/20 to-brand-yellow/10 mb-2 flex items-center justify-center">
-        <svg viewBox="0 0 40 40" fill="none" className="w-10 h-10 text-brand-green/40" aria-hidden="true">
-          <rect x="6" y="14" width="28" height="22" rx="2" stroke="currentColor" strokeWidth="2"/>
-          <path d="M6 22h28M14 22v14M26 22v14M20 14v-4a4 4 0 0 0-8 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        </svg>
+      {/* Hotel photo */}
+      <div className="w-full h-24 rounded-xl overflow-hidden mb-2">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={image}
+          alt={name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
       </div>
       <p className="text-xs font-bold text-text-primary truncate">{name}</p>
       <p className="text-[10px] text-text-muted truncate mb-1">{location}</p>
@@ -178,24 +187,17 @@ export function HotelServiceSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            {/* Main illustration */}
-            <div className="absolute inset-8 rounded-3xl bg-gradient-to-br from-[#1b4332]/8 via-[#2d6a4f]/5 to-[#d4af37]/8 border border-brand-green/10 flex items-center justify-center">
-              <motion.svg
-                viewBox="0 0 200 180"
-                className="w-56 h-56 text-brand-green/20"
-                aria-hidden="true"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <rect x="20" y="60" width="160" height="110" rx="8" fill="currentColor"/>
-                <rect x="40" y="40" width="120" height="30" rx="4" fill="currentColor" opacity=".7"/>
-                <rect x="60" y="20" width="80" height="25" rx="4" fill="currentColor" opacity=".4"/>
-                <rect x="35" y="100" width="25" height="35" rx="3" fill="white" opacity=".5"/>
-                <rect x="75" y="100" width="25" height="35" rx="3" fill="white" opacity=".5"/>
-                <rect x="115" y="100" width="25" height="35" rx="3" fill="white" opacity=".5"/>
-                <rect x="155" y="100" width="25" height="35" rx="3" fill="white" opacity=".5"/>
-                <rect x="75" y="140" width="50" height="30" rx="2" fill="white" opacity=".6"/>
-              </motion.svg>
+            {/* Main illustration — hotel photo */}
+            <div className="absolute inset-8 rounded-3xl overflow-hidden border border-brand-green/10 shadow-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={HOTEL_IMAGES.main}
+                alt="Luxury hotel"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              {/* Overlay tint */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
             </div>
 
             {/* Floating cards */}
@@ -204,6 +206,7 @@ export function HotelServiceSection() {
               location={isAr ? "القاهرة، مصر" : "Cairo, Egypt"}
               price={isAr ? "من ٨٥٠ ج" : "From 850 EGP"}
               stars={5} delay={0.3}
+              image={HOTEL_IMAGES.cairo}
               className="top-4 start-0"
             />
             <HotelCard
@@ -211,6 +214,7 @@ export function HotelServiceSection() {
               location={isAr ? "الغردقة، مصر" : "Hurghada, Egypt"}
               price={isAr ? "من ١٢٠٠ ج" : "From 1200 EGP"}
               stars={4} delay={0.5}
+              image={HOTEL_IMAGES.hurghada}
               className="bottom-8 end-0"
             />
 
