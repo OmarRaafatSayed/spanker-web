@@ -9,7 +9,6 @@ import { SpecialOffersSection } from "@/components/home/SpecialOffersSection";
 import { BookingProcessSection } from "@/components/home/BookingProcessSection";
 import { HotelServiceSection } from "@/components/home/HotelServiceSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
-import { PartnersSection } from "@/components/home/PartnersSection";
 import { TravelNewsSection } from "@/components/home/TravelNewsSection";
 import { MobileAppBanner } from "@/components/home/MobileAppBanner";
 
@@ -26,7 +25,6 @@ export default function Home() {
         <BookingProcessSection />
         <HotelServiceSection />
         <TestimonialsSection />
-        <PartnersSection />
         <TravelNewsSection />
         <MobileAppBanner />
       </main>
