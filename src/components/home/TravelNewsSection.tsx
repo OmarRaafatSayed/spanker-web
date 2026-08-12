@@ -21,7 +21,7 @@ export function TravelNewsSection() {
   const s = t.news;
 
   return (
-    <section className="bg-bg-alt py-10 sm:py-16" aria-labelledby="travel-news-title">
+    <section className="section-light py-10 sm:py-16" aria-labelledby="travel-news-title">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-5 sm:mb-8">

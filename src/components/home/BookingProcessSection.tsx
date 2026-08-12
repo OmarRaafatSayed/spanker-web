@@ -259,7 +259,7 @@ export function BookingProcessSection() {
   const ctaEn = "Egypt e-Visa";
 
   return (
-    <section className="relative py-16 md:py-24 overflow-hidden bg-bg-primary">
+    <section className="section-brand relative py-16 md:py-24 overflow-hidden">
       {/* Subtle mesh background */}
       <div
         className="absolute inset-0 opacity-[0.035]"

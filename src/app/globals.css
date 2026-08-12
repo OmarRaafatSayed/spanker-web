@@ -147,6 +147,26 @@
   background-size: 200% 100%;
 }
 
+/* Dot pattern utility — apply on any light section */
+@utility dot-pattern {
+  background-image: radial-gradient(circle, #b8a99a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Light section — #f8f6f1 + dots */
+@utility section-light {
+  background-color: #f8f6f1;
+  background-image: radial-gradient(circle, #c4b8ac 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Brand section — #f0ebe2 + dots (slightly warmer) */
+@utility section-brand {
+  background-color: #f0ebe2;
+  background-image: radial-gradient(circle, #b8a99a 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
@@ -201,7 +221,8 @@ html {
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
-    background-image: radial-gradient(circle, #b8a99a 1px, transparent 1px);
+    background-color: #f8f6f1;
+    background-image: radial-gradient(circle, #c4b8ac 1px, transparent 1px);
     background-size: 24px 24px;
   }
   html {

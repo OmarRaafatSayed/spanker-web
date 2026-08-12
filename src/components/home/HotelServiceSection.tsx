@@ -172,7 +172,7 @@ export function HotelServiceSection() {
   const features = isAr ? FEATURES_AR : FEATURES_EN;
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden bg-[#f8f6f1]">
+    <section className="section-light relative py-20 md:py-28 overflow-hidden">
       {/* Subtle top gradient */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border-light to-transparent" />
 
