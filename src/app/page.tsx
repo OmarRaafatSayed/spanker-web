@@ -10,6 +10,7 @@ import { BookingProcessSection } from "@/components/home/BookingProcessSection";
 import { HotelServiceSection } from "@/components/home/HotelServiceSection";
 import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { TravelNewsSection } from "@/components/home/TravelNewsSection";
+import { FAQSection } from "@/components/home/FAQSection";
 
 export default function Home() {
   return (
@@ -25,6 +26,7 @@ export default function Home() {
         <HotelServiceSection />
         <TestimonialsSection />
         <TravelNewsSection />
+        <FAQSection />
       </main>
       <Footer />
       <BottomNav />
