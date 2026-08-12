@@ -39,7 +39,7 @@ export function TravelNewsSection() {
           {s.articles.map((article, i) => (
             <article
               key={ARTICLE_SLUGS[i]}
-              className={`bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 group ${i === 2 ? "hidden sm:hidden lg:block" : ""}`}
+              className={`bg-[#fffdf9] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 group ${i === 2 ? "hidden sm:hidden lg:block" : ""}`}
             >
               {/* Image header */}
               <div className={`h-36 sm:h-44 bg-linear-to-br ${GRADIENTS[i]} relative overflow-hidden flex items-end p-4 sm:p-5`}>

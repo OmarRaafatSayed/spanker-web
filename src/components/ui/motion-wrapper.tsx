@@ -190,8 +190,8 @@ export function LuxuryCard({
   const getVariantClasses = () => {
     switch (variant) {
       case "glass": return "glass-card hover:glass-panel";
-      case "luxury": return "bg-white shadow-luxury hover:shadow-luxury-hover border-border-luxury";
-      case "elevated": return "bg-white shadow-lg hover:shadow-xl";
+      case "luxury": return "bg-[#fffdf9] shadow-luxury hover:shadow-luxury-hover border-border-luxury";
+      case "elevated": return "bg-[#fffdf9] shadow-lg hover:shadow-xl";
       default: return "glass-card hover:glass-panel";
     }
   };

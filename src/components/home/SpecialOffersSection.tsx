@@ -123,7 +123,7 @@ export function SpecialOffersSection() {
           <button
             onClick={() => scroll("left")}
             aria-label={isRTL ? "التالي" : "Previous"}
-            className="absolute -start-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-white shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
+            className="absolute -start-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-[#fffdf9] shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
           >
             {isRTL ? <ChevronRightIcon size={18} /> : <ChevronLeftIcon size={18} />}
           </button>
@@ -131,7 +131,7 @@ export function SpecialOffersSection() {
           <button
             onClick={() => scroll("right")}
             aria-label={isRTL ? "السابق" : "Next"}
-            className="absolute -end-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-white shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
+            className="absolute -end-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-[#fffdf9] shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
           >
             {isRTL ? <ChevronLeftIcon size={18} /> : <ChevronRightIcon size={18} />}
           </button>
@@ -146,7 +146,7 @@ export function SpecialOffersSection() {
               <motion.div
                 key={`${offer.from}-${offer.to}`}
                 data-offer-card
-                className="flex-none w-[72vw] max-w-[280px] md:w-72 rounded-2xl overflow-hidden bg-white border border-border-light shadow-sm hover:shadow-md group cursor-pointer transition-shadow duration-200"
+                className="flex-none w-[72vw] max-w-[280px] md:w-72 rounded-2xl overflow-hidden bg-[#fffdf9] border border-border-light shadow-sm hover:shadow-md group cursor-pointer transition-shadow duration-200"
                 style={{ scrollSnapAlign: "start" }}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}

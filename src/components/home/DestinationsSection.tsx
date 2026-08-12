@@ -47,7 +47,7 @@ export function DestinationsSection() {
   const s = t.destinations;
 
   return (
-    <section className="bg-white py-10 sm:py-16" aria-labelledby="destinations-title">
+    <section className="bg-[#f8f6f1] py-10 sm:py-16" aria-labelledby="destinations-title">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-5 sm:mb-8">

@@ -98,7 +98,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
   }
 
   const inputClass =
-    "w-full h-11 px-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition bg-white";
+    "w-full h-11 px-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition bg-[#f8f6f1]";
 
   return (
     // Backdrop
@@ -109,7 +109,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
       aria-modal="true"
       aria-label={isAr ? "تسجيل الدخول" : "Login"}
     >
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative">
+      <div className="bg-[#fffdf9] rounded-2xl shadow-2xl w-full max-w-sm p-6 relative">
         {/* Close */}
         <button
           onClick={onClose}

@@ -18,7 +18,7 @@ const AIRLINES = [
 
 function AirlineBadge({ airline }: { airline: typeof AIRLINES[0] }) {
   return (
-    <div className="flex-none flex items-center gap-3 bg-white border border-border-light rounded-2xl px-5 py-3 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default">
+    <div className="flex-none flex items-center gap-3 bg-[#fffdf9] border border-border-light rounded-2xl px-5 py-3 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-default">
       <div
         className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-xs font-black shrink-0"
         style={{ background: airline.color }}

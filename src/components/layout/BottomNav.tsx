@@ -92,7 +92,7 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
       {/* Drawer panel */}
       <div
         className={cn(
-          "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white rounded-t-2xl shadow-2xl",
+          "fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#f8f6f1] rounded-t-2xl shadow-2xl",
           "transition-transform duration-300 ease-out",
           open ? "translate-y-0" : "translate-y-full"
         )}
@@ -184,7 +184,7 @@ export function BottomNav() {
       <MoreDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} isRTL={isRTL} />
 
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-gray-200 shadow-[0_-2px_16px_rgba(0,0,0,0.08)]"
+        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#f8f6f1] border-t border-[#e8e3da] shadow-[0_-2px_16px_rgba(0,0,0,0.06)]"
         aria-label={isRTL ? "التنقل السريع" : "Quick navigation"}
       >
         <div className="flex items-stretch h-16">

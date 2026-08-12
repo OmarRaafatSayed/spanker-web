@@ -112,7 +112,7 @@ function HotelCard({
 }) {
   return (
     <motion.div
-      className={`absolute bg-white rounded-2xl shadow-xl border border-border-light p-3 w-48 ${className ?? ""}`}
+      className={`absolute bg-[#fffdf9] rounded-2xl shadow-xl border border-border-light p-3 w-48 ${className ?? ""}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.6 }}
@@ -172,7 +172,7 @@ export function HotelServiceSection() {
   const features = isAr ? FEATURES_AR : FEATURES_EN;
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden bg-white">
+    <section className="relative py-20 md:py-28 overflow-hidden bg-[#f8f6f1]">
       {/* Subtle top gradient */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border-light to-transparent" />
 
@@ -232,7 +232,7 @@ export function HotelServiceSection() {
 
             {/* Review badge */}
             <motion.div
-              className="absolute bottom-4 start-8 bg-white border border-border-light rounded-xl px-3 py-2 shadow-md flex items-center gap-2"
+              className="absolute bottom-4 start-8 bg-[#fffdf9] border border-border-light rounded-xl px-3 py-2 shadow-md flex items-center gap-2"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

@@ -31,10 +31,10 @@
   --color-text-luxury: #1e293b;
 
   /* Warm Luxury Backgrounds */
-  --color-bg-primary: #f8fafc;
-  --color-bg-alt: #f1f5f9;
-  --color-bg-warm: #fefbf6;
-  --color-bg-glass: rgba(255, 255, 255, 0.75);
+  --color-bg-primary: #f8f6f1;
+  --color-bg-alt: #f2ede6;
+  --color-bg-warm: #f8f6f1;
+  --color-bg-glass: rgba(248, 246, 241, 0.85);
   --color-border-light: #e2e8f0;
   --color-border-luxury: #cbd5e1;
 
@@ -70,16 +70,16 @@
 
 /* Luxury Glassmorphism Utilities */
 @utility glass-card {
-  background: var(--glass-bg);
+  background: rgba(248, 246, 241, 0.7);
   backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
+  border: 1px solid rgba(216, 208, 195, 0.4);
   box-shadow: var(--glass-shadow);
 }
 
 @utility glass-panel {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(248, 246, 241, 0.92);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(216, 208, 195, 0.5);
   box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.1);
 }
 
@@ -159,11 +159,11 @@ html {
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.974 0.006 80);
   --foreground: oklch(0.13 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(0.974 0.006 80);
   --card-foreground: oklch(0.13 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.974 0.006 80);
   --popover-foreground: oklch(0.13 0 0);
   /* Spanker green as primary */
   --primary: oklch(0.44 0.1 145);

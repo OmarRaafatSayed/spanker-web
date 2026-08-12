@@ -57,7 +57,7 @@ export function FlyingServiceSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <Link href={service.href} className="group flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-2 sm:px-4 rounded-2xl border border-border-light bg-white hover:border-brand-green/40 hover:shadow-lg transition-all duration-300 text-center">
+              <Link href={service.href} className="group flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-2 sm:px-4 rounded-2xl border border-border-light bg-[#fffdf9] hover:border-brand-green/40 hover:shadow-lg transition-all duration-300 text-center">
                 {/* Icon bubble */}
                 <motion.div
                   className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-md`}

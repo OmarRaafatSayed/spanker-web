@@ -13,8 +13,8 @@ const cardVariants = cva(
       variant: {
         default: "border bg-card shadow-sm hover:shadow-md",
         glass: "glass-card border-white/30 hover:glass-panel transform hover:-translate-y-1",
-        luxury: "bg-white shadow-luxury hover:shadow-luxury-hover border-border-luxury transform hover:-translate-y-2 hover:scale-[1.01]",
-        elevated: "bg-white shadow-lg hover:shadow-xl transform hover:-translate-y-3 border-0",
+        luxury: "bg-[#fffdf9] shadow-luxury hover:shadow-luxury-hover border-border-luxury transform hover:-translate-y-2 hover:scale-[1.01]",
+        elevated: "bg-[#fffdf9] shadow-lg hover:shadow-xl transform hover:-translate-y-3 border-0",
         mesh: "mesh-bg border-border-light shadow-sm hover:shadow-md",
       },
     },
