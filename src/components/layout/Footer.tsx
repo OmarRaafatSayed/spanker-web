@@ -92,14 +92,14 @@ export function Footer() {
 
         {/* Columns */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-          {FOOTER_COLUMNS.map((col) => (
-            <div key={col.title}>
+          {FOOTER_COLUMNS.map((col, i) => (
+            <div key={`${col.title}-${i}`}>
               <h3 className="font-semibold text-sm text-white mb-4 uppercase tracking-wide">
                 {col.title}
               </h3>
               <ul className="space-y-2">
-                {col.links.map((link) => (
-                  <li key={link.label}>
+                {col.links.map((link, j) => (
+                  <li key={`${link.label}-${j}`}>
                     <Link href={link.href} className="text-sm text-white/60 hover:text-white transition-colors">
                       {link.label}
                     </Link>
