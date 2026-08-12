@@ -1,0 +1,141 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/lib/i18n/context";
+
+const REVIEWS_AR = [
+  { name: "أحمد خالد", city: "القاهرة", avatar: "أ", rating: 5, color: "from-[#1b4332] to-[#2d6a4f]",
+    text: "خدمة ممتازة من أول ما حجزت لحد ما رجعت. الفيزا اتعملت في يومين وكل حاجة كانت منظمة جداً. هحجز معاهم تاني بكل تأكيد." },
+  { name: "سارة محمود", city: "الإسكندرية", avatar: "س", rating: 5, color: "from-[#d4af37] to-[#b8941f]",
+    text: "أول مرة أسافر لأوروبا وكانت تجربة رائعة بسبب سبانكر. ساعدوني في كل خطوة من الحجز للفيزا. شكراً جزيلاً!" },
+  { name: "محمد عمر", city: "الجيزة", avatar: "م", rating: 5, color: "from-[#2d6a4f] to-[#52b788]",
+    text: "حجزت رحلة عائلية لشرم الشيخ. السعر كان منافس جداً والفندق كان أحسن من المتوقع. الدعم كان متاح في أي وقت." },
+  { name: "نورهان إبراهيم", city: "المنصورة", avatar: "ن", rating: 5, color: "from-[#1b4332] to-[#0d2818]",
+    text: "تعاملت مع سبانكر ٣ مرات وفي كل مرة أحسن من اللي قبلها. الفريق محترف ومتعاون ودايما بيحل أي مشكلة بسرعة." },
+  { name: "كريم سامي", city: "أسيوط", avatar: "ك", rating: 5, color: "from-[#d4af37] to-[#f4d03f]",
+    text: "كنت شايف إن السفر معقد وبتاع وقت. بعد تجربتي مع سبانكر اكتشفت إنه ممكن يكون سهل وممتع. النظام أونلاين سلس جداً." },
+];
+
+const REVIEWS_EN = [
+  { ...REVIEWS_AR[0], name: "Ahmed Khaled", city: "Cairo",
+    text: "Excellent service from the moment I booked until I returned. The visa was done in two days and everything was perfectly organized." },
+  { ...REVIEWS_AR[1], name: "Sara Mahmoud", city: "Alexandria",
+    text: "My first trip to Europe was amazing thanks to Spanker. They helped me with every step from booking to visa. Thank you!" },
+  { ...REVIEWS_AR[2], name: "Mohamed Omar", city: "Giza",
+    text: "Booked a family trip to Sharm el-Sheikh. The price was very competitive and the hotel exceeded expectations. Support was available anytime." },
+  { ...REVIEWS_AR[3], name: "Norhan Ibrahim", city: "Mansoura",
+    text: "I've used Spanker 3 times and each time is better than the last. The team is professional and always resolves issues quickly." },
+  { ...REVIEWS_AR[4], name: "Karim Sami", city: "Assiut",
+    text: "I used to think traveling was complicated and time-consuming. After my experience with Spanker I realized it can be easy and enjoyable." },
+];
+
+function Stars({ count }: { count: number }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: count }).map((_, i) => (
+        <svg key={i} viewBox="0 0 12 12" className="w-3.5 h-3.5 fill-brand-yellow" aria-hidden="true">
+          <path d="M6 1l1.2 2.5L10 3.9l-2 2 .5 2.8L6 7.4l-2.5 1.3.5-2.8-2-2L4.8 3.5z"/>
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+export function TestimonialsSection() {
+  const { locale, isRTL } = useI18n();
+  const isAr = locale === "ar";
+  const reviews = isAr ? REVIEWS_AR : REVIEWS_EN;
+  const [active, setActive] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const start = () => {
+    intervalRef.current = setInterval(() => setActive(p => (p + 1) % reviews.length), 4500);
+  };
+  const stop  = () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+
+  useEffect(() => { start(); return stop; });
+
+  return (
+    <section className="relative py-20 md:py-28 overflow-hidden">
+      {/* Warm off-white bg with subtle texture */}
+      <div className="absolute inset-0 bg-[#f8f6f1]" />
+      <div className="absolute inset-0 opacity-[0.03]"
+        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231b4332' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
+        aria-hidden="true" />
+
+      {/* Big quote mark */}
+      <div className="absolute top-8 start-8 text-[180px] leading-none text-brand-green/5 font-serif select-none pointer-events-none" aria-hidden="true">"</div>
+
+      <div className="relative max-w-5xl mx-auto px-4 lg:px-8">
+        {/* Header */}
+        <motion.div className="text-center mb-14"
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-green bg-brand-green/8 border border-brand-green/20 rounded-full px-4 py-1.5 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow animate-pulse" />
+            {isAr ? "آراء عملاؤنا" : "What Clients Say"}
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-text-luxury">
+            {isAr ? "مسافرون سعداء يحكون تجربتهم" : "Happy Travelers Share Their Stories"}
+          </h2>
+        </motion.div>
+
+        {/* Active review */}
+        <div className="relative min-h-[220px] mb-10" onMouseEnter={stop} onMouseLeave={start}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 24, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -24, scale: 0.97 }}
+              transition={{ duration: 0.45 }}
+              className="bg-white rounded-3xl shadow-lg border border-border-light p-8 md:p-10"
+            >
+              <div className="flex flex-col md:flex-row gap-6 items-start">
+                {/* Avatar */}
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${reviews[active].color} flex items-center justify-center text-white text-xl font-black shrink-0`}>
+                  {reviews[active].avatar}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3 flex-wrap">
+                    <p className="font-bold text-text-primary">{reviews[active].name}</p>
+                    <span className="text-text-muted text-sm">·</span>
+                    <p className="text-text-muted text-sm">{reviews[active].city}</p>
+                    <Stars count={reviews[active].rating} />
+                  </div>
+                  <p className="text-text-secondary leading-relaxed text-base md:text-lg">
+                    "{reviews[active].text}"
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Dots + avatar strip */}
+        <div className="flex items-center justify-center gap-3">
+          {reviews.map((r, i) => (
+            <button
+              key={i}
+              onClick={() => { stop(); setActive(i); }}
+              className="group flex flex-col items-center gap-1.5"
+              aria-label={r.name}
+            >
+              <motion.div
+                className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-sm font-bold transition-all duration-300 ${i === active ? "scale-110 shadow-lg" : "opacity-50 scale-90"}`}
+                whileHover={{ scale: 1.1, opacity: 1 }}
+              >
+                {r.avatar}
+              </motion.div>
+              <motion.div
+                className="h-0.5 bg-brand-green rounded-full"
+                animate={{ width: i === active ? 28 : 8 }}
+                transition={{ duration: 0.3 }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

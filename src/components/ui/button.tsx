@@ -20,7 +20,7 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md transition-all duration-300",
         ghost: "hover:bg-accent hover:text-accent-foreground transition-colors duration-200",
         link: "text-primary underline-offset-4 hover:underline transition-colors duration-200",
-        luxury: "bg-luxury-gradient text-white shadow-luxury hover:shadow-luxury-hover transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300",
+        luxury: "bg-[linear-gradient(135deg,#1b4332_0%,#2d6a4f_50%,#52b788_100%)] text-white shadow-md hover:shadow-lg transform hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300",
         glass: "glass-card text-text-luxury hover:glass-panel transform hover:-translate-y-1 transition-all duration-300",
         glow: "bg-brand-green text-white shadow-glow hover:shadow-glow-strong hover:animate-glow-pulse transition-all duration-300",
       },
