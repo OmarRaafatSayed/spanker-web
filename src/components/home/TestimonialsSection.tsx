@@ -90,13 +90,8 @@ export function TestimonialsSection() {
               transition={{ duration: 0.45 }}
               className="bg-[#fffdf9] rounded-3xl shadow-lg border border-border-light p-8 md:p-10"
             >
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                {/* Avatar */}
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${reviews[active].color} flex items-center justify-center text-white text-xl font-black shrink-0`}>
-                  {reviews[active].avatar}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3 flex-wrap">
+              <div className="flex flex-col gap-3">
+                  <div className="flex items-center gap-3 flex-wrap">
                     <p className="font-bold text-text-primary">{reviews[active].name}</p>
                     <span className="text-text-muted text-sm">·</span>
                     <p className="text-text-muted text-sm">{reviews[active].city}</p>
@@ -106,29 +101,21 @@ export function TestimonialsSection() {
                     "{reviews[active].text}"
                   </p>
                 </div>
-              </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
         {/* Dots + avatar strip */}
         <div className="flex items-center justify-center gap-3">
-          {reviews.map((r, i) => (
+          {reviews.map((_, i) => (
             <button
               key={i}
               onClick={() => { stop(); setActive(i); }}
-              className="group flex flex-col items-center gap-1.5"
-              aria-label={r.name}
+              aria-label={`Review ${i + 1}`}
             >
               <motion.div
-                className={`w-10 h-10 rounded-xl bg-gradient-to-br ${r.color} flex items-center justify-center text-white text-sm font-bold transition-all duration-300 ${i === active ? "scale-110 shadow-lg" : "opacity-50 scale-90"}`}
-                whileHover={{ scale: 1.1, opacity: 1 }}
-              >
-                {r.avatar}
-              </motion.div>
-              <motion.div
-                className="h-0.5 bg-brand-green rounded-full"
-                animate={{ width: i === active ? 28 : 8 }}
+                className="rounded-full bg-brand-green"
+                animate={{ width: i === active ? 28 : 8, height: 8, opacity: i === active ? 1 : 0.35 }}
                 transition={{ duration: 0.3 }}
               />
             </button>
