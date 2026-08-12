@@ -1,0 +1,26 @@
+{
+  "total_tests": 2,
+  "passed": 1,
+  "failed": 1,
+  "success_rate": "50.0%",
+  "total_duration_ms": 2646,
+  "timestamp": "2026-08-12T12:11:29.956Z",
+  "results": [
+    {
+      "name": "01. User Registration (Portal)",
+      "status": "PASS ✅",
+      "duration_ms": 2644,
+      "details": {
+        "user_id": "feb5ae8d-e956-435e-bafc-d97a27e940df",
+        "email": "smoke_test_1786536687310_ubqtpusnb@example.com",
+        "status": "LEAD"
+      }
+    },
+    {
+      "name": "02. Create Visa Application (Portal)",
+      "status": "FAIL ❌",
+      "duration_ms": 1,
+      "error": "Error: No session token"
+    }
+  ]
+}

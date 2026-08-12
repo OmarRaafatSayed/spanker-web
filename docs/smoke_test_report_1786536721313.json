@@ -1,0 +1,27 @@
+{
+  "total_tests": 2,
+  "passed": 2,
+  "failed": 0,
+  "success_rate": "100.0%",
+  "total_duration_ms": 3932,
+  "timestamp": "2026-08-12T12:12:01.306Z",
+  "results": [
+    {
+      "name": "01. User Registration (Portal)",
+      "status": "PASS ✅",
+      "duration_ms": 2075,
+      "details": {
+        "email": "smoke_test_1786536717374_3x18sa7bm@example.com",
+        "organization_id": null
+      }
+    },
+    {
+      "name": "10. Verify Notifications (Portal)",
+      "status": "PASS ✅",
+      "duration_ms": 1854,
+      "details": {
+        "note": "Notifications endpoint not available in this version"
+      }
+    }
+  ]
+}

@@ -7,17 +7,14 @@
  * ARCHITECTURAL CONTRACT:
  *   - ALL FastAPI calls originate here. No component or hook calls fetch()
  *     directly against the CRM backend.
- *   - Supabase SDK calls for cross-system side effects (logging, status sync)
- *     also route through here so retries and error handling are centralised.
  *   - All public methods return `ServiceResult<T>` — never throw to callers.
- *   - Token resolution is automatic: reads from both session key namespaces
- *     (`customer_portal_session` and `travel_crm_sb_session`) so staff and
- *     customers are handled uniformly.
  *
- * USAGE:
- *   import { crmAdapter } from "@/lib/services/crm-adapter";
- *   const result = await crmAdapter.getMyVisaApplications();
- *   if (!result.ok) { show fallback UI }
+ * DEPENDENCIES:
+ *   - api-client: HTTP fetch wrapper
+ *   - token-resolver: Token extraction
+ *   - retry-strategy: Exponential backoff
+ *   - operation-queue: Async queue management
+ *   - system-logger: Fire-and-forget logging
  */
 
 import { supabase } from "@/lib/supabase";
@@ -38,304 +35,14 @@ import type {
 } from "@/types/flights";
 import type { CRMStatusUpdate } from "@/types";
 
-// =============================================================================
-// Result wrapper — discriminated union keeps callers honest
-// =============================================================================
+import { apiFetch, ok, fail, type ServiceResult } from "./api-client";
+import { withRetry } from "./retry-strategy";
+import { queueOperation, cancelOperation, getOperationState } from "./operation-queue";
+import { logToSystemLogs } from "./system-logger";
 
-export type ServiceResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string; status?: number };
-
-function ok<T>(data: T): ServiceResult<T> {
-  return { ok: true, data };
-}
-
-function fail<T>(error: string, status?: number): ServiceResult<T> {
-  return { ok: false, error, status };
-}
-
-// =============================================================================
-// Token resolution
-// Known session keys across both sub-projects.
-// =============================================================================
-
-const SESSION_KEYS = [
-  "customer_portal_session",  // spanker Next.js portal
-  "travel_crm_sb_session",    // travel-agency-custom CRM
-] as const;
-
-interface StoredSession {
-  session?: {
-    access_token?: string;
-    expires_at?: number;
-  };
-  user?: { id: string; email: string };
-}
-
-/**
- * Resolves a valid, non-expired Bearer token from any known session storage key.
- * Returns null if no valid session is found.
- */
-export function resolveToken(): string | null {
-  if (typeof window === "undefined") return null;
-
-  const nowSeconds = Math.floor(Date.now() / 1000);
-
-  for (const key of SESSION_KEYS) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) continue;
-
-      const parsed = JSON.parse(raw) as StoredSession;
-      const token = parsed?.session?.access_token;
-      const expiresAt = parsed?.session?.expires_at;
-
-      if (!token) continue;
-
-      // Token expired (with 60s leeway for clock skew)
-      if (expiresAt && expiresAt - 60 <= nowSeconds) {
-        console.warn(`[crm-adapter] Token in "${key}" is expired. Skipping.`);
-        continue;
-      }
-
-      return token;
-    } catch {
-      // Corrupt JSON — skip silently
-    }
-  }
-
-  return null;
-}
-
-// =============================================================================
-// Low-level fetch wrapper
-// =============================================================================
-
-// Base URL: Next.js rewrites /api/backend/* → FastAPI at localhost:8000/api/v1/*
-// Use the rewrite in the browser; for SSR use BACKEND_INTERNAL_URL env var.
-const API_BASE =
-  typeof window !== "undefined"
-    ? (process.env.NEXT_PUBLIC_API_URL ?? "/api/backend")
-    : (process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1");
-
-interface FetchOptions extends Omit<RequestInit, "headers"> {
-  headers?: Record<string, string>;
-  /** Pass explicit token — if omitted, resolveToken() is used automatically */
-  token?: string | null;
-  /** If true, skip auth header (public endpoints) */
-  anonymous?: boolean;
-}
-
-async function apiFetch<T>(
-  path: string,
-  options: FetchOptions = {}
-): Promise<ServiceResult<T>> {
-  const { token: explicitToken, anonymous = false, headers: extraHeaders, ...rest } = options;
-
-  const token = anonymous ? null : (explicitToken ?? resolveToken());
-
-  if (!anonymous && !token) {
-    return fail<T>("No active session. Please log in.", 401);
-  }
-
-  const headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...extraHeaders,
-  };
-
-  try {
-    const res = await fetch(`${API_BASE}${path}`, { ...rest, headers });
-
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({})) as Record<string, unknown>;
-      const status = res.status;
-      
-      // Handle 503 Service Unavailable gracefully for UX
-      if (status === 503 || status === 502 || status === 504) {
-        return fail<T>("جاري تحديث أسعار الرحلات، يمكنك مواصلة الحجز أو ترك بياناتك وسنقوم بالتواصل معك فوراً.", status);
-      }
-      
-      const message =
-        typeof body?.detail === "string"
-          ? body.detail
-          : typeof body?.error === "string"
-            ? body.error
-            : `Request failed: ${status} ${res.statusText}`;
-      return fail<T>(message, status);
-    }
-
-    const data = (await res.json()) as T;
-    return ok(data);
-  } catch (err) {
-    const message = err instanceof TypeError
-      ? `Network error: CRM backend unreachable. Is the FastAPI server running?`
-      : String(err);
-    return fail<T>(message);
-  }
-}
-
-// =============================================================================
-// System log helper (fire-and-forget, never throws)
-// =============================================================================
-
-async function logToSystemLogs(
-  level: "info" | "success" | "warning" | "error",
-  event: string,
-  details?: string,
-  source: "webhook" | "crm" | "cms" | "auth" | "system" = "crm",
-  metadata?: Record<string, unknown>
-): Promise<void> {
-  try {
-    await supabase.from("system_logs").insert([{
-      level,
-      event,
-      details: details ?? null,
-      source,
-      metadata: metadata ?? {},
-    }]);
-  } catch (err) {
-    // Logging must never crash the application
-    console.error("[crm-adapter] Failed to write system log:", err);
-  }
-}
-
-// =============================================================================
-// Async Queue — For managing async operations with retry and backoff
-// =============================================================================
-
-interface QueuedOperation<T> {
-  id: string;
-  fn: () => Promise<ServiceResult<T>>;
-  maxAttempts: number;
-  baseDelayMs: number;
-  status: "pending" | "running" | "completed" | "failed" | "abandoned";
-  result?: ServiceResult<T>;
-  createdAt: number;
-  lastAttemptAt?: number;
-}
-
-const operationQueue = new Map<string, QueuedOperation<unknown>>();
-
-/**
- * Adds an operation to the retry queue with automatic exponential backoff.
- * Returns a promise that resolves when the operation completes or fails permanently.
- */
-function queueOperation<T>(
-  id: string,
-  fn: () => Promise<ServiceResult<T>>,
-  options: { maxAttempts?: number; baseDelayMs?: number } = {}
-): Promise<ServiceResult<T>> {
-  return new Promise<ServiceResult<T>>((resolve) => {
-    const operation: QueuedOperation<T> = {
-      id,
-      fn,
-      maxAttempts: options.maxAttempts ?? 3,
-      baseDelayMs: options.baseDelayMs ?? 1000,
-      status: "pending",
-      createdAt: Date.now(),
-    };
-
-    operationQueue.set(id, operation);
-    processQueueItem(id, operation).then((result) => {
-      resolve(result);
-      // Clean up after completion
-      operationQueue.delete(id);
-    });
-  });
-}
-
-/**
- * Process a single queue item with exponential backoff retry logic.
- */
-async function processQueueItem<T>(
-  id: string,
-  operation: QueuedOperation<T>
-): Promise<ServiceResult<T>> {
-  let lastResult: ServiceResult<T> = fail<T>("Not attempted");
-
-  for (let attempt = 1; attempt <= operation.maxAttempts; attempt++) {
-    operation.status = "running";
-    operation.lastAttemptAt = Date.now();
-    operationQueue.set(id, operation);
-
-    lastResult = await operation.fn();
-
-    if (lastResult.ok) {
-      operation.status = "completed";
-      operation.result = lastResult;
-      operationQueue.set(id, operation);
-      return lastResult;
-    }
-
-    // Don't retry on auth errors or client errors (4xx)
-    if (lastResult.status && lastResult.status >= 400 && lastResult.status < 500) {
-      operation.status = "failed";
-      operation.result = lastResult;
-      operationQueue.set(id, operation);
-      return lastResult;
-    }
-
-    if (attempt < operation.maxAttempts) {
-      const delay = operation.baseDelayMs * Math.pow(2, attempt - 1);
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
-  }
-
-  operation.status = "failed";
-  operation.result = lastResult;
-  operationQueue.set(id, operation);
-  return lastResult;
-}
-
-/**
- * Cancels a pending/running operation by ID.
- */
-function cancelOperation(id: string): boolean {
-  const op = operationQueue.get(id);
-  if (op && (op.status === "pending" || op.status === "running")) {
-    op.status = "abandoned";
-    operationQueue.set(id, op);
-    return true;
-  }
-  return false;
-}
-
-/**
- * Gets the current state of a queued operation.
- */
-function getOperationState<T>(id: string): QueuedOperation<T> | undefined {
-  return operationQueue.get(id) as QueuedOperation<T> | undefined;
-}
-
-// =============================================================================
-// Retry utility — exponential backoff, max 3 attempts
-// =============================================================================
-
-async function withRetry<T>(
-  fn: () => Promise<ServiceResult<T>>,
-  maxAttempts = 3,
-  baseDelayMs = 500
-): Promise<ServiceResult<T>> {
-  let lastResult: ServiceResult<T> = fail<T>("Not attempted");
-
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    lastResult = await fn();
-    if (lastResult.ok) return lastResult;
-
-    // Don't retry on auth errors or client errors (4xx)
-    if (lastResult.status && lastResult.status >= 400 && lastResult.status < 500) {
-      return lastResult;
-    }
-
-    if (attempt < maxAttempts) {
-      const delay = baseDelayMs * Math.pow(2, attempt - 1);
-      await new Promise(r => setTimeout(r, delay));
-    }
-  }
-
-  return lastResult;
-}
+// Re-export types and utilities for external use
+export type { ServiceResult };
+export { cancelOperation, getOperationState };
 
 // =============================================================================
 // CRM Adapter — public API surface
@@ -665,4 +372,4 @@ export const crmAdapter = {
 export type CrmAdapter = typeof crmAdapter;
 
 // Re-export async queue utilities for use in other modules
-export { queueOperation, cancelOperation, getOperationState };
+export { queueOperation };

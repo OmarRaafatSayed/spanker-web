@@ -9,6 +9,7 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 import { useI18n } from "@/lib/i18n/context";
+import { useRegistrationEvents } from "@/lib/hooks/useRegistrationEvents";
 
 // ─── Validation schema ────────────────────────────────────────────────────────
 
@@ -38,6 +39,7 @@ export default function SignupPage() {
   const { signup } = useAuth();
   const { locale } = useI18n();
   const isAr = locale === "ar";
+  const { dispatchUserRegistered } = useRegistrationEvents();
 
   const [serverError, setServerError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -64,6 +66,21 @@ export default function SignupPage() {
         data.phone
       );
       if (res.success) {
+        // Dispatch registration event async (fire & forget)
+        // This queues CRM provisioning without blocking navigation
+        if (res.user) {
+          dispatchUserRegistered(
+            res.user.id,
+            res.user.email,
+            data.first_name,
+            data.last_name,
+            data.phone
+          ).catch(err => {
+            console.error("Event dispatch failed:", err);
+            // Don't show error to user — provisioning continues in background
+          });
+        }
+
         // If backend returned a session → auto-logged in, go straight to dashboard
         if (res.session && res.user) {
           router.push("/dashboard");
