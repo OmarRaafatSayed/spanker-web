@@ -223,20 +223,34 @@ export function Navbar() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          {/* Language toggle */}
-          <motion.button
-            onClick={toggleLocale}
+          {/* Language toggle pill */}
+          <div
             className={cn(
-              "px-3 py-1 rounded-md text-sm font-medium transition-all duration-300 hover:glass-card",
+              "relative flex items-center rounded-full p-0.5 cursor-pointer select-none shrink-0",
               isDark
-                ? "text-text-luxury hover:text-brand-green"
-                : "text-white hover:text-white/80"
+                ? "bg-brand-green/10 border border-brand-green/25"
+                : "bg-white/15 border border-white/30"
             )}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            onClick={toggleLocale}
+            role="button"
+            aria-label="Toggle language"
           >
-            {locale === "ar" ? "EN" : "عربي"}
-          </motion.button>
+            {/* sliding indicator */}
+            <motion.div
+              className="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-brand-green shadow-sm"
+              animate={{ left: locale === "ar" ? "calc(50% + 2px)" : "2px" }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              aria-hidden="true"
+            />
+            <span className={cn(
+              "relative z-10 px-3 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-10 text-center",
+              locale === "en" ? "text-white" : isDark ? "text-text-luxury" : "text-white/70"
+            )}>EN</span>
+            <span className={cn(
+              "relative z-10 px-3 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-10 text-center",
+              locale === "ar" ? "text-white" : isDark ? "text-text-luxury" : "text-white/70"
+            )}>ع</span>
+          </div>
 
           {/* Auth buttons */}
           {user ? (
