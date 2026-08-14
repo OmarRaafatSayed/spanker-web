@@ -6,6 +6,43 @@ alwaysApply: true
 This project uses AGENTS.md as the single source of truth for all AI agent instructions.
 Cursor reads AGENTS.md automatically — see the project root for complete guidelines.
 
+## 🎨 BRAND SYSTEM - Visual Identity Rules
+
+**CRITICAL:** All visual elements must use the centralized brand system.
+
+**Brand Sources (SINGLE SOURCE OF TRUTH):**
+- `src/lib/brand/colors.ts` — All colors
+- `src/lib/brand/assets.ts` — All logos and images
+- `public/assets/brand/` — Physical assets folder
+
+**Strict Rules:**
+❌ **FORBIDDEN:**
+- Writing Hex codes directly (#3D6833, #FDD12A, etc.)
+- Using Tailwind color classes (bg-green-500, text-blue-600)
+- Adding images outside `public/assets/brand/`
+- Creating color variables outside the brand system
+
+✅ **REQUIRED:**
+- Import colors from `@/lib/brand/colors`
+- Import assets from `@/lib/brand/assets`
+- Use `BRAND_COLORS` or `SEMANTIC_COLORS` constants
+- Use `BRAND_ASSETS` for all logos/images
+
+**Example (Correct):**
+```tsx
+import { SEMANTIC_COLORS } from "@/lib/brand/colors";
+import { BRAND_ASSETS } from "@/lib/brand/assets";
+
+<button style={{ backgroundColor: SEMANTIC_COLORS.buttonPrimary }}>
+  Login
+</button>
+<img src={BRAND_ASSETS.logo.full} alt="Logo" />
+```
+
+**Full documentation:** `docs/BRAND_SYSTEM.md`
+
+---
+
 ## 📁 Project Structure Rules
 
 **Documentation & Reports:**
@@ -22,6 +59,8 @@ Cursor reads AGENTS.md automatically — see the project root for complete guide
 - `src/app/` — Next.js app routes and pages
 - `src/components/` — React components
 - `src/lib/` — Utility functions and helpers
+- `src/lib/brand/` — Brand system (colors, assets)
 - `src/modules/` — Feature modules
 - `src/types/` — TypeScript type definitions
 - `docs/` — All documentation and reports
+- `public/assets/brand/` — Brand visual assets

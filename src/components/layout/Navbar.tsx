@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { BRAND_ASSETS } from "@/lib/brand/assets";
+import { SEMANTIC_COLORS } from "@/lib/brand/colors";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -20,10 +22,8 @@ export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
 
-  // Only the homepage has a full-screen hero behind the navbar
-  const isHomePage = pathname === "/";
-  // Navbar is "dark" (solid bg, dark text) when scrolled OR not on homepage
-  const isDark = isScrolled || !isHomePage;
+  // Navbar always starts with green background
+  const isDark = true;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 80);
@@ -81,53 +81,36 @@ export function Navbar() {
 
   return (
     <motion.header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isDark ? "glass-panel shadow-luxury" : "bg-transparent"
-      )}
+      className="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300"
+      style={{
+        backgroundColor: isDark ? SEMANTIC_COLORS.navbarBg : "transparent",
+        boxShadow: isDark ? "0 4px 6px -1px rgba(0, 0, 0, 0.1)" : "none",
+        borderBottom: isDark ? "1px solid rgba(255,255,255,0.1)" : "none",
+      }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
     >
-      <nav className="max-w-7xl mx-auto px-4 lg:px-8 flex items-center justify-between h-18">
-        {/* Logo */}
+      <nav className="max-w-7xl mx-auto px-4 lg:px-8 h-18 flex items-center justify-between gap-4">
+        {/* Logo - Left Side */}
         <motion.div
+          className="shrink-0"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Link href="/" className="flex items-center gap-2 shrink-0">
-            <motion.svg 
-              width="36" 
-              height="36" 
-              viewBox="0 0 36 36" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg" 
-              aria-hidden="true"
-              whileHover={{ rotate: 360 }}
-              transition={{ duration: 0.6 }}
-            >
-              <circle cx="18" cy="18" r="18" fill="url(#logoGradient)" />
-              <path d="M8 20 L18 10 L28 20 L24 20 L18 14 L12 20 Z" fill="white" />
-              <path d="M14 20 L18 16 L22 20 L20 20 L18 18 L16 20 Z" fill="#d4af37" />
-              <rect x="16" y="20" width="4" height="6" rx="1" fill="white" />
-              <defs>
-                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#1b4332" />
-                  <stop offset="100%" stopColor="#2d6a4f" />
-                </linearGradient>
-              </defs>
-            </motion.svg>
-            <span className={cn(
-              "font-bold text-xl tracking-tight transition-colors duration-300",
-              isDark ? "text-brand-green" : "text-white"
-            )}>
-              {isRTL ? "سبانكر" : "Spanker"}
-            </span>
+          <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
+            <img
+              src="/width-logo.png"
+              alt="Spanker Logo"
+              width={120}
+              height={40}
+              className="h-10 w-auto object-contain"
+            />
           </Link>
         </motion.div>
 
-        {/* Desktop Nav */}
+        {/* Desktop Nav - Center */}
         <motion.div 
           className="hidden lg:flex items-center gap-1"
           initial={{ opacity: 0 }}
@@ -148,7 +131,7 @@ export function Navbar() {
                   className={cn(
                     "px-3 py-2 rounded text-sm font-medium transition-all duration-300 hover:glass-card",
                     isDark
-                      ? "text-text-luxury hover:text-brand-green"
+                      ? "text-white hover:opacity-80"
                       : "text-white hover:text-white/80"
                   )}
                 >
@@ -170,7 +153,7 @@ export function Navbar() {
                   className={cn(
                     "px-3 py-2 rounded text-sm font-medium transition-all duration-300 flex items-center gap-1 hover:glass-card",
                     isDark
-                      ? "text-text-luxury hover:text-brand-green"
+                      ? "text-white hover:opacity-80"
                       : "text-white hover:text-white/80"
                   )}
                 >
@@ -216,59 +199,51 @@ export function Navbar() {
           )}
         </motion.div>
 
-        {/* Right side actions */}
+        {/* Right side actions - Hamburger, Language Toggle, Login Button */}
         <motion.div 
-          className="flex items-center gap-4"
+          className="flex items-center justify-end gap-4"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {/* Language toggle pill */}
           <div
-            className={cn(
-              "relative flex items-center rounded-full p-0.5 cursor-pointer select-none shrink-0",
-              isDark
-                ? "bg-brand-green/10 border border-brand-green/25"
-                : "bg-white/15 border border-white/30"
-            )}
+            className="relative flex items-center rounded-full p-0.5 cursor-pointer select-none shrink-0 transition-all bg-white/10 border border-white/20 hover:border-white/30"
             onClick={toggleLocale}
             role="button"
             aria-label="Toggle language"
           >
-            {/* sliding indicator */}
             <motion.div
-              className="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full bg-brand-green shadow-sm"
+              className="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full shadow-sm"
+              style={{ backgroundColor: SEMANTIC_COLORS.secondary }}
               animate={{ left: locale === "ar" ? "calc(50% + 2px)" : "2px" }}
               transition={{ type: "spring", stiffness: 400, damping: 30 }}
               aria-hidden="true"
             />
             <span className={cn(
-              "relative z-10 px-3 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-10 text-center",
-              locale === "en" ? "text-white" : isDark ? "text-text-luxury" : "text-white/70"
+              "relative z-10 px-2.5 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-9 text-center",
+              locale === "en" ? "text-white" : "text-white/50"
             )}>EN</span>
             <span className={cn(
-              "relative z-10 px-3 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-10 text-center",
-              locale === "ar" ? "text-white" : isDark ? "text-text-luxury" : "text-white/70"
+              "relative z-10 px-2.5 py-1 text-xs font-bold rounded-full transition-colors duration-200 w-9 text-center",
+              locale === "ar" ? "text-white" : "text-white/50"
             )}>ع</span>
           </div>
 
           {/* Auth buttons */}
           {user ? (
-            <motion.div className="flex items-center gap-2">
+            <motion.div className="hidden sm:flex items-center gap-2 shrink-0">
               <span className={cn(
-                "text-sm",
+                "text-sm font-medium",
                 isDark ? "text-text-luxury" : "text-white"
               )}>
-                {user.name}
+                {(user as { first_name?: string; email: string }).first_name ?? user.email}
               </span>
               <Button
                 onClick={logout}
                 variant="outline"
                 size="sm"
-                className={cn(
-                  "transition-all duration-300",
-                  !isDark && "border-white/20 text-white hover:glass-card"
-                )}
+                className="transition-all duration-200 h-9 border-white/30 text-white hover:bg-white/10 hover:border-white/50"
               >
                 {t.common.logout}
               </Button>
@@ -276,22 +251,20 @@ export function Navbar() {
           ) : (
             <Button
               onClick={() => setLoginOpen(true)}
-              variant={isDark ? "default" : "glass"}
               size="sm"
+              className="h-9 font-semibold transition-all duration-200 shrink-0 hidden sm:inline-flex text-white shadow-md hover:shadow-lg"
+              style={{ 
+                backgroundColor: SEMANTIC_COLORS.buttonPrimary,
+              }}
             >
               {t.common.login}
             </Button>
           )}
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button - Simple icon, no border */}
           <motion.button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className={cn(
-              "lg:hidden p-2 rounded-md transition-all duration-300",
-              isDark
-                ? "text-text-luxury hover:text-brand-green hover:glass-card"
-                : "text-white hover:text-white/80"
-            )}
+            className="lg:hidden p-2 transition-all duration-200 shrink-0 text-white hover:opacity-80"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             aria-label="Toggle menu"
@@ -327,38 +300,38 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="lg:hidden glass-panel border-t border-white/20"
+            className="lg:hidden absolute top-18 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-border-light shadow-lg"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
           >
-            <div className="max-w-7xl mx-auto px-4 py-6">
+            <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
               {NAV_ITEMS.map((item, index) => (
                 <motion.div
                   key={item.label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="mb-4"
+                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                  className="border-b border-border-light/50 pb-3 last:border-b-0 last:pb-0"
                 >
                   {item.href ? (
                     <Link
                       href={item.href}
-                      className="block py-2 text-text-luxury hover:text-brand-green transition-colors duration-200"
+                      className="block py-2 font-medium text-text-primary hover:text-brand-green transition-colors duration-200"
                       onClick={() => setMobileOpen(false)}
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <div>
-                      <div className="py-2 text-text-luxury font-medium">{item.label}</div>
-                      <div className="pl-4 space-y-2">
+                      <div className="py-2 font-semibold text-text-primary">{item.label}</div>
+                      <div className="pl-3 space-y-1">
                         {item.links.map((link) => (
                           <Link
                             key={link.href}
                             href={link.href}
-                            className="block py-1 text-sm text-text-secondary hover:text-brand-green transition-colors duration-200"
+                            className="block py-1.5 text-sm text-text-secondary hover:text-brand-green transition-colors duration-200"
                             onClick={() => setMobileOpen(false)}
                           >
                             {link.label}
@@ -369,6 +342,25 @@ export function Navbar() {
                   )}
                 </motion.div>
               ))}
+              {!user && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: 0.3 }}
+                  className="pt-3 border-t border-border-light/50"
+                >
+                  <Button
+                    onClick={() => {
+                      setLoginOpen(true);
+                      setMobileOpen(false);
+                    }}
+                    className="w-full text-white font-semibold"
+                    style={{ backgroundColor: SEMANTIC_COLORS.buttonPrimary }}
+                  >
+                    {t.common.login}
+                  </Button>
+                </motion.div>
+              )}
             </div>
           </motion.div>
         )}

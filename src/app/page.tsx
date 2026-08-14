@@ -17,7 +17,8 @@ export default function Home() {
     <>
       <PageLoader />
       <Navbar />
-      <main className="pb-20 lg:pb-0">
+      {/* pt-18 adds top padding to account for fixed navbar (h-18) */}
+      <main className="pt-18 pb-20 lg:pb-0">
         <HeroBanner />
         <FlyingServiceSection />
         <StatsSection />

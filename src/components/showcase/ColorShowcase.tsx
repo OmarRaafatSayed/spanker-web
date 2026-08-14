@@ -52,7 +52,7 @@ function ColorSwatch({
         style={{
           fontSize: TYPOGRAPHY.fontSize.xs,
           color: COLOR_PALETTE.text.muted,
-          background: COLOR_PALETTE.background.lightAlt,
+          background: "#f1f5f9",
           padding: SPACING[1],
           borderRadius: BORDER_RADIUS.sm,
           display: "block",
@@ -120,7 +120,7 @@ export function ColorShowcase() {
             gap: SPACING[4],
           }}
         >
-          {Object.entries(COLOR_PALETTE.accent).map(([name, color]) => (
+          {Object.entries(COLOR_PALETTE.states).map(([name, color]) => (
             <ColorSwatch key={name} name={name} color={color} />
           ))}
         </div>

@@ -23,7 +23,6 @@ export const translations = {
       onBoard: "على متن الطائرة",
       ourFleet: "أسطولنا",
       passengerReviews: "آراء المسافرين",
-      passengerReviews: "آراء المسافرين",
       about: "عن الشركة",
       aboutAirCairo: "عن سبانكر",
       missionVision: "رسالتنا ورؤيتنا",
@@ -208,7 +207,6 @@ export const translations = {
       onBoard: "On Board",
       ourFleet: "Our Fleet",
       passengerReviews: "Passenger Reviews",
-      passengerReviews: "Passenger Reviews",
       about: "About",
       aboutAirCairo: "About Spanker",
       missionVision: "Mission & Vision",
@@ -327,6 +325,7 @@ export const translations = {
       bookNow: "Book Now",
     },
     footer: {
+      bookManage: "Book & Manage",
       travelInfo: "Travel Info",
       airCairo: "Spanker",
       helpContact: "Help & Contact",

@@ -91,12 +91,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}>
         {/* Logo */}
         <div className="h-16 flex items-center px-4 border-b border-white/10 gap-3">
-          <div className="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center shrink-0">
-            <svg width="16" height="16" viewBox="0 0 36 36" fill="none">
-              <path d="M4 22 L18 8 L32 22 L27 22 L18 13 L9 22 Z" fill="white"/>
-              <path d="M13 22 L18 17 L23 22 L21 22 L18 19 L15 22 Z" fill="#FDD12A"/>
-              <rect x="16" y="22" width="4" height="7" rx="1" fill="white"/>
-            </svg>
+          <div className="shrink-0">
+            <img 
+              src="/assets/brand/icone-LOGO.png" 
+              alt="Spanker Logo" 
+              className="w-8 h-8 object-contain"
+            />
           </div>
           {sidebarOpen && (
             <div className="overflow-hidden">

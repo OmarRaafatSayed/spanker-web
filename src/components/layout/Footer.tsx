@@ -66,14 +66,12 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-12 pb-8">
         {/* Logo + Social */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-10">
-          <Link href="/" className="flex items-center gap-2">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <circle cx="18" cy="18" r="18" fill="#3D6833" />
-              <path d="M8 20 L18 10 L28 20 L24 20 L18 14 L12 20 Z" fill="white" />
-              <path d="M14 20 L18 16 L22 20 L20 20 L18 18 L16 20 Z" fill="#FDD12A" />
-              <rect x="16" y="20" width="4" height="6" rx="1" fill="white" />
-            </svg>
-            <span className="font-bold text-xl text-white">{f.airCairo}</span>
+          <Link href="/" className="flex items-center">
+            <img 
+              src="/width-logo.png" 
+              alt="Spanker Logo" 
+              className="h-10 w-auto"
+            />
           </Link>
 
           <div className="flex items-center gap-4">

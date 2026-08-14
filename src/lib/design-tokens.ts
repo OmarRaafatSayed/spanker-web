@@ -23,59 +23,47 @@
 // COLOR PALETTE — Emerald Green + Gold Luxury
 // =============================================================================
 
+import { BRAND_COLORS } from "./brand/colors";
+
 export const COLOR_PALETTE = {
-  // Primary: Emerald Green (luxury brand color)
+  // Brand colors from centralized brand system
   brand: {
-    green: "#1b4332",
-    greenDark: "#081c15",
-    greenLight: "#2d6a4f",
+    green: BRAND_COLORS.green,
+    yellow: BRAND_COLORS.yellow,
+    white: BRAND_COLORS.white,
+    blue: BRAND_COLORS.blue,
   },
 
-  // Secondary: Premium Gold (refined accent)
-  accent: {
-    yellow: "#d4af37",
-    yellowDark: "#b8941f",
-    yellowLight: "#f4d03f",
-  },
-
-  // Backgrounds: Deep & Sophisticated
+  // Semantic mappings
+  primary: BRAND_COLORS.green,
+  secondary: BRAND_COLORS.yellow,
+  
+  // Background colors
   background: {
-    dark: "#0f172a",
-    navy: "#1e293b",
-    charcoal: "#334155",
-    light: "#f8f6f1",
-    lightAlt: "#f2ede6",
-    warm: "#f8f6f1",
+    light: BRAND_COLORS.white,
+    primary: BRAND_COLORS.white,
   },
 
-  // Text Hierarchy
+  // Text colors (derived from brand)
   text: {
-    primary: "#0f172a",
-    secondary: "#475569",
-    muted: "#64748b",
-    luxury: "#1e293b",
+    primary: "#1a1a1a",
+    secondary: "#4a4a4a",
+    muted: "#6a6a6a",
+    onPrimary: BRAND_COLORS.white,
   },
 
-  // Borders
+  // Border colors
   border: {
-    light: "#e2e8f0",
-    luxury: "#cbd5e1",
+    light: "#e5e5e5",
+    default: "#d4d4d4",
   },
 
-  // State Colors
+  // State colors
   states: {
+    success: BRAND_COLORS.green,
+    warning: BRAND_COLORS.yellow,
+    info: BRAND_COLORS.blue,
     destructive: "#dc2626",
-    success: "#16a34a",
-    warning: "#ea580c",
-    info: "#0ea5e9",
-  },
-
-  // Glassmorphism overlay colors
-  glass: {
-    bg: "rgba(255, 255, 255, 0.75)",
-    border: "rgba(255, 255, 255, 0.3)",
-    bgDark: "rgba(248, 246, 241, 0.7)",
-    borderDark: "rgba(216, 208, 195, 0.4)",
   },
 };
 
@@ -191,12 +179,9 @@ export const SHADOWS = {
 // =============================================================================
 
 export const GRADIENTS = {
-  luxury: "linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #52b788 100%)",
-  warm: "linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)",
-  mesh: "radial-gradient(ellipse at top, #f1f5f9, transparent), radial-gradient(ellipse at bottom, #e2e8f0, transparent)",
-  gold: "linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)",
-  emerald: "linear-gradient(135deg, #1b4332 0%, #52b788 100%)",
-  twilight: "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)",
+  primary: `linear-gradient(135deg, ${BRAND_COLORS.green} 0%, ${BRAND_COLORS.green}dd 100%)`,
+  accent: `linear-gradient(135deg, ${BRAND_COLORS.yellow} 0%, ${BRAND_COLORS.yellow}dd 100%)`,
+  hero: `linear-gradient(135deg, ${BRAND_COLORS.green} 0%, ${BRAND_COLORS.blue} 100%)`,
 };
 
 // =============================================================================
@@ -249,15 +234,15 @@ export const COMPONENT_PRESETS = {
       padding: SPACING[6],
     },
     glass: {
-      background: COLOR_PALETTE.glass.bgDark,
+      background: "rgba(255, 255, 255, 0.7)",
       backdropFilter: "blur(16px)",
-      border: `1px solid ${COLOR_PALETTE.glass.borderDark}`,
+      border: `1px solid rgba(255, 255, 255, 0.3)`,
       borderRadius: BORDER_RADIUS.lg,
       boxShadow: SHADOWS.glass,
       padding: SPACING[6],
     },
     glassPanel: {
-      background: COLOR_PALETTE.glass.bgDark.replace("0.7", "0.92"),
+      background: "rgba(255, 255, 255, 0.92)",
       backdropFilter: "blur(20px)",
       border: `1px solid rgba(216, 208, 195, 0.5)`,
       borderRadius: BORDER_RADIUS.lg,
@@ -292,7 +277,7 @@ export const COMPONENT_PRESETS = {
       boxShadow: SHADOWS.sm,
     },
     accent: {
-      background: COLOR_PALETTE.accent.yellow,
+      background: COLOR_PALETTE.brand.yellow,
       color: COLOR_PALETTE.text.primary,
       padding: `${SPACING[3]} ${SPACING[6]}`,
       borderRadius: BORDER_RADIUS.md,

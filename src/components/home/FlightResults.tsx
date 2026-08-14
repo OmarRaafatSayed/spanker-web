@@ -13,8 +13,9 @@ interface FlightResultsProps {
   error: string | null;
   searched: boolean;
   className?: string;
-  origin?: string;    // Add origin prop
-  destination?: string; // Add destination prop
+  origin?: string;
+  destination?: string;
+  onClear?: () => void;
 }
 
 export function FlightResults({

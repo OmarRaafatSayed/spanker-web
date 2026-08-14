@@ -104,21 +104,21 @@ function tailwindConfigResponse() {
         colors: {
           brand: {
             green: COLOR_PALETTE.brand.green,
-            "green-dark": COLOR_PALETTE.brand.greenDark,
-            "green-light": COLOR_PALETTE.brand.greenLight,
+            "green-dark": "#081c15",
+            "green-light": "#2d6a4f",
           },
           accent: {
-            yellow: COLOR_PALETTE.accent.yellow,
-            "yellow-dark": COLOR_PALETTE.accent.yellowDark,
-            "yellow-light": COLOR_PALETTE.accent.yellowLight,
+            yellow: COLOR_PALETTE.brand.yellow,
+            "yellow-dark": "#b8941f",
+            "yellow-light": "#f4d03f",
           },
           luxury: {
-            charcoal: COLOR_PALETTE.background.charcoal,
-            navy: COLOR_PALETTE.background.navy,
-            dark: COLOR_PALETTE.background.dark,
+            charcoal: "#334155",
+            navy: "#1e293b",
+            dark: "#0f172a",
           },
           text: {
-            luxury: COLOR_PALETTE.text.luxury,
+            luxury: "#1e293b",
           },
         },
         fontFamily: {
@@ -198,9 +198,9 @@ function htmlStyleGuideResponse() {
             background: white;
         }
         .glass-card {
-            background: ${COLOR_PALETTE.glass.bgDark};
+            background: rgba(255,255,255,0.15);
             backdrop-filter: blur(16px);
-            border: 1px solid ${COLOR_PALETTE.glass.borderDark};
+            border: 1px solid rgba(255,255,255,0.2);
             box-shadow: ${SHADOWS.glass};
         }
         
@@ -224,12 +224,12 @@ function htmlStyleGuideResponse() {
             box-shadow: ${SHADOWS.lg};
         }
         .btn-accent {
-            background: ${COLOR_PALETTE.accent.yellow};
+            background: ${COLOR_PALETTE.brand.yellow};
             color: ${COLOR_PALETTE.text.primary};
         }
         
         .luxury-gradient {
-            background: ${GRADIENTS.luxury};
+            background: ${GRADIENTS.primary};
             color: white;
             padding: ${SPACING[8]};
             border-radius: ${BORDER_RADIUS.lg};
@@ -237,7 +237,7 @@ function htmlStyleGuideResponse() {
         }
         
         code {
-            background: ${COLOR_PALETTE.background.lightAlt};
+            background: #f1f5f9;
             padding: ${SPACING[1]} ${SPACING[2]};
             border-radius: ${BORDER_RADIUS.sm};
             font-family: monospace;
@@ -255,11 +255,11 @@ function htmlStyleGuideResponse() {
             <div class="color-swatch" style="background: ${COLOR_PALETTE.brand.green}; color: white;">
                 Brand Green<br><code>${COLOR_PALETTE.brand.green}</code>
             </div>
-            <div class="color-swatch" style="background: ${COLOR_PALETTE.accent.yellow};">
-                Accent Gold<br><code>${COLOR_PALETTE.accent.yellow}</code>
+            <div class="color-swatch" style="background: ${COLOR_PALETTE.brand.yellow};">
+                Accent Gold<br><code>${COLOR_PALETTE.brand.yellow}</code>
             </div>
-            <div class="color-swatch" style="background: ${COLOR_PALETTE.background.navy}; color: white;">
-                Navy<br><code>${COLOR_PALETTE.background.navy}</code>
+            <div class="color-swatch" style="background: #1e293b; color: white;">
+                Navy<br><code>#1e293b</code>
             </div>
             <div class="color-swatch" style="background: ${COLOR_PALETTE.background.light}; border: 1px solid #ccc;">
                 Light Warm<br><code>${COLOR_PALETTE.background.light}</code>
@@ -277,7 +277,7 @@ function htmlStyleGuideResponse() {
             <div class="component-card glass-card">
                 <p>Glass Card</p>
             </div>
-            <div class="component-card" style="background: ${GRADIENTS.luxury}; color: white;">
+            <div class="component-card" style="background: ${GRADIENTS.primary}; color: white;">
                 <p>Gradient Card</p>
             </div>
         </div>

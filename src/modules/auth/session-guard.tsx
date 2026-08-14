@@ -23,7 +23,6 @@
 
 import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { resolveToken } from "@/lib/services/crm-adapter";
 
 interface SessionGuardProps {
   children: ReactNode;
@@ -40,7 +39,7 @@ export function SessionGuard({
   );
 
   useEffect(() => {
-    const token = resolveToken();
+    const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
     if (!token) {
       setStatus("unauthenticated");
       router.replace(redirectTo);

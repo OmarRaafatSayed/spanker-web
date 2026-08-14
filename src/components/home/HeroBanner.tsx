@@ -6,12 +6,13 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
 import { FlightSearchWidget } from "@/components/home/FlightSearchWidget";
+import { BRAND_COLORS } from "@/lib/brand/colors";
 
 const OVERLAYS = [
-  "from-[#1b4332]/75 via-[#2d6a4f]/50 to-transparent",
-  "from-[#1b4332]/80 via-[#334155]/40 to-transparent",
-  "from-[#2d6a4f]/70 via-[#1b4332]/55 to-transparent",
-  "from-[#1b4332]/75 via-[#d4af37]/25 to-transparent",
+  "from-[#3D6833]/75 via-[#3D6833]/50 to-transparent",
+  "from-[#3D6833]/80 via-[#2473BC]/40 to-transparent",
+  "from-[#3D6833]/70 via-[#3D6833]/55 to-transparent",
+  "from-[#3D6833]/75 via-[#FDD12A]/25 to-transparent",
 ];
 
 // Animation variants
@@ -33,7 +34,7 @@ const itemVariants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.4, 0, 0.2, 1],
+      ease: "easeOut" as const,
     },
   },
 };
@@ -46,7 +47,7 @@ const searchWidgetVariants = {
     scale: 1,
     transition: {
       duration: 1,
-      ease: [0.4, 0, 0.2, 1],
+      ease: "easeOut" as const,
       delay: 0.8,
     },
   },
@@ -82,61 +83,61 @@ export function HeroBanner() {
   const slide = slides[current];
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden">
+    <section className="relative w-full h-screen flex flex-col overflow-hidden">
       {/* Background image with improved overlay */}
-      <Image
-        src="/images/hero/hero-1.jpg"
-        alt="Spanker luxury travel"
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-      />
+      <div className="absolute inset-0 w-full h-full">
+        <Image
+          src="/images/hero/hero-1.jpg"
+          alt="Spanker luxury travel"
+          fill
+          priority
+          className="object-cover"
+          style={{ objectPosition: 'center center' }}
+          sizes="100vw"
+          quality={85}
+        />
+      </div>
 
-      {/* Enhanced gradient overlays */}
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" aria-hidden="true" />
+      
+      {/* Brand color gradient overlay */}
       <div
-        className={cn(
-          "absolute inset-0 bg-gradient-to-br transition-all duration-700",
-          OVERLAYS[current]
-        )}
+        className="absolute inset-0 bg-gradient-to-br opacity-60"
+        style={{
+          background: `linear-gradient(135deg, ${BRAND_COLORS.green}99 0%, ${BRAND_COLORS.green}33 50%, transparent 100%)`
+        }}
         aria-hidden="true"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" aria-hidden="true" />
-      
-      {/* Mesh gradient for depth */}
-      <div className="absolute inset-0 mesh-bg opacity-10" aria-hidden="true" />
 
       {/* Content */}
       <motion.div
-        className="relative z-10 flex flex-col items-center justify-center flex-1 px-4 pt-24 pb-8 text-center"
+        className="relative z-10 flex flex-col items-center justify-center h-full w-full px-4 sm:px-6 lg:px-8 py-20 sm:py-24 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         {/* Headline */}
         <motion.div
-          className={cn(
-            "transition-all duration-500 mb-8 md:mb-10",
-            isAnimating ? "opacity-0 translate-y-2" : "opacity-100 translate-y-0"
-          )}
+          className="w-full max-w-5xl mx-auto space-y-4 sm:space-y-6 mb-8 sm:mb-10"
           variants={itemVariants}
         >
           <motion.p
-            className="text-white/90 text-sm font-medium uppercase tracking-widest mb-3 md:mb-4"
+            className="text-white text-xs sm:text-sm font-bold uppercase tracking-[0.2em] drop-shadow-lg"
             variants={itemVariants}
           >
             {isRTL ? "سبانكر" : "Spanker"}
           </motion.p>
           
           <motion.h1
-            className="text-3xl md:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-4xl mx-auto mb-4 md:mb-6 drop-shadow-2xl"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight px-4 drop-shadow-2xl"
             variants={itemVariants}
           >
             {slide.headline}
           </motion.h1>
           
           <motion.p
-            className="text-white/85 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light"
+            className="text-white/95 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed px-4 drop-shadow-lg"
             variants={itemVariants}
           >
             {slide.sub}
@@ -145,7 +146,7 @@ export function HeroBanner() {
 
         {/* Flight search widget */}
         <motion.div
-          className="w-full max-w-4xl mx-auto"
+          className="w-full max-w-4xl mx-auto px-2 sm:px-0"
           variants={searchWidgetVariants}
         >
           <FlightSearchWidget />
@@ -153,62 +154,27 @@ export function HeroBanner() {
 
         {/* Slide indicators with enhanced design */}
         <motion.div
-          className="flex items-center justify-center gap-3 mt-8"
+          className="flex items-center justify-center gap-2 mt-8 sm:mt-10"
           variants={itemVariants}
         >
           {slides.map((_, index) => (
-            <motion.button
+            <button
               key={index}
               onClick={() => goToSlide(index)}
               className={cn(
-                "relative h-2 rounded-full transition-all duration-300 cursor-pointer",
+                "h-2 rounded-full transition-all duration-300",
                 current === index
-                  ? "w-8 bg-brand-yellow shadow-glow"
-                  : "w-2 bg-white/50 hover:bg-white/70"
+                  ? "w-8 opacity-100"
+                  : "w-2 opacity-50 hover:opacity-75"
               )}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
+              style={{ 
+                backgroundColor: current === index ? BRAND_COLORS.yellow : '#ffffff'
+              }}
               aria-label={`Go to slide ${index + 1}`}
-            >
-              {current === index && (
-                <motion.div
-                  className="absolute inset-0 bg-brand-yellow rounded-full"
-                  layoutId="activeIndicator"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.button>
+            />
           ))}
         </motion.div>
       </motion.div>
-
-      {/* Floating decorative elements */}
-      <motion.div
-        className="absolute top-20 right-10 w-20 h-20 bg-brand-yellow/10 rounded-full blur-xl"
-        animate={{
-          x: [0, 20, 0],
-          y: [0, -10, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      
-      <motion.div
-        className="absolute bottom-32 left-8 w-16 h-16 bg-brand-green/15 rounded-full blur-lg"
-        animate={{
-          x: [0, -15, 0],
-          y: [0, 15, 0],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-      />
     </section>
   );
 }

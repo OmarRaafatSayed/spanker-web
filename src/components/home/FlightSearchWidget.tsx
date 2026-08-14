@@ -398,6 +398,7 @@ export function FlightSearchWidget() {
             results={results}
             loading={loading}
             error={error}
+            searched={true}
             onClear={clear}
           />
         </motion.div>

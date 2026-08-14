@@ -5,228 +5,84 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Spanker Luxury Brand Colors */
-  /* Primary emerald green — elevated luxury */
-  --color-brand-red: #1b4332;
-  --color-brand-green: #1b4332;
-  --color-brand-red-dark: #081c15;
-  --color-brand-green-dark: #081c15;
-  --color-brand-red-light: #2d6a4f;
-  --color-brand-green-light: #2d6a4f;
+  /* SPANKER BRAND COLORS */
+  --color-brand-green: #3D6833;
+  --color-brand-yellow: #FDD12A;
+  --color-brand-white: #FBFDFD;
+  --color-brand-blue: #2473BC;
+  --color-brand-red: #3D6833;
+  --color-brand-red-dark: #2d5128;
+  --color-brand-green-light: #4d7d43;
+  --color-brand-green-dark: #2d5128;
+  --color-brand-dark: #1a1a1a;
 
-  /* Premium gold — refined luxury accent */
-  --color-brand-yellow: #d4af37;
-  --color-brand-yellow-dark: #b8941f;
-  --color-brand-yellow-light: #f4d03f;
+  /* Semantic mappings */
+  --color-primary: #3D6833;
+  --color-secondary: #FDD12A;
+  --color-background: #FBFDFD;
+  --color-link: #2473BC;
 
-  /* Deep navy & charcoal — sophisticated backgrounds */
-  --color-brand-dark: #0f172a;
-  --color-brand-navy: #1e293b;
-  --color-luxury-charcoal: #334155;
+  /* Text colors */
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #4a4a4a;
+  --color-text-muted: #6a6a6a;
+  --color-text-luxury: #1a1a1a;
+  --color-text-on-primary: #FBFDFD;
 
-  /* Elevated Text Hierarchy */
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #64748b;
-  --color-text-luxury: #1e293b;
+  /* Border colors */
+  --color-border-light: #e5e5e5;
+  --color-border-default: #d4d4d4;
+  --color-border-luxury: #d4d4d4;
 
-  /* Warm Luxury Backgrounds */
-  --color-bg-primary: #f8f6f1;
-  --color-bg-alt: #f2ede6;
-  --color-bg-warm: #f8f6f1;
-  --color-bg-glass: rgba(248, 246, 241, 0.85);
-  --color-border-light: #e2e8f0;
-  --color-border-luxury: #cbd5e1;
-
-  /* Glassmorphism Variables */
-  --glass-bg: rgba(255, 255, 255, 0.75);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --glass-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07);
-  --glass-blur: blur(16px);
-
-  /* Premium Gradients */
-  --gradient-luxury: linear-gradient(135deg, #1b4332 0%, #2d6a4f 50%, #52b788 100%);
-  --gradient-warm: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  --gradient-mesh: radial-gradient(ellipse at top, #f1f5f9, transparent),
-                   radial-gradient(ellipse at bottom, #e2e8f0, transparent);
-
-  /* shadcn token mappings */
-  --color-background: var(--color-bg-primary);
-  --color-foreground: var(--color-text-primary);
-  --color-primary: var(--color-brand-green);
-  --color-primary-foreground: #ffffff;
-  --color-secondary: var(--color-bg-alt);
-  --color-secondary-foreground: var(--color-text-secondary);
-  --color-muted: var(--color-bg-alt);
-  --color-muted-foreground: var(--color-text-muted);
-  --color-accent: var(--color-brand-yellow);
-  --color-accent-foreground: var(--color-text-primary);
+  /* State colors */
+  --color-success: #3D6833;
+  --color-warning: #FDD12A;
+  --color-info: #2473BC;
   --color-destructive: #dc2626;
-  --color-border: var(--color-border-light);
-  --color-input: var(--color-bg-primary);
-  --color-ring: var(--color-brand-green);
-  --color-card: var(--color-bg-primary);
+
+  /* shadcn compatibility */
+  --color-foreground: #1a1a1a;
+  --color-primary-foreground: #FBFDFD;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #6a6a6a;
+  --color-accent: #FDD12A;
+  --color-accent-foreground: #3D6833;
+  --color-border: #e5e5e5;
+  --color-input: #FBFDFD;
+  --color-ring: #3D6833;
+  --color-card: #FBFDFD;
+  --color-card-foreground: #1a1a1a;
 }
 
-/* Luxury Glassmorphism Utilities */
-@utility glass-card {
-  background: rgba(248, 246, 241, 0.7);
-  backdrop-filter: var(--glass-blur);
-  border: 1px solid rgba(216, 208, 195, 0.4);
-  box-shadow: var(--glass-shadow);
+/* BRAND UTILITIES */
+@utility brand-gradient-primary {
+  background: linear-gradient(135deg, #3D6833 0%, #3D6833dd 100%);
 }
 
-@utility glass-panel {
-  background: rgba(248, 246, 241, 0.92);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(216, 208, 195, 0.5);
-  box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.1);
+@utility brand-gradient-accent {
+  background: linear-gradient(135deg, #FDD12A 0%, #FDD12Add 100%);
 }
 
-@utility luxury-gradient {
-  background: var(--gradient-luxury);
+@utility brand-gradient-hero {
+  background: linear-gradient(135deg, #3D6833 0%, #2473BC 100%);
 }
 
-@utility mesh-bg {
-  background: var(--gradient-mesh);
-}
-
-/* Luxury Animation Utilities */
-@utility luxury-hover-lift {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Luxury hover effect - used with className="[&:hover]:luxury-hover-lift" */
-.luxury-hover-lift:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.12);
-}
-
-/* Custom Keyframes */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(27, 67, 50, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(27, 67, 50, 0.5);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-.animate-glow-pulse {
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-.animate-shimmer {
-  animation: shimmer 2s linear infinite;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-  background-size: 200% 100%;
-}
-
-/* Dot pattern utility — apply on any light section */
-@utility dot-pattern {
-  background-image: radial-gradient(circle, #b8a99a 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Light section — #f8f6f1 + dots */
-@utility section-light {
-  background-color: #f8f6f1;
-  background-image: radial-gradient(circle, #c4b8ac 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Brand section — #f0ebe2 + dots (slightly warmer) */
-@utility section-brand {
-  background-color: #f0ebe2;
-  background-image: radial-gradient(circle, #b8a99a 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Smooth scroll behavior */
+/* SMOOTH SCROLL */
 html {
   scroll-behavior: smooth;
 }
 
-/* Enhanced focus states */
-.focus-luxury:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(27, 67, 50, 0.2);
-}
-
 :root {
-  --background: oklch(0.974 0.006 80);
-  --foreground: oklch(0.13 0 0);
-  --card: oklch(0.974 0.006 80);
-  --card-foreground: oklch(0.13 0 0);
-  --popover: oklch(0.974 0.006 80);
-  --popover-foreground: oklch(0.13 0 0);
-  /* Spanker green as primary */
-  --primary: oklch(0.44 0.1 145);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.97 0.02 100);
-  --secondary-foreground: oklch(0.2 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.39 0 0);
-  --accent: oklch(0.93 0.12 95);
-  --accent-foreground: oklch(0.2 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.44 0.1 145);
-  --radius: 0.625rem;
-  --chart-1: oklch(0.44 0.1 145);
-  --chart-2: oklch(0.82 0.17 95);
-  --chart-3: oklch(0.55 0.12 215);
-  --chart-4: oklch(0.439 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.44 0.1 145);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* SHADCN VARIABLES REMOVED - AWAITING BRAND IDENTITY */
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--color-border);
+    outline-color: var(--color-ring);
   }
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-sans);
-    background-color: #f8f6f1;
-    background-image: radial-gradient(circle, #c4b8ac 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  html {
-    @apply font-sans;
-    scroll-behavior: smooth;
+    background: var(--color-background);
+    color: var(--color-text-primary);
   }
 }

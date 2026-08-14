@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth-context";
 import { useI18n } from "@/lib/i18n/context";
+import { AuthModalService } from "@/lib/auth-modal-service";
 
 interface LoginModalProps {
   open: boolean;
@@ -17,6 +19,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
   const { locale } = useI18n();
   const isAr = locale === "ar";
 
+  // Form state
   const [tab, setTab] = useState<Tab>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +28,24 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
+  const authService = useRef<AuthModalService | null>(null);
+
+  // Initialize auth service
+  useEffect(() => {
+    authService.current = new AuthModalService({
+      login,
+      signup,
+      isAr,
+    });
+  }, [login, signup, isAr]);
+
+  // Mount client-side only (for Portal)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Reset state when modal opens/closes
   useEffect(() => {
@@ -51,33 +70,34 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
+  // Handle form submission
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!authService.current) return;
+
     setError(null);
     setSuccessMsg(null);
     setLoading(true);
 
     try {
       if (tab === "login") {
-        const res = await login(email, password);
+        const res = await authService.current.handleLoginSubmit(email, password);
         if (res.success) {
           onClose();
         } else {
-          setError(
-            res.error ??
-              (isAr ? "بيانات خاطئة، حاول مجدداً" : "Invalid credentials, try again")
-          );
+          setError(res.error || (isAr ? "خطأ غير متوقع" : "Unexpected error"));
         }
       } else {
-        const res = await signup(email, password, firstName || undefined, lastName || undefined);
+        const res = await authService.current.handleSignupSubmit(
+          email,
+          password,
+          firstName,
+          lastName
+        );
         if (res.success) {
-          if (res.session && res.user) {
-            // Backend returned session → already logged in, close modal
-            onClose();
-          } else {
-            // Email confirmation required
+          if (res.requiresEmailConfirmation) {
             setSuccessMsg(
               isAr
                 ? "تم إنشاء الحساب! إذا طُلب تأكيد الإيميل، افحص بريدك ثم سجّل الدخول."
@@ -85,13 +105,13 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             );
             setTab("login");
             setPassword("");
+          } else {
+            onClose();
           }
         } else {
-          setError(res.error ?? (isAr ? "فشل إنشاء الحساب" : "Signup failed"));
+          setError(res.error || (isAr ? "خطأ غير متوقع" : "Unexpected error"));
         }
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : isAr ? "خطأ غير متوقع" : "Unexpected error");
     } finally {
       setLoading(false);
     }
@@ -100,17 +120,16 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
   const inputClass =
     "w-full h-11 px-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition bg-[#f8f6f1]";
 
-  return (
-    // Backdrop
+  const modalContent = (
     <div
-      className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
       aria-label={isAr ? "تسجيل الدخول" : "Login"}
     >
-      <div className="bg-[#fffdf9] rounded-2xl shadow-2xl w-full max-w-sm p-6 relative">
-        {/* Close */}
+      <div className="bg-[#fffdf9] rounded-2xl shadow-2xl w-full max-w-sm p-6 relative max-h-[90vh] overflow-y-auto">
+        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 end-4 text-text-muted hover:text-text-primary transition"
@@ -121,15 +140,13 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           </svg>
         </button>
 
-        {/* Logo mark */}
+        {/* Logo */}
         <div className="flex justify-center mb-4">
-          <div className="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center">
-            <svg width="20" height="20" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-              <path d="M4 22 L18 8 L32 22 L27 22 L18 13 L9 22 Z" fill="white" />
-              <path d="M13 22 L18 17 L23 22 L21 22 L18 19 L15 22 Z" fill="#FDD12A" />
-              <rect x="16" y="22" width="4" height="7" rx="1" fill="white" />
-            </svg>
-          </div>
+          <img 
+            src="/assets/brand/icone-LOGO.png" 
+            alt="Spanker Logo" 
+            className="w-10 h-10 object-contain"
+          />
         </div>
 
         {/* Tabs */}
@@ -159,15 +176,16 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           </p>
         )}
 
-        {/* Error */}
+        {/* Error message */}
         {error && (
           <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-4 text-center">
             {error}
           </p>
         )}
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-          {/* Signup-only fields */}
+          {/* First/Last name fields (signup only) */}
           {tab === "signup" && (
             <div className="flex gap-2">
               <div className="flex-1">
@@ -197,7 +215,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             </div>
           )}
 
-          {/* Email */}
+          {/* Email field */}
           <div>
             <label className="block text-xs font-medium text-text-secondary mb-1">
               {isAr ? "البريد الإلكتروني" : "Email"}
@@ -214,7 +232,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             />
           </div>
 
-          {/* Password */}
+          {/* Password field */}
           <div>
             <label className="block text-xs font-medium text-text-secondary mb-1">
               {isAr ? "كلمة المرور" : "Password"}
@@ -230,14 +248,15 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             />
           </div>
 
+          {/* Submit button */}
           <button
             type="submit"
             disabled={loading || !email || !password}
             className={cn(
-              "w-full h-11 rounded-lg text-white text-sm font-semibold transition-colors mt-1",
+              "w-full h-11 rounded-lg text-white text-sm font-semibold transition-all duration-200 font-sans",
               loading || !email || !password
-                ? "bg-brand-red/50 cursor-not-allowed"
-                : "bg-brand-red hover:bg-brand-red-dark"
+                ? "bg-brand-red/40 cursor-not-allowed opacity-50"
+                : "bg-brand-red hover:bg-brand-red-dark active:scale-95 shadow-md hover:shadow-lg"
             )}
           >
             {loading
@@ -250,4 +269,8 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
       </div>
     </div>
   );
+
+  // Use Portal to render above all other content
+  if (typeof document === "undefined") return null;
+  return createPortal(modalContent, document.body);
 }

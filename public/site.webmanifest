@@ -1,0 +1,21 @@
+{
+  "name": "Spanker Travel",
+  "short_name": "Spanker",
+  "description": "سبانكر - طر أينما تريد",
+  "icons": [
+    {
+      "src": "/icone-LOGO.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icone-LOGO.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#3D6833",
+  "background_color": "#FBFDFD",
+  "display": "standalone",
+  "start_url": "/"
+}

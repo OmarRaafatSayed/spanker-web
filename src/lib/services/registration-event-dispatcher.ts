@@ -48,7 +48,7 @@ class RegistrationEventDispatcher {
 
     try {
       this.validateUserRegisteredEvent(event);
-      await this.logEvent(eventId, event);
+      await this.logEvent(eventId, event as unknown as Record<string, unknown>);
       
       // Fire & forget handlers
       this.handleUserRegisteredAsync(eventId, event).catch((err) => {
@@ -100,7 +100,7 @@ class RegistrationEventDispatcher {
     eventId: string,
     event: UserRegisteredEvent
   ): Promise<void> {
-    console.log(`📋 Provisioning CRM profile [${eventId}]...`);
+    console.log(`📋 Queuing CRM profile for sync [${eventId}]...`);
 
     try {
       const supabase = createClient(
@@ -108,26 +108,49 @@ class RegistrationEventDispatcher {
         this.supabaseServiceRoleKey
       );
 
-      const { error } = await supabase.from("profiles").insert({
-        user_id: event.user.id,
-        first_name: event.user.firstName || "",
-        last_name: event.user.lastName || "",
-        phone: event.user.phone || "",
-        email: event.user.email,
-        role: "customer",
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      // Step 1: Insert profile locally first (for Portal DB audit trail)
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .insert({
+          user_id: event.user.id,
+          full_name: [event.user.firstName, event.user.lastName].filter(Boolean).join(" ") || event.user.email,
+          phone: event.user.phone || "",
+          role: "customer",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .select("id")
+        .single();
+
+      if (profileError) throw profileError;
+
+      // Step 2: Queue profile for CRM sync (async)
+      const { error: queueError } = await supabase.from("sync_queue").insert({
+        entity_type: "profile",
+        entity_id: profile.id,
+        direction: "portal_to_crm",
+        payload: {
+          full_name: event.user.firstName && event.user.lastName 
+            ? `${event.user.firstName} ${event.user.lastName}`
+            : event.user.email,
+          phone: event.user.phone || "",
+          email: event.user.email,
+        },
+        status: "pending",
+        retry_count: 0,
       });
 
-      if (error) throw error;
+      if (queueError) throw queueError;
 
-      console.log(`✅ CRM profile provisioned [${eventId}]`);
+      console.log(`✅ CRM profile queued for sync [${eventId}]`);
       await this.logEvent(
         eventId,
         {
-          action: "CRMProfileProvisioned",
+          action: "CRMProfileQueued",
+          profile_id: profile.id,
           user_id: event.user.id,
           email: event.user.email,
+          message: "Profile added to sync queue for background processing",
         },
         "success"
       );

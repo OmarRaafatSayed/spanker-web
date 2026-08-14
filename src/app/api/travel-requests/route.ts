@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database";
-import { resolveToken } from "@/lib/services/crm-adapter";
 
 // Server-side Supabase client with service_role — bypasses RLS
 function getServiceClient() {

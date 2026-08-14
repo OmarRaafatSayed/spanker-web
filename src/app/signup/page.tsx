@@ -114,12 +114,12 @@ export default function SignupPage() {
     <div className="min-h-screen bg-bg-alt flex flex-col items-center justify-center px-4 py-12">
       {/* Brand header */}
       <Link href="/" className="flex flex-col items-center gap-2 mb-8">
-        <div className="w-12 h-12 rounded-full bg-brand-green flex items-center justify-center shadow">
-          <svg width="24" height="24" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-            <path d="M4 22 L18 8 L32 22 L27 22 L18 13 L9 22 Z" fill="white" />
-            <path d="M13 22 L18 17 L23 22 L21 22 L18 19 L15 22 Z" fill="#FDD12A" />
-            <rect x="16" y="22" width="4" height="7" rx="1" fill="white" />
-          </svg>
+        <div className="flex items-center justify-center">
+          <img 
+            src="/assets/brand/icone-LOGO.png" 
+            alt="Spanker Logo" 
+            className="w-12 h-12 object-contain"
+          />
         </div>
         <span className="text-brand-dark font-bold text-lg tracking-tight">سبانكر</span>
       </Link>
