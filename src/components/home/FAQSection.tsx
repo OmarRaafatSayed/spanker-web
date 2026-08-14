@@ -57,17 +57,17 @@ export function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="section-brand py-16 md:py-24">
+    <section className="section-green-dark py-16 md:py-24">
       <div className="max-w-3xl mx-auto px-4 lg:px-8">
 
         {/* Header */}
         <motion.div className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-green bg-brand-green/8 border border-brand-green/20 rounded-full px-4 py-1.5 mb-4">
+          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-yellow bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow animate-pulse" />
             {isAr ? "أسئلة شائعة" : "FAQ"}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-text-luxury">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             {isAr ? "كل اللي عايز تعرفه" : "Everything You Need to Know"}
           </h2>
         </motion.div>
@@ -79,7 +79,7 @@ export function FAQSection() {
             return (
               <motion.div
                 key={i}
-                className={`rounded-2xl border overflow-hidden transition-colors duration-200 ${isOpen ? "border-brand-green/40 shadow-md" : "border-[#ddd5c8]"}`}
+                className={`rounded-2xl border overflow-hidden transition-colors duration-200 ${isOpen ? "border-brand-yellow/60 shadow-md shadow-brand-yellow/10" : "border-white/15"}`}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -87,12 +87,12 @@ export function FAQSection() {
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-start bg-[#fffdf9] hover:bg-[#f8f4ef] transition-colors duration-200"
+                  className="w-full flex items-center justify-between gap-4 px-6 py-5 text-start bg-white/5 hover:bg-white/10 transition-colors duration-200"
                   aria-expanded={isOpen}
                 >
-                  <span className="font-bold text-text-luxury text-sm md:text-base">{faq.q}</span>
+                  <span className="font-bold text-white text-sm md:text-base">{faq.q}</span>
                   <motion.div
-                    className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 ${isOpen ? "bg-brand-green text-white" : "bg-brand-green/10 text-brand-green"}`}
+                    className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-colors duration-200 ${isOpen ? "bg-brand-yellow text-brand-green-dark" : "bg-white/10 text-brand-yellow"}`}
                     animate={{ rotate: isOpen ? 45 : 0 }}
                     transition={{ duration: 0.25 }}
                   >
@@ -111,8 +111,8 @@ export function FAQSection() {
                       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-5 pt-1 border-t border-brand-green/10 bg-[#fffdf9]">
-                        <p className="text-text-secondary text-sm md:text-base leading-relaxed">{faq.a}</p>
+                      <div className="px-6 pb-5 pt-1 border-t border-white/10 bg-white/5">
+                        <p className="text-white/70 text-sm md:text-base leading-relaxed">{faq.a}</p>
                       </div>
                     </motion.div>
                   )}

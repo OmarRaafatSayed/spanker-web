@@ -40,8 +40,16 @@ export function StatsSection() {
 
   return (
     <section className="relative py-20 overflow-hidden">
-      {/* Dark gradient background */}
+      {/* Dark gradient background with grid pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0a1f13] via-[#1b4332] to-[#0d2818]" />
+      {/* Grid pattern overlay */}
+      <div className="absolute inset-0"
+        style={{
+          backgroundImage: "linear-gradient(rgba(253,209,42,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(253,209,42,0.05) 1px, transparent 1px)",
+          backgroundSize: "32px 32px"
+        }}
+        aria-hidden="true"
+      />
 
       {/* Animated mesh orbs */}
       <motion.div className="absolute top-0 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl bg-brand-yellow"

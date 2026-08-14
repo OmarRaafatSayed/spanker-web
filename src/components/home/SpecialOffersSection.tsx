@@ -87,7 +87,7 @@ export function SpecialOffersSection() {
   }
 
   return (
-    <section className="section-light py-14 md:py-20" aria-labelledby="special-offers-title">
+    <section className="section-white py-14 md:py-20" aria-labelledby="special-offers-title">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
 
         {/* ── Header ── */}

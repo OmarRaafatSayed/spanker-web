@@ -46,7 +46,7 @@ export function FlyingServiceSection() {
   ];
 
   return (
-    <section className="section-brand border-b border-[#e0d8ce] py-6 md:py-8" aria-label={s.title}>
+    <section className="section-cream border-b border-[#e0d8ce] py-6 md:py-8" aria-label={s.title}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="grid grid-cols-4 gap-2 sm:gap-4">
           {SERVICES.map((service, i) => (

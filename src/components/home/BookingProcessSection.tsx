@@ -259,13 +259,13 @@ export function BookingProcessSection() {
   const ctaEn = "Egypt e-Visa";
 
   return (
-    <section className="section-brand relative py-16 md:py-24 overflow-hidden">
-      {/* Subtle mesh background */}
+    <section className="section-green relative py-16 md:py-24 overflow-hidden">
+      {/* Extra radial glow overlay */}
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        className="absolute inset-0 opacity-[0.08]"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse 70% 60% at 20% 40%, #1b4332, transparent), radial-gradient(ellipse 60% 50% at 80% 70%, #d4af37, transparent)",
+            "radial-gradient(ellipse 70% 60% at 20% 40%, #FDD12A, transparent), radial-gradient(ellipse 60% 50% at 80% 70%, #FBFDFD, transparent)",
         }}
         aria-hidden="true"
       />
@@ -281,15 +281,15 @@ export function BookingProcessSection() {
           transition={{ duration: 0.55 }}
         >
           {/* Pill label */}
-          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green bg-brand-green/8 border border-brand-green/20 rounded-full px-4 py-1.5 mb-4">
+          <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-yellow bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow animate-pulse" />
             {locale === "ar" ? "كيف يعمل؟" : "How It Works"}
           </span>
 
-          <h2 className="text-3xl md:text-4xl font-bold text-text-luxury mb-3">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
             {locale === "ar" ? titleAr : titleEn}
           </h2>
-          <p className="text-text-secondary text-base md:text-lg max-w-xl mx-auto">
+          <p className="text-white/70 text-base md:text-lg max-w-xl mx-auto">
             {locale === "ar" ? subtitleAr : subtitleEn}
           </p>
         </motion.div>

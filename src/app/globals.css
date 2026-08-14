@@ -67,6 +67,110 @@
   background: linear-gradient(135deg, #3D6833 0%, #2473BC 100%);
 }
 
+/* =====================================================
+   SECTION BACKGROUNDS — Brand Color Rotation System
+   Each section has a unique bg + SVG pattern overlay
+   ===================================================== */
+
+/* ── WHITE with dot grid ── */
+@utility section-white {
+  position: relative;
+  background-color: #FBFDFD;
+  background-image:
+    radial-gradient(circle, #3D683318 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── CREAM/WARM with subtle cross pattern ── */
+@utility section-cream {
+  position: relative;
+  background-color: #f8f5ef;
+  background-image:
+    radial-gradient(circle, #3D683322 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── GREEN (dark) with diamond grid ── */
+@utility section-green-dark {
+  position: relative;
+  background-color: #2d5128;
+  background-image:
+    linear-gradient(45deg, #3D683330 25%, transparent 25%),
+    linear-gradient(-45deg, #3D683330 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #3D683330 75%),
+    linear-gradient(-45deg, transparent 75%, #3D683330 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* ── GREEN (medium) with hexagon-like dot pattern ── */
+@utility section-green {
+  position: relative;
+  background-color: #3D6833;
+  background-image:
+    radial-gradient(circle, #FBFDFD18 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+/* ── YELLOW/GOLD with diagonal lines ── */
+@utility section-yellow {
+  position: relative;
+  background-color: #FDD12A;
+  background-image:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 10px,
+      #3D683312 10px,
+      #3D683312 11px
+    );
+}
+
+/* ── LIGHT GREEN (mint) with wave dots ── */
+@utility section-mint {
+  position: relative;
+  background-color: #e8f5e2;
+  background-image:
+    radial-gradient(circle, #3D683328 1px, transparent 1px),
+    radial-gradient(circle, #3D683318 1px, transparent 1px);
+  background-size: 30px 30px, 15px 15px;
+  background-position: 0 0, 15px 15px;
+}
+
+/* ── YELLOW LIGHT with dot matrix ── */
+@utility section-yellow-light {
+  position: relative;
+  background-color: #fffbec;
+  background-image:
+    radial-gradient(circle, #FDD12A55 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+
+/* ── DARK (near black) with grid ── */
+@utility section-dark {
+  position: relative;
+  background-color: #0f1a0b;
+  background-image:
+    linear-gradient(rgba(253,209,42,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(253,209,42,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Legacy aliases — keep existing section-brand and section-light working */
+@utility section-brand {
+  background-color: #f8f5ef;
+  background-image:
+    radial-gradient(circle, #3D683322 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@utility section-light {
+  background-color: #FBFDFD;
+  background-image:
+    radial-gradient(circle, #3D683318 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
 /* SMOOTH SCROLL */
 html {
   scroll-behavior: smooth;
