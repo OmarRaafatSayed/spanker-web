@@ -87,7 +87,7 @@ export function SpecialOffersSection() {
   }
 
   return (
-    <section className="section-white py-14 md:py-20" aria-labelledby="special-offers-title">
+    <section className="section-green-dark py-14 md:py-20" aria-labelledby="special-offers-title">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
 
         {/* ── Header ── */}
@@ -100,7 +100,7 @@ export function SpecialOffersSection() {
         >
           <h2
             id="special-offers-title"
-            className="text-2xl md:text-3xl font-bold text-text-luxury"
+            className="text-2xl md:text-3xl font-bold text-white"
           >
             {s.title}
           </h2>
@@ -109,7 +109,7 @@ export function SpecialOffersSection() {
             <Button
               variant="outline"
               size="sm"
-              className="border-border-luxury text-text-secondary hover:border-brand-green hover:text-brand-green gap-1"
+              className="border-white/20 text-white/80 hover:border-brand-yellow hover:text-brand-yellow bg-transparent gap-1"
             >
               {s.viewAll}
               {isRTL ? <ChevronLeftIcon size={15} /> : <ChevronRightIcon size={15} />}
@@ -123,7 +123,7 @@ export function SpecialOffersSection() {
           <button
             onClick={() => scroll("left")}
             aria-label={isRTL ? "التالي" : "Previous"}
-            className="absolute -start-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-[#fffdf9] shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
+            className="absolute -start-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/5 shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
           >
             {isRTL ? <ChevronRightIcon size={18} /> : <ChevronLeftIcon size={18} />}
           </button>
@@ -131,7 +131,7 @@ export function SpecialOffersSection() {
           <button
             onClick={() => scroll("right")}
             aria-label={isRTL ? "السابق" : "Next"}
-            className="absolute -end-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-border-luxury bg-[#fffdf9] shadow-md hidden md:flex items-center justify-center text-text-secondary hover:text-brand-green hover:border-brand-green transition-all"
+            className="absolute -end-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/5 shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
           >
             {isRTL ? <ChevronLeftIcon size={18} /> : <ChevronRightIcon size={18} />}
           </button>

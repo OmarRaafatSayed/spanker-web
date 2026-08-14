@@ -57,26 +57,19 @@ export function TestimonialsSection() {
   useEffect(() => { start(); return stop; });
 
   return (
-    <section className="relative py-20 md:py-28 overflow-hidden">
-      {/* Mint bg with double dot pattern */}
-      <div className="absolute inset-0 section-mint" />
-      {/* Extra plus/cross pattern */}
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233D6833' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
-        aria-hidden="true" />
-
+    <section className="section-green-dark relative py-20 md:py-28 overflow-hidden">
       {/* Big quote mark */}
-      <div className="absolute top-8 start-8 text-[180px] leading-none text-brand-green/5 font-serif select-none pointer-events-none" aria-hidden="true">"</div>
+      <div className="absolute top-8 start-8 text-[180px] leading-none text-white/5 font-serif select-none pointer-events-none" aria-hidden="true">"</div>
 
       <div className="relative max-w-5xl mx-auto px-4 lg:px-8">
         {/* Header */}
         <motion.div className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-green bg-brand-green/8 border border-brand-green/20 rounded-full px-4 py-1.5 mb-4">
+          <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-yellow bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow animate-pulse" />
             {isAr ? "آراء عملاؤنا" : "What Clients Say"}
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-text-luxury">
+          <h2 className="text-3xl md:text-4xl font-bold text-white">
             {isAr ? "مسافرون سعداء يحكون تجربتهم" : "Happy Travelers Share Their Stories"}
           </h2>
         </motion.div>
@@ -90,24 +83,24 @@ export function TestimonialsSection() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -24, scale: 0.97 }}
               transition={{ duration: 0.45 }}
-              className="bg-[#fffdf9] rounded-3xl shadow-lg border border-border-light p-8 md:p-10"
+              className="bg-white/5 rounded-3xl shadow-lg border border-white/15 p-8 md:p-10"
             >
               <div className="flex flex-col gap-3">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <p className="font-bold text-text-primary">{reviews[active].name}</p>
-                    <span className="text-text-muted text-sm">·</span>
-                    <p className="text-text-muted text-sm">{reviews[active].city}</p>
-                    <Stars count={reviews[active].rating} />
-                  </div>
-                  <p className="text-text-secondary leading-relaxed text-base md:text-lg">
-                    "{reviews[active].text}"
-                  </p>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <p className="font-bold text-white">{reviews[active].name}</p>
+                  <span className="text-white/40 text-sm">·</span>
+                  <p className="text-white/60 text-sm">{reviews[active].city}</p>
+                  <Stars count={reviews[active].rating} />
                 </div>
+                <p className="text-white/75 leading-relaxed text-base md:text-lg">
+                  "{reviews[active].text}"
+                </p>
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        {/* Dots + avatar strip */}
+        {/* Dots */}
         <div className="flex items-center justify-center gap-3">
           {reviews.map((_, i) => (
             <button
@@ -116,7 +109,7 @@ export function TestimonialsSection() {
               aria-label={`Review ${i + 1}`}
             >
               <motion.div
-                className="rounded-full bg-brand-green"
+                className="rounded-full bg-brand-yellow"
                 animate={{ width: i === active ? 28 : 8, height: 8, opacity: i === active ? 1 : 0.35 }}
                 transition={{ duration: 0.3 }}
               />

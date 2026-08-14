@@ -259,16 +259,7 @@ export function BookingProcessSection() {
   const ctaEn = "Egypt e-Visa";
 
   return (
-    <section className="section-green relative py-16 md:py-24 overflow-hidden">
-      {/* Extra radial glow overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 70% 60% at 20% 40%, #FDD12A, transparent), radial-gradient(ellipse 60% 50% at 80% 70%, #FBFDFD, transparent)",
-        }}
-        aria-hidden="true"
-      />
+    <section className="section-green-dark relative py-16 md:py-24 overflow-hidden">
 
       <div className="relative max-w-7xl mx-auto px-4 lg:px-8">
 

@@ -46,7 +46,7 @@ export function FlyingServiceSection() {
   ];
 
   return (
-    <section className="section-cream border-b border-[#e0d8ce] py-6 md:py-8" aria-label={s.title}>
+    <section className="section-green-dark border-b border-white/10 py-6 md:py-8" aria-label={s.title}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="grid grid-cols-4 gap-2 sm:gap-4">
           {SERVICES.map((service, i) => (
@@ -57,8 +57,7 @@ export function FlyingServiceSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
             >
-              <Link href={service.href} className="group flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-2 sm:px-4 rounded-2xl border border-border-light bg-[#fffdf9] hover:border-brand-green/40 hover:shadow-lg transition-all duration-300 text-center">
-                {/* Icon bubble */}
+              <Link href={service.href} className="group flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-2 sm:px-4 rounded-2xl border border-white/10 bg-white/5 hover:border-brand-yellow/40 hover:bg-white/10 hover:shadow-lg transition-all duration-300 text-center">
                 <motion.div
                   className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white shadow-md`}
                   whileHover={{ scale: 1.12, rotate: -4 }}
@@ -66,7 +65,7 @@ export function FlyingServiceSection() {
                 >
                   {service.icon}
                 </motion.div>
-                <span className="text-[10px] sm:text-sm font-semibold text-text-primary group-hover:text-brand-green transition-colors leading-tight">
+                <span className="text-[10px] sm:text-sm font-semibold text-white/80 group-hover:text-brand-yellow transition-colors leading-tight">
                   {service.title}
                 </span>
               </Link>
