@@ -112,7 +112,7 @@ function HotelCard({
 }) {
   return (
     <motion.div
-      className={`absolute bg-[#fffdf9] rounded-2xl shadow-xl border border-border-light p-3 w-48 ${className ?? ""}`}
+      className={`absolute bg-white/8 border border-white/15 rounded-2xl shadow-xl p-3 w-48 ${className ?? ""}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.6 }}
@@ -128,10 +128,10 @@ function HotelCard({
           loading="lazy"
         />
       </div>
-      <p className="text-xs font-bold text-text-primary truncate">{name}</p>
-      <p className="text-[10px] text-text-muted truncate mb-1">{location}</p>
+      <p className="text-xs font-bold text-white truncate">{name}</p>
+      <p className="text-[10px] text-white/50 truncate mb-1">{location}</p>
       <Stars count={stars} />
-      <p className="text-xs font-bold text-brand-green mt-1">{price}</p>
+      <p className="text-xs font-bold text-brand-yellow mt-1">{price}</p>
     </motion.div>
   );
 }
@@ -172,9 +172,8 @@ export function HotelServiceSection() {
   const features = isAr ? FEATURES_AR : FEATURES_EN;
 
   return (
-    <section className="section-cream relative py-20 md:py-28 overflow-hidden">
-      {/* Subtle top gradient */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-green/20 to-transparent" />
+    <section className="section-dark relative py-20 md:py-28 overflow-hidden">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -232,7 +231,7 @@ export function HotelServiceSection() {
 
             {/* Review badge */}
             <motion.div
-              className="absolute bottom-4 start-8 bg-[#fffdf9] border border-border-light rounded-xl px-3 py-2 shadow-md flex items-center gap-2"
+              className="absolute bottom-4 start-8 bg-white/10 border border-white/15 rounded-xl px-3 py-2 shadow-md flex items-center gap-2"
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -240,8 +239,8 @@ export function HotelServiceSection() {
             >
               <div className="w-7 h-7 rounded-full bg-brand-yellow/20 flex items-center justify-center text-brand-yellow text-sm">★</div>
               <div>
-                <p className="text-xs font-bold text-text-primary">4.9 / 5</p>
-                <p className="text-[10px] text-text-muted">{isAr ? "تقييم العملاء" : "Customer Rating"}</p>
+                <p className="text-xs font-bold text-white">4.9 / 5</p>
+                <p className="text-[10px] text-white/50">{isAr ? "تقييم العملاء" : "Customer Rating"}</p>
               </div>
             </motion.div>
           </motion.div>
@@ -250,7 +249,7 @@ export function HotelServiceSection() {
           <div className={`${isRTL ? "order-1" : "order-2"}`}>
             {/* Pill */}
             <motion.span
-              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-green bg-brand-green/8 border border-brand-green/20 rounded-full px-4 py-1.5 mb-5"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-brand-yellow bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-5"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -261,20 +260,20 @@ export function HotelServiceSection() {
             </motion.span>
 
             <motion.h2
-              className="text-3xl md:text-4xl font-bold text-text-luxury leading-tight mb-4"
+              className="text-3xl md:text-4xl font-bold text-white leading-tight mb-4"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               {isAr
-                ? <>نامَ بارتياح —<br /><span className="text-brand-green">الفندق المثالي</span> ينتظرك</>
-                : <>Sleep in Comfort —<br /><span className="text-brand-green">Your Perfect Hotel</span> Awaits</>
+                ? <>نامَ بارتياح —<br /><span className="text-brand-yellow">الفندق المثالي</span> ينتظرك</>
+                : <>Sleep in Comfort —<br /><span className="text-brand-yellow">Your Perfect Hotel</span> Awaits</>
               }
             </motion.h2>
 
             <motion.p
-              className="text-text-secondary text-base leading-relaxed mb-8 max-w-md"
+              className="text-white/65 text-base leading-relaxed mb-8 max-w-md"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -301,7 +300,7 @@ export function HotelServiceSection() {
               transition={{ duration: 0.5, delay: 0.5 }}
             >
               <Link
-                href="/visa-application"
+                href="/hotel-booking"
                 className="group inline-flex items-center gap-3 bg-brand-green text-white font-bold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-brand-green/25 hover:bg-brand-green-light hover:-translate-y-px transition-all duration-200"
               >
                 <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4" aria-hidden="true">

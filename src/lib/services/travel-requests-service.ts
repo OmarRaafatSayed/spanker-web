@@ -88,9 +88,10 @@ export const travelRequestsService = {
           next_action_required: "Upload required documents to complete your application",
         }])
         .select()
-        .single();
+        .maybeSingle();
 
       if (error) return fail(error.message);
+      if (!request) return fail("Insert succeeded but row was not returned — check RLS policies");
       return ok(request as TravelRequest);
     } catch (err) {
       return fail(err instanceof Error ? err.message : "Unknown error");
@@ -121,8 +122,9 @@ export const travelRequestsService = {
         .from("travel_requests")
         .select("*")
         .eq("id", id)
-        .single();
+        .maybeSingle();
       if (error) return fail(error.message, error.code === "PGRST116" ? 404 : undefined);
+      if (!data) return fail("Request not found", 404);
       const req = data as TravelRequest;
       return ok({ ...req, status: normalizeToPortalStatus(req.status) as typeof req.status });
     } catch (err) {

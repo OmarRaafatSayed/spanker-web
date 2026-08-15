@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
+import { useAuth } from "@/lib/auth-context";
 
 /* ─── Icons ─────────────────────────────────────────────────── */
 
@@ -26,20 +27,20 @@ function PlaneIcon({ filled }: { filled?: boolean }) {
   );
 }
 
-function OffersIcon({ filled }: { filled?: boolean }) {
+function RequestsIcon({ filled }: { filled?: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44l-1.5-7.5A2.5 2.5 0 0 1 8 9h.5" fill={filled ? "currentColor" : "none"} />
-      <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44l1.5-7.5A2.5 2.5 0 0 0 16 9h-.5" fill={filled ? "currentColor" : "none"} />
+      <path d="M9 11l3 3L22 4" />
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" fill={filled ? "currentColor" : "none"} />
     </svg>
   );
 }
 
-function BookingIcon({ filled }: { filled?: boolean }) {
+function ProfileIcon({ filled }: { filled?: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect width="20" height="14" x="2" y="5" rx="2" fill={filled ? "currentColor" : "none"} />
-      <line x1="2" x2="22" y1="10" y2="10" />
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill={filled ? "currentColor" : "none"} />
+      <circle cx="12" cy="7" r="4" fill={filled ? "currentColor" : "none"} />
     </svg>
   );
 }
@@ -47,7 +48,7 @@ function BookingIcon({ filled }: { filled?: boolean }) {
 function MoreIcon({ active }: { active?: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="5" r="1.5" fill={active ? "currentColor" : "none"} />
+      <circle cx="12" cy="5"  r="1.5" fill={active ? "currentColor" : "none"} />
       <circle cx="12" cy="12" r="1.5" fill={active ? "currentColor" : "none"} />
       <circle cx="12" cy="19" r="1.5" fill={active ? "currentColor" : "none"} />
     </svg>
@@ -66,15 +67,15 @@ function XIcon() {
 /* ─── More Drawer ─────────────────────────────────────────────── */
 
 const MORE_LINKS = [
-  { labelAr: "تسجيل الوصول", labelEn: "Check-in", href: "/en-eg/check-in-online", icon: "✓" },
-  { labelAr: "حالة الرحلة", labelEn: "Flight Status", href: "/en-eg/flight-status", icon: "✈" },
-  { labelAr: "الأمتعة", labelEn: "Baggage", href: "/en-eg/baggage", icon: "🧳" },
-  { labelAr: "اختيار المقعد", labelEn: "Seat Selection", href: "/en-eg/seat-selection", icon: "💺" },
-  { labelAr: "خريطة الرحلات", labelEn: "Route Map", href: "/en-eg/route-map", icon: "🗺" },
-  { labelAr: "الأسئلة الشائعة", labelEn: "FAQs", href: "/en-eg/faqs", icon: "❓" },
-  { labelAr: "تواصل معنا", labelEn: "Contact Us", href: "/en-eg/office-contacts", icon: "📞" },
-  { labelAr: "من نحن", labelEn: "About Us", href: "/en-eg/about-air-cairo", icon: "ℹ" },
-  { labelAr: "أخبار السفر", labelEn: "Travel News", href: "/en-eg/travel-news", icon: "📰" },
+  { labelAr: "تسجيل الوصول",   labelEn: "Check-in",      href: "/en-eg/check-in-online", icon: "✓" },
+  { labelAr: "حالة الرحلة",    labelEn: "Flight Status",  href: "/en-eg/flight-status",   icon: "✈" },
+  { labelAr: "الأمتعة",        labelEn: "Baggage",        href: "/en-eg/baggage",          icon: "🧳" },
+  { labelAr: "اختيار المقعد",  labelEn: "Seat Selection", href: "/en-eg/seat-selection",   icon: "💺" },
+  { labelAr: "خريطة الرحلات",  labelEn: "Route Map",      href: "/en-eg/route-map",        icon: "🗺" },
+  { labelAr: "الأسئلة الشائعة",labelEn: "FAQs",           href: "/en-eg/faqs",             icon: "❓" },
+  { labelAr: "تواصل معنا",     labelEn: "Contact Us",     href: "/en-eg/office-contacts",  icon: "📞" },
+  { labelAr: "من نحن",         labelEn: "About Us",       href: "/en-eg/about-air-cairo",  icon: "ℹ" },
+  { labelAr: "أخبار السفر",    labelEn: "Travel News",    href: "/en-eg/travel-news",      icon: "📰" },
 ];
 
 function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => void; isRTL: boolean }) {
@@ -95,7 +96,7 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
         )}
       </AnimatePresence>
 
-      {/* Drawer panel */}
+      {/* Drawer panel — slides up from bottom */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -108,7 +109,7 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
             aria-modal="true"
             aria-label={isRTL ? "المزيد من الخيارات" : "More options"}
           >
-            {/* Handle */}
+            {/* Handle bar */}
             <div className="flex justify-center pt-4 pb-2">
               <div className="w-12 h-1.5 rounded-full bg-gray-300" />
             </div>
@@ -136,16 +137,16 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
                   key={link.href}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                  transition={{ duration: 0.25, delay: index * 0.04 }}
                 >
                   <Link
                     href={link.href}
                     onClick={onClose}
                     className={cn(
-                      "flex flex-col items-center gap-2 p-4 rounded-2xl bg-gradient-to-br from-brand-green/5 to-brand-green/10",
+                      "flex flex-col items-center gap-2 p-4 rounded-2xl",
+                      "bg-gradient-to-br from-brand-green/5 to-brand-green/10",
                       "hover:from-brand-green/10 hover:to-brand-green/20 hover:shadow-lg",
-                      "active:scale-95 transition-all duration-200 text-center border border-brand-green/10",
-                      isRTL ? "text-right" : "text-left"
+                      "active:scale-95 transition-all duration-200 text-center border border-brand-green/10"
                     )}
                   >
                     <span className="text-2xl">{link.icon}</span>
@@ -157,8 +158,8 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
               ))}
             </div>
 
-            {/* iOS safe area spacer */}
-            <div className="h-safe" style={{ height: "env(safe-area-inset-bottom)" }} />
+            {/* iOS safe-area bottom spacer */}
+            <div style={{ height: "env(safe-area-inset-bottom)" }} />
           </motion.div>
         )}
       </AnimatePresence>
@@ -170,8 +171,12 @@ function MoreDrawer({ open, onClose, isRTL }: { open: boolean; onClose: () => vo
 
 export function BottomNav() {
   const { isRTL } = useI18n();
+  const { user } = useAuth();
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  // Profile tab: authenticated → dashboard profile, guest → login
+  const profileHref = user ? "/dashboard/profile" : "/login";
 
   const tabs = [
     {
@@ -187,16 +192,16 @@ export function BottomNav() {
       labelEn: "Flights",
     },
     {
-      href: "/en-eg/special-offers",
-      icon: (active: boolean) => <OffersIcon filled={active} />,
-      labelAr: "عروض",
-      labelEn: "Offers",
+      href: "/my-requests",
+      icon: (active: boolean) => <RequestsIcon filled={active} />,
+      labelAr: "طلباتي",
+      labelEn: "Requests",
     },
     {
-      href: "/en-eg/my-booking",
-      icon: (active: boolean) => <BookingIcon filled={active} />,
-      labelAr: "حجوزاتي",
-      labelEn: "Bookings",
+      href: profileHref,
+      icon: (active: boolean) => <ProfileIcon filled={active} />,
+      labelAr: "حسابي",
+      labelEn: "Profile",
     },
   ];
 
@@ -208,22 +213,25 @@ export function BottomNav() {
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
         aria-label={isRTL ? "التنقل السريع" : "Quick navigation"}
       >
-        {/* Glass morphism background */}
+        {/* Glass background */}
         <div className="absolute inset-0 bg-white/90 backdrop-blur-xl border-t border-brand-green/10 shadow-[0_-4px_24px_rgba(27,67,50,0.08)]" />
-        
+
         <div className="relative flex items-stretch h-20 px-2">
-          {/* Main 4 tabs */}
+          {/* 4 main tabs */}
           {tabs.map((tab, index) => {
-            const isActive = pathname === tab.href;
+            // Home: exact match. Others: prefix match so sub-routes stay highlighted
+            const isActive = tab.href === "/"
+              ? pathname === "/"
+              : pathname.startsWith(tab.href);
             const label = isRTL ? tab.labelAr : tab.labelEn;
 
             return (
               <motion.div
-                key={tab.href}
+                key={tab.labelEn}
                 className="flex-1"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.1 }}
+                transition={{ duration: 0.3, delay: index * 0.08 }}
               >
                 <Link
                   href={tab.href}
@@ -231,12 +239,12 @@ export function BottomNav() {
                   aria-label={label}
                   aria-current={isActive ? "page" : undefined}
                 >
-                  {/* Active background bubble */}
+                  {/* Active pill background */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.div
-                        layoutId="activeTab"
-                        className="absolute inset-0 mx-2 rounded-2xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 border border-brand-green/20"
+                        layoutId="activeBottomTab"
+                        className="absolute inset-0 mx-1.5 rounded-2xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 border border-brand-green/20"
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
@@ -245,40 +253,35 @@ export function BottomNav() {
                     )}
                   </AnimatePresence>
 
-                  {/* Icon container */}
+                  {/* Icon */}
                   <motion.div
                     className={cn(
-                      "relative z-10 transition-all duration-300",
+                      "relative z-10 transition-colors duration-200",
                       isActive ? "text-brand-green" : "text-gray-400"
                     )}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={isActive ? { scale: [1, 1.2, 1] } : {}}
-                    transition={{ duration: 0.3 }}
+                    whileTap={{ scale: 0.88 }}
                   >
                     {tab.icon(isActive)}
                   </motion.div>
 
                   {/* Label */}
-                  <motion.span
+                  <span
                     className={cn(
-                      "relative z-10 text-[10px] font-semibold transition-all duration-300",
+                      "relative z-10 text-[10px] font-semibold transition-colors duration-200",
                       isActive ? "text-brand-green" : "text-gray-500"
                     )}
-                    animate={isActive ? { y: [0, -2, 0] } : {}}
-                    transition={{ duration: 0.3 }}
                   >
                     {label}
-                  </motion.span>
+                  </span>
 
-                  {/* Active dot indicator */}
+                  {/* Active dot */}
                   <AnimatePresence>
                     {isActive && (
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0, opacity: 0 }}
-                        className="absolute bottom-1 w-1 h-1 rounded-full bg-brand-green"
+                        className="absolute bottom-1.5 w-1 h-1 rounded-full bg-brand-green"
                       />
                     )}
                   </AnimatePresence>
@@ -287,12 +290,12 @@ export function BottomNav() {
             );
           })}
 
-          {/* More button with special styling */}
+          {/* More button */}
           <motion.div
             className="flex-1"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.4 }}
+            transition={{ duration: 0.3, delay: 0.32 }}
           >
             <button
               onClick={() => setDrawerOpen(true)}
@@ -300,12 +303,11 @@ export function BottomNav() {
               aria-label={isRTL ? "المزيد" : "More"}
               aria-expanded={drawerOpen}
             >
-              {/* Active background bubble */}
               <AnimatePresence>
                 {drawerOpen && (
                   <motion.div
-                    layoutId="activeTab"
-                    className="absolute inset-0 mx-2 rounded-2xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 border border-brand-green/20"
+                    layoutId="activeBottomTab"
+                    className="absolute inset-0 mx-1.5 rounded-2xl bg-gradient-to-br from-brand-green/10 to-brand-green/5 border border-brand-green/20"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.8, opacity: 0 }}
@@ -314,49 +316,32 @@ export function BottomNav() {
                 )}
               </AnimatePresence>
 
-              {/* Icon */}
               <motion.div
                 className={cn(
-                  "relative z-10 transition-all duration-300",
+                  "relative z-10 transition-colors duration-200",
                   drawerOpen ? "text-brand-green" : "text-gray-400"
                 )}
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.95 }}
-                animate={drawerOpen ? { scale: [1, 1.2, 1], rotate: 90 } : { rotate: 0 }}
-                transition={{ duration: 0.3 }}
+                whileTap={{ scale: 0.88 }}
               >
                 <MoreIcon active={drawerOpen} />
               </motion.div>
 
-              {/* Label */}
-              <motion.span
+              <span
                 className={cn(
-                  "relative z-10 text-[10px] font-semibold transition-all duration-300",
+                  "relative z-10 text-[10px] font-semibold transition-colors duration-200",
                   drawerOpen ? "text-brand-green" : "text-gray-500"
                 )}
               >
                 {isRTL ? "المزيد" : "More"}
-              </motion.span>
-
-              {/* Active dot indicator */}
-              <AnimatePresence>
-                {drawerOpen && (
-                  <motion.div
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0, opacity: 0 }}
-                    className="absolute bottom-1 w-1 h-1 rounded-full bg-brand-green"
-                  />
-                )}
-              </AnimatePresence>
+              </span>
             </button>
           </motion.div>
         </div>
 
         {/* iOS home-indicator safe area */}
-        <div 
-          className="bg-white/90 backdrop-blur-xl" 
-          style={{ height: "env(safe-area-inset-bottom)" }} 
+        <div
+          className="bg-white/90 backdrop-blur-xl"
+          style={{ height: "env(safe-area-inset-bottom)" }}
         />
       </nav>
     </>

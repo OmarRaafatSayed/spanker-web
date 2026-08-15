@@ -46,16 +46,16 @@ export function FlyingServiceSection() {
   ];
 
   return (
-    <section className="section-green-dark border-b border-white/10 py-6 md:py-8" aria-label={s.title}>
+    <section className="section-dark border-b border-white/10 py-6 md:py-8" aria-label={s.title}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         <div className="grid grid-cols-4 gap-2 sm:gap-4">
           {SERVICES.map((service, i) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, scale: 0.92 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
+              transition={{ duration: 0.5, delay: i * 0.08, type: "spring", stiffness: 180, damping: 18 }}
             >
               <Link href={service.href} className="group flex flex-col items-center gap-2 sm:gap-3 py-4 sm:py-6 px-2 sm:px-4 rounded-2xl border border-white/10 bg-white/5 hover:border-brand-yellow/40 hover:bg-white/10 hover:shadow-lg transition-all duration-300 text-center">
                 <motion.div

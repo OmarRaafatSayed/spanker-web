@@ -57,7 +57,7 @@ export function TestimonialsSection() {
   useEffect(() => { start(); return stop; });
 
   return (
-    <section className="section-green-dark relative py-20 md:py-28 overflow-hidden">
+    <section className="section-dark relative py-20 md:py-28 overflow-hidden">
       {/* Big quote mark */}
       <div className="absolute top-8 start-8 text-[180px] leading-none text-white/5 font-serif select-none pointer-events-none" aria-hidden="true">"</div>
 

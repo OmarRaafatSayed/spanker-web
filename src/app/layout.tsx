@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
 import { AuthProvider } from "@/lib/auth-context";
@@ -11,7 +11,12 @@ const cairo = Cairo({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#3D6833",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spanker.travel"),
   title: "سبانكر - طر أينما تريد | Spanker - Fly Wherever You Want",
   description:
     "سبانكر — احجز رحلاتك إلى مصر وما بعدها. عروض خاصة على رحلات مرسى علم، الغردقة، شرم الشيخ، الأقصر، أسوان وأكثر.",
@@ -25,7 +30,6 @@ export const metadata: Metadata = {
     shortcut: '/icone-LOGO.png',
   },
   manifest: '/site.webmanifest',
-  themeColor: '#3D6833',
   openGraph: {
     title: "سبانكر - طر أينما تريد | Spanker - Fly Wherever You Want",
     description: "احجز رحلاتك إلى مصر وما بعدها مع سبانكر",

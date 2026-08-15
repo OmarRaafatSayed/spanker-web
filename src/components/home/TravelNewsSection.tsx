@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { useI18n } from "@/lib/i18n/context";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons";
 
@@ -24,7 +25,13 @@ export function TravelNewsSection() {
     <section className="section-green-dark py-10 sm:py-16" aria-labelledby="travel-news-title">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-5 sm:mb-8">
+        <motion.div
+          className="flex items-center justify-between mb-5 sm:mb-8"
+          initial={{ opacity: 0, x: isRTL ? 40 : -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55 }}
+        >
           <h2 id="travel-news-title" className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
             {s.title}
           </h2>
@@ -32,14 +39,19 @@ export function TravelNewsSection() {
             {s.viewAll}
             {isRTL ? <ChevronLeftIcon size={14} /> : <ChevronRightIcon size={14} />}
           </Link>
-        </div>
+        </motion.div>
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {s.articles.map((article, i) => (
-            <article
+            <motion.article
               key={ARTICLE_SLUGS[i]}
               className={`bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-yellow/30 hover:bg-white/8 transition-all duration-200 group ${i === 2 ? "hidden sm:hidden lg:block" : ""}`}
+              initial={{ opacity: 0, y: 36, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.5, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
+              whileHover={{ y: -6, transition: { duration: 0.2 } }}
             >
               {/* Image header */}
               <div className={`h-36 sm:h-44 bg-gradient-to-br ${GRADIENTS[i]} relative overflow-hidden flex items-end p-4 sm:p-5`}>
@@ -69,7 +81,7 @@ export function TravelNewsSection() {
                   {isRTL ? <ChevronLeftIcon size={12} /> : <ChevronRightIcon size={12} />}
                 </Link>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>

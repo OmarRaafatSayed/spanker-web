@@ -300,19 +300,19 @@ export function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="lg:hidden absolute top-18 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-border-light shadow-lg"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="lg:hidden absolute top-18 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-border-light shadow-lg overflow-hidden"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
           >
             <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
               {NAV_ITEMS.map((item, index) => (
                 <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                  transition={{ duration: 0.2, delay: index * 0.04 }}
                   className="border-b border-border-light/50 pb-3 last:border-b-0 last:pb-0"
                 >
                   {item.href ? (

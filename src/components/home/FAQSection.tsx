@@ -57,12 +57,12 @@ export function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="section-green-dark py-16 md:py-24">
+    <section className="section-dark border-b border-white/10 py-16 md:py-24">
       <div className="max-w-3xl mx-auto px-4 lg:px-8">
 
         {/* Header */}
         <motion.div className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
           <span className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest text-brand-yellow bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-yellow animate-pulse" />
             {isAr ? "أسئلة شائعة" : "FAQ"}
@@ -80,10 +80,10 @@ export function FAQSection() {
               <motion.div
                 key={i}
                 className={`rounded-2xl border overflow-hidden transition-colors duration-200 ${isOpen ? "border-brand-yellow/60 shadow-md shadow-brand-yellow/10" : "border-white/15"}`}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -32 : 32 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}

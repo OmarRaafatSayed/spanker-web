@@ -65,7 +65,7 @@ function PlaneOfferIcon() {
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-brand-green shrink-0"
+      className="text-brand-yellow shrink-0"
       aria-hidden="true"
     >
       <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2c-.5.1-.9.6-.6 1.1l1.5 2.5c.2.4.7.6 1.1.5L8 9.5l-2 3.5L4 14c-.4.3-.4.8 0 1l2 2c.3.4.8.4 1 0l1.5-2 3.5-2-.5 4.2c-.1.5.2.9.7 1l2.5 1.5c.5.3 1 0 1.1-.5z" />
@@ -87,16 +87,16 @@ export function SpecialOffersSection() {
   }
 
   return (
-    <section className="section-green-dark py-14 md:py-20" aria-labelledby="special-offers-title">
+    <section className="section-dark py-14 md:py-20" aria-labelledby="special-offers-title">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
 
         {/* ── Header ── */}
         <motion.div
           className="flex items-center justify-between mb-8"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: isRTL ? 40 : -40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
           <h2
             id="special-offers-title"
@@ -118,12 +118,12 @@ export function SpecialOffersSection() {
         </motion.div>
 
         {/* ── Carousel ── */}
-        <div className="relative">
+        <div className="relative overflow-hidden">
           {/* Scroll arrows — desktop only */}
           <button
             onClick={() => scroll("left")}
             aria-label={isRTL ? "التالي" : "Previous"}
-            className="absolute -start-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/5 shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
+            className="absolute start-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/10 backdrop-blur-sm shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
           >
             {isRTL ? <ChevronRightIcon size={18} /> : <ChevronLeftIcon size={18} />}
           </button>
@@ -131,7 +131,7 @@ export function SpecialOffersSection() {
           <button
             onClick={() => scroll("right")}
             aria-label={isRTL ? "السابق" : "Next"}
-            className="absolute -end-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/5 shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
+            className="absolute end-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full border border-white/15 bg-white/10 backdrop-blur-sm shadow-md hidden md:flex items-center justify-center text-white/60 hover:text-brand-yellow hover:border-brand-yellow/50 transition-all"
           >
             {isRTL ? <ChevronLeftIcon size={18} /> : <ChevronRightIcon size={18} />}
           </button>
@@ -139,14 +139,14 @@ export function SpecialOffersSection() {
           {/* Cards strip */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide pb-2 -mx-4 px-4 md:mx-0 md:px-0"
-            style={{ scrollSnapType: "x mandatory" }}
+            className="flex gap-4 overflow-x-auto pb-3"
+            style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {OFFERS.map((offer, index) => (
               <motion.div
                 key={`${offer.from}-${offer.to}`}
                 data-offer-card
-                className="flex-none w-[72vw] max-w-[280px] md:w-72 rounded-2xl overflow-hidden bg-[#fffdf9] border border-border-light shadow-sm hover:shadow-md group cursor-pointer transition-shadow duration-200"
+                className="flex-none w-64 md:w-72 rounded-2xl overflow-hidden bg-white/8 border border-white/15 shadow-sm hover:shadow-xl hover:border-white/25 group cursor-pointer transition-all duration-200"
                 style={{ scrollSnapAlign: "start" }}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -188,15 +188,15 @@ export function SpecialOffersSection() {
                 <div className="p-4">
                   <div className="flex items-center justify-between">
                     {/* Trip type */}
-                    <div className="flex items-center gap-1.5 text-text-secondary">
+                    <div className="flex items-center gap-1.5 text-white/60">
                       <PlaneOfferIcon />
                       <span className="text-xs">{t.common.roundTrip}</span>
                     </div>
 
                     {/* Price */}
                     <div className="text-end">
-                      <p className="text-[10px] text-text-muted leading-none mb-0.5">{t.common.startingFrom}</p>
-                      <p className="text-base font-bold text-brand-green leading-none">
+                      <p className="text-[10px] text-white/40 leading-none mb-0.5">{t.common.startingFrom}</p>
+                      <p className="text-base font-bold text-brand-yellow leading-none">
                         {offer.currency} {offer.price}
                       </p>
                     </div>
