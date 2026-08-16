@@ -108,7 +108,7 @@ export function FlightSearchWidget() {
   );
 
   const fieldInput = cn(
-    "w-full h-full bg-transparent outline-none",
+    "w-full min-w-0 h-full bg-transparent outline-none",
     "text-white text-sm font-medium",
     "placeholder:text-white/40",
     "px-3"
@@ -201,6 +201,7 @@ export function FlightSearchWidget() {
                 min={new Date().toISOString().split("T")[0]}
                 className={cn(
                   fieldInput,
+                  "text-xs sm:text-sm min-w-0",
                   "[color-scheme:dark]",
                   "[&::-webkit-calendar-picker-indicator]:opacity-0",
                   "[&::-webkit-calendar-picker-indicator]:absolute",
@@ -228,6 +229,7 @@ export function FlightSearchWidget() {
                     min={departure}
                     className={cn(
                       fieldInput,
+                      "text-xs sm:text-sm min-w-0",
                       "[color-scheme:dark]",
                       "[&::-webkit-calendar-picker-indicator]:opacity-0",
                       "[&::-webkit-calendar-picker-indicator]:absolute",

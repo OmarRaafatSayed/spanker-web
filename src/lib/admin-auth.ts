@@ -61,6 +61,12 @@ async function _checkRole(
   req: NextRequest,
   allowed: AdminRole[]
 ): Promise<AdminAuthResult> {
+  // ── Dev bypass ──────────────────────────────────────────────────────────────
+  // In development, skip auth so the dashboard works without a real login.
+  if (process.env.NODE_ENV === "development") {
+    return { ok: true, userId: "dev-user", role: "admin" };
+  }
+
   const authHeader = req.headers.get("authorization") ?? "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 

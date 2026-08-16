@@ -46,8 +46,22 @@ export function FlyingServiceSection() {
   ];
 
   return (
-    <section className="section-dark border-b border-white/10 py-6 md:py-8" aria-label={s.title}>
+    <section className="section-dark border-b border-white/10 py-8 md:py-12" aria-label={s.title}>
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        {/* Section heading */}
+        <motion.div
+          className="text-center mb-6 md:mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+            {s.title}
+          </h2>
+          <p className="text-white/50 text-sm mt-1">اختر الخدمة المناسبة لك</p>
+        </motion.div>
+
         <div className="grid grid-cols-4 gap-2 sm:gap-4">
           {SERVICES.map((service, i) => (
             <motion.div

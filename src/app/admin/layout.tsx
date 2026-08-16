@@ -429,16 +429,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // ── Role / auth guard ──────────────────────────────────────────────────────
+  const isDev = process.env.NODE_ENV === "development";
+
   useEffect(() => {
+    if (isDev) return; // skip auth check in development
     if (isLoading) return;
     if (!user) { router.replace("/login"); return; }
-    // Customer role has no admin access
-    // We check the role from the profile stored in Supabase via the existing
-    // auth-context. If the email-based session has no role we allow access
-    // (the API routes enforce role server-side anyway).
-  }, [isLoading, user, router]);
+  }, [isLoading, user, router, isDev]);
 
-  if (isLoading) {
+  if (!isDev && isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-bg-alt" dir="rtl">
         <div className="w-8 h-8 border-4 border-brand-green border-t-transparent rounded-full animate-spin" />
@@ -446,7 +445,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  if (!user) return null;
+  if (!isDev && !user) return null;
 
   return (
     <div className="min-h-screen bg-bg-alt flex" dir="rtl">

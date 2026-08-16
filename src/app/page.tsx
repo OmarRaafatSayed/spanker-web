@@ -18,8 +18,8 @@ export default function Home() {
     <>
       <PageLoader />
       <Navbar />
-      {/* pt-18 adds top padding to account for fixed navbar (h-18) */}
-      <main className="pt-18 pb-20 lg:pb-0">
+      {/* pt-16 accounts for fixed navbar height (h-16) */}
+      <main className="pt-16 pb-20 lg:pb-0">
         {/* 1 — Hero (transparent/dark image bg) */}
         <HeroBanner />
 

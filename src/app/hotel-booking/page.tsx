@@ -15,7 +15,7 @@
  *   → CRM staff picks it up → generates quotation → sends to customer
  */
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -69,10 +69,22 @@ const DESTINATIONS_EN = [
 ];
 
 const ROOM_TYPES = [
-  { value: "single" as const, labelAr: "غرفة مفردة",   labelEn: "Single Room",  icon: "🛏️", descAr: "شخص واحد",       descEn: "1 person" },
-  { value: "double" as const, labelAr: "غرفة مزدوجة",  labelEn: "Double Room",  icon: "🛏️🛏️", descAr: "شخصان",        descEn: "2 persons" },
-  { value: "suite"  as const, labelAr: "جناح فاخر",    labelEn: "Suite",        icon: "👑",  descAr: "إقامة مميزة",   descEn: "Premium stay" },
-  { value: "family" as const, labelAr: "غرفة عائلية",  labelEn: "Family Room",  icon: "👨‍👩‍👧‍👦", descAr: "حتى 4 أفراد", descEn: "Up to 4 guests" },
+  {
+    value: "single" as const, labelAr: "غرفة مفردة", labelEn: "Single Room", descAr: "شخص واحد", descEn: "1 person",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20v-4a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v4"/><path d="M6 12V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
+  },
+  {
+    value: "double" as const, labelAr: "غرفة مزدوجة", labelEn: "Double Room", descAr: "شخصان", descEn: "2 persons",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20v-4a2 2 0 0 1 2-2h7v6"/><path d="M13 20v-6h7a2 2 0 0 1 2 2v4"/><path d="M6 14V9a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
+  },
+  {
+    value: "suite" as const, labelAr: "جناح فاخر", labelEn: "Suite", descAr: "إقامة مميزة", descEn: "Premium stay",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  },
+  {
+    value: "family" as const, labelAr: "غرفة عائلية", labelEn: "Family Room", descAr: "حتى 4 أفراد", descEn: "Up to 4 guests",
+    icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  },
 ];
 
 // ─── Step indicator ───────────────────────────────────────────────────────────
@@ -132,8 +144,9 @@ function NightsBadge({ checkIn, checkOut, isAr }: { checkIn: string; checkOut: s
   );
   if (diff <= 0) return null;
   return (
-    <span className="inline-flex items-center gap-1 bg-brand-yellow/20 border border-brand-yellow/40 text-brand-yellow text-xs font-bold px-2.5 py-1 rounded-full">
-      🌙 {diff} {isAr ? (diff === 1 ? "ليلة" : "ليالي") : (diff === 1 ? "night" : "nights")}
+    <span className="inline-flex items-center gap-1.5 bg-brand-yellow/20 border border-brand-yellow/40 text-brand-yellow text-xs font-bold px-2.5 py-1 rounded-full">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      {diff} {isAr ? (diff === 1 ? "ليلة" : "ليالي") : (diff === 1 ? "night" : "nights")}
     </span>
   );
 }
@@ -172,7 +185,7 @@ function SuccessScreen({ trackingId, isAr }: { trackingId: string; isAr: boolean
       </motion.div>
 
       <h2 className="text-2xl font-bold text-white mb-2">
-        {isAr ? "تم استلام طلبك! 🎉" : "Request Received! 🎉"}
+        {isAr ? "تم استلام طلبك!" : "Request Received!"}
       </h2>
       <p className="text-white/60 text-sm mb-6 leading-relaxed">
         {isAr
@@ -193,17 +206,25 @@ function SuccessScreen({ trackingId, isAr }: { trackingId: string; isAr: boolean
         <p className="text-xs font-bold text-white/60 uppercase tracking-widest mb-3">
           {isAr ? "الخطوات التالية" : "What happens next"}
         </p>
-        {(isAr ? [
-          ["📞", "فريقنا سيتصل بك", "خلال 24 ساعة"],
-          ["💰", "ستحصل على عرض سعر مخصص", "طيران + فندق + خدمات"],
-          ["✅", "بعد موافقتك نكمل الحجز", "ودفع مريح"],
-        ] : [
-          ["📞", "Our team will call you", "within 24 hours"],
-          ["💰", "You'll get a tailored quote", "flights + hotel + services"],
-          ["✅", "After your approval we finalize", "easy payment options"],
-        ]).map(([icon, title, sub], i) => (
+        {([
+          {
+            icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-yellow"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l1.99-.885a2 2 0 0 1 2.11.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>,
+            title: isAr ? "فريقنا سيتصل بك" : "Our team will call you",
+            sub: isAr ? "خلال 24 ساعة" : "within 24 hours",
+          },
+          {
+            icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-yellow"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+            title: isAr ? "ستحصل على عرض سعر مخصص" : "You'll get a tailored quote",
+            sub: isAr ? "طيران + فندق + خدمات" : "flights + hotel + services",
+          },
+          {
+            icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-yellow"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+            title: isAr ? "بعد موافقتك نكمل الحجز" : "After your approval we finalize",
+            sub: isAr ? "ودفع مريح" : "easy payment options",
+          },
+        ]).map(({ icon, title, sub }, i) => (
           <div key={i} className="flex items-start gap-3 mb-3 last:mb-0">
-            <span className="text-lg mt-0.5">{icon}</span>
+            <span className="mt-0.5 shrink-0">{icon}</span>
             <div>
               <p className="text-sm font-semibold text-white">{title}</p>
               <p className="text-xs text-white/50">{sub}</p>
@@ -362,8 +383,8 @@ export default function HotelBookingPage() {
             transition={{ duration: 0.5 }}
           >
             {/* Hotel icon */}
-            <div className="w-14 h-14 rounded-2xl bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mx-auto mb-4 text-2xl">
-              🏨
+            <div className="w-14 h-14 rounded-2xl bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mx-auto mb-4">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-brand-green"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
               {isAr ? "احجز فندقك الآن" : "Book Your Hotel"}
@@ -389,7 +410,7 @@ export default function HotelBookingPage() {
                 {/* Auth gate notice */}
                 {!user && !authLoading && (
                   <div className="bg-brand-yellow/10 border border-brand-yellow/30 rounded-xl px-4 py-3 mb-6 flex items-center gap-3">
-                    <span className="text-brand-yellow text-lg">🔒</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-yellow shrink-0"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                     <div>
                       <p className="text-sm font-semibold text-white">
                         {isAr ? "تسجيل الدخول مطلوب" : "Sign in required"}
@@ -515,7 +536,7 @@ export default function HotelBookingPage() {
                                     : "border-white/10 bg-white/5 text-white/60 hover:border-white/20"
                                 )}
                               >
-                                <span className="text-xl">{room.icon}</span>
+                                <span className="text-white/70">{room.icon}</span>
                                 <span className="font-semibold text-xs">
                                   {isAr ? room.labelAr : room.labelEn}
                                 </span>
@@ -598,22 +619,22 @@ export default function HotelBookingPage() {
                           </p>
                           <div className="space-y-2 text-sm">
                             <SummaryRow
-                              icon="📍"
+                              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>}
                               label={isAr ? "الوجهة" : "Destination"}
                               value={watch("destination_country")}
                             />
                             <SummaryRow
-                              icon="📅"
+                              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>}
                               label={isAr ? "الوصول" : "Check-in"}
                               value={formatDate(watch("check_in_date"), isAr)}
                             />
                             <SummaryRow
-                              icon="📅"
+                              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>}
                               label={isAr ? "المغادرة" : "Check-out"}
                               value={formatDate(watch("check_out_date"), isAr)}
                             />
                             <SummaryRow
-                              icon="🛏️"
+                              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20v-4a4 4 0 0 1 4-4h12a4 4 0 0 1 4 4v4"/><path d="M6 12V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/></svg>}
                               label={isAr ? "الغرفة" : "Room"}
                               value={
                                 ROOM_TYPES.find((r) => r.value === watch("room_type"))?.[
@@ -622,7 +643,7 @@ export default function HotelBookingPage() {
                               }
                             />
                             <SummaryRow
-                              icon="👥"
+                              icon={<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>}
                               label={isAr ? "الضيوف" : "Guests"}
                               value={String(watch("traveler_count"))}
                             />
@@ -716,8 +737,8 @@ export default function HotelBookingPage() {
                             )}
                           >
                             {submitting
-                              ? (isAr ? "⏳ جاري إرسال الطلب..." : "⏳ Submitting...")
-                              : (isAr ? "✓ أرسل طلب الحجز" : "✓ Submit Booking Request")}
+                              ? (isAr ? "جاري إرسال الطلب..." : "Submitting...")
+                              : (isAr ? "أرسل طلب الحجز" : "Submit Booking Request")}
                           </button>
                         </div>
                       </motion.div>
@@ -746,7 +767,7 @@ function SummaryRow({
   label,
   value,
 }: {
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   value: string;
 }) {
@@ -754,7 +775,7 @@ function SummaryRow({
   return (
     <div className="flex items-center justify-between gap-2">
       <span className="text-white/50 flex items-center gap-1.5">
-        <span className="text-sm">{icon}</span>
+        <span className="text-brand-yellow/70">{icon}</span>
         {label}
       </span>
       <span className="font-semibold text-white text-end">{value}</span>
