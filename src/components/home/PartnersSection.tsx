@@ -37,7 +37,7 @@ export function PartnersSection() {
 
   return (
     <section className="py-16 bg-bg-alt overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 mb-10">
+      <div className="max-w-7xl mx-auto px-2 lg:px-8 mb-10">
         <motion.div className="text-center"
           initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="text-xs font-black uppercase tracking-widest text-text-muted mb-2">

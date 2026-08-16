@@ -83,9 +83,9 @@ export function HeroBanner() {
   const slide = slides[current];
 
   return (
-    <section className="relative w-full h-screen flex flex-col overflow-hidden">
+    <section className="relative w-full h-screen flex flex-col overflow-hidden max-w-full">
       {/* Background image with improved overlay */}
-      <div className="absolute inset-0 w-full h-full">
+      <div className="absolute inset-0 w-full h-full max-w-full">
         <Image
           src="/images/hero/hero-1.jpg"
           alt="Spanker luxury travel"
@@ -112,7 +112,7 @@ export function HeroBanner() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 flex flex-col items-center justify-center h-full w-full px-4 sm:px-6 lg:px-8 py-20 sm:py-24 text-center"
+        className="relative z-10 flex flex-col items-center justify-center h-full w-full px-2 sm:px-6 lg:px-8 py-20 sm:py-24 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -130,14 +130,14 @@ export function HeroBanner() {
           </motion.p>
           
           <motion.h1
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight px-4 drop-shadow-2xl"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight px-2 drop-shadow-2xl"
             variants={itemVariants}
           >
             {slide.headline}
           </motion.h1>
           
           <motion.p
-            className="text-white/95 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed px-4 drop-shadow-lg"
+            className="text-white/95 text-sm sm:text-base md:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed px-2 drop-shadow-lg"
             variants={itemVariants}
           >
             {slide.sub}
@@ -146,7 +146,7 @@ export function HeroBanner() {
 
         {/* Flight search widget */}
         <motion.div
-          className="w-full max-w-4xl mx-auto px-2 sm:px-0"
+          className="w-full max-w-4xl mx-auto px-1 sm:px-0"
           variants={searchWidgetVariants}
         >
           <FlightSearchWidget />

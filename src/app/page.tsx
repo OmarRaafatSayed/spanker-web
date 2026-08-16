@@ -19,7 +19,7 @@ export default function Home() {
       <PageLoader />
       <Navbar />
       {/* pt-16 accounts for fixed navbar height (h-16) */}
-      <main className="pt-16 pb-20 lg:pb-0">
+      <main className="pt-16 pb-20 lg:pb-0 overflow-x-hidden w-full max-w-full">
         {/* 1 — Hero (transparent/dark image bg) */}
         <HeroBanner />
 

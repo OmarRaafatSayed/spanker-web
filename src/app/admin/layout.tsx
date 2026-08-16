@@ -244,7 +244,7 @@ function AdminMobileNav({ pathname }: { pathname: string }) {
   }
 
   return (
-    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-border-light flex items-center justify-around px-2 py-1 safe-area-bottom">
+    <nav className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-border-light flex items-center justify-around px-2 py-1" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       {MOBILE_SHORTCUTS.map(item => (
         <Link
           key={item.href}

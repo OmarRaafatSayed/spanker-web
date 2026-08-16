@@ -67,7 +67,7 @@ export function StatsSection() {
         </svg>
       </motion.div>
 
-      <div className="relative max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-2 lg:px-8">
         {/* Header */}
         <motion.div className="text-center mb-14"
           initial={{ opacity: 0, scale: 0.9, y: 16 }} whileInView={{ opacity: 1, scale: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>

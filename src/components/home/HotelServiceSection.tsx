@@ -175,7 +175,7 @@ export function HotelServiceSection() {
     <section className="section-dark relative py-20 md:py-28 overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
           {/* ── Left: Visual ── */}

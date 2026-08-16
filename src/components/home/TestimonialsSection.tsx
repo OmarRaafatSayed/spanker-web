@@ -61,7 +61,7 @@ export function TestimonialsSection() {
       {/* Big quote mark */}
       <div className="absolute top-8 start-8 text-[180px] leading-none text-white/5 font-serif select-none pointer-events-none" aria-hidden="true">"</div>
 
-      <div className="relative max-w-5xl mx-auto px-4 lg:px-8">
+      <div className="relative max-w-5xl mx-auto px-2 lg:px-8">
         {/* Header */}
         <motion.div className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>

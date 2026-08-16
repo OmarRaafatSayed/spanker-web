@@ -75,7 +75,7 @@ export function FlightSearchForm(props: FlightSearchFormProps) {
   return (
     <>
       {/* Trip-type tabs */}
-      <div className="flex gap-1 mb-4 w-fit">
+      <div className="flex flex-wrap gap-1 mb-4">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -95,7 +95,7 @@ export function FlightSearchForm(props: FlightSearchFormProps) {
       {/* Search card */}
       <div className="rounded-2xl border border-white/30 bg-black/25 backdrop-blur-md p-4 space-y-3 shadow-2xl">
         {/* Row 1 */}
-        <div className="grid grid-cols-[1fr_36px_1fr] items-end gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-[1fr_36px_1fr] items-end gap-2">
           <div>
             <label className={fieldLabel}>{isAr ? "من" : "From"}</label>
             <div className={fieldBox}>
@@ -112,7 +112,7 @@ export function FlightSearchForm(props: FlightSearchFormProps) {
           </div>
           <button
             onClick={props.onSwap}
-            className="mb-0.5 w-9 h-9 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-brand-yellow hover:bg-brand-yellow/20 hover:border-brand-yellow/70 transition-all duration-200"
+            className="mb-0.5 w-9 h-9 rounded-full border border-white/30 bg-black/20 backdrop-blur-sm flex items-center justify-center text-brand-yellow hover:bg-brand-yellow/20 hover:border-brand-yellow/70 transition-all duration-200 sm:self-end self-center sm:mt-0 mt-1"
           >
             <SwapIcon size={15} />
           </button>

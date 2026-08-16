@@ -8,7 +8,7 @@ export function MobileAppBanner() {
 
   return (
     <section className="bg-brand-dark py-10 sm:py-16 md:py-20 overflow-hidden" aria-labelledby="app-banner-title">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-8 sm:gap-12 lg:gap-16">
 
           {/* Text + CTA */}

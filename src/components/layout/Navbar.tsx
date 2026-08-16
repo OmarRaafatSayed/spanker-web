@@ -139,11 +139,11 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 inset-x-0 z-50 h-16 bg-brand-dark transition-shadow duration-300 overflow-hidden",
+          "fixed top-0 inset-x-0 z-50 h-16 bg-brand-dark transition-shadow duration-300 overflow-x-hidden",
           scrolled && "shadow-lg shadow-black/30"
         )}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-full flex items-center justify-between gap-2">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 h-full flex items-center justify-between gap-2 w-full max-w-full">
 
           {/* ── Logo ── */}
           <Link href="/" className="shrink-0 hover:opacity-85 transition-opacity">
@@ -205,7 +205,17 @@ export function Navbar() {
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}
-                className="hidden sm:inline-flex h-9 px-4 text-sm font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
+                className="lg:hidden h-8 px-3 text-xs font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
+              >
+                {t.common.login}
+              </button>
+            )}
+
+            {/* Desktop auth */}
+            {!user && (
+              <button
+                onClick={() => setLoginOpen(true)}
+                className="hidden lg:inline-flex h-9 px-4 text-sm font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
               >
                 {t.common.login}
               </button>
@@ -232,8 +242,8 @@ export function Navbar() {
 
         {/* ── Mobile menu ── */}
         {mobileOpen && (
-          <div className="lg:hidden absolute top-16 inset-x-0 bg-brand-dark border-t border-white/10 shadow-2xl max-h-[80vh] overflow-y-auto">
-            <div className="px-4 py-3 space-y-1">
+          <div className="lg:hidden absolute top-16 inset-x-0 bg-brand-dark border-t border-white/10 shadow-2xl max-h-[80vh] overflow-y-auto overflow-x-hidden">
+            <div className="px-4 py-3 space-y-1 w-full max-w-full">
               {navItems.map((item) => (
                 <div key={item.label}>
                   {item.links?.length ? (

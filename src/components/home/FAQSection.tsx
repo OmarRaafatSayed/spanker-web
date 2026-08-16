@@ -58,7 +58,7 @@ export function FAQSection() {
 
   return (
     <section className="section-dark border-b border-white/10 py-16 md:py-24">
-      <div className="max-w-3xl mx-auto px-4 lg:px-8">
+      <div className="max-w-3xl mx-auto px-2 lg:px-8">
 
         {/* Header */}
         <motion.div className="text-center mb-12"

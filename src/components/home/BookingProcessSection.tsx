@@ -187,7 +187,7 @@ function StepCard({
   return (
     <motion.div
       ref={ref}
-      className="relative flex-none w-[72vw] max-w-[230px] lg:w-auto lg:max-w-none lg:flex-1"
+      className="relative flex-none w-[280px] max-w-[85vw] lg:w-auto lg:max-w-none lg:flex-1"
       initial={{ opacity: 0, y: 32 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -261,7 +261,7 @@ export function BookingProcessSection() {
   return (
     <section className="section-green-dark relative py-16 md:py-24 overflow-hidden">
 
-      <div className="relative max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-2 lg:px-8">
 
         {/* ── Header ── */}
         <motion.div
@@ -287,7 +287,7 @@ export function BookingProcessSection() {
 
         {/* ── Steps ── */}
         {/* Mobile: vertical scroll strip / Desktop: horizontal row */}
-        <div className="lg:hidden flex gap-3 overflow-x-auto scrollbar-hide pb-4 -mx-4 px-4"
+        <div className="lg:hidden flex gap-3 overflow-x-auto scrollbar-hide pb-4 px-1"
           style={{ scrollSnapType: "x mandatory" }}>
           {steps.map((step, i) => (
             <div key={step.num} style={{ scrollSnapAlign: "start" }} className="flex flex-col">

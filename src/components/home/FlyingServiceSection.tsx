@@ -47,7 +47,7 @@ export function FlyingServiceSection() {
 
   return (
     <section className="section-dark border-b border-white/10 py-8 md:py-12" aria-label={s.title}>
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         {/* Section heading */}
         <motion.div
           className="text-center mb-6 md:mb-8"

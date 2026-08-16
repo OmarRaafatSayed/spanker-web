@@ -88,7 +88,7 @@ export function SpecialOffersSection() {
 
   return (
     <section className="section-dark py-14 md:py-20" aria-labelledby="special-offers-title">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 lg:px-8">
 
         {/* ── Header ── */}
         <motion.div
@@ -139,8 +139,8 @@ export function SpecialOffersSection() {
           {/* Cards strip */}
           <div
             ref={scrollRef}
-            className="flex gap-4 overflow-x-auto pb-3"
-            style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }}
+            className="flex gap-4 overflow-x-auto scrollbar-hide pb-3"
+            style={{ scrollSnapType: "x mandatory" }}
           >
             {OFFERS.map((offer, index) => (
               <motion.div

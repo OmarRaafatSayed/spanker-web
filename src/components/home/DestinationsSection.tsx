@@ -48,7 +48,7 @@ export function DestinationsSection() {
 
   return (
     <section className="bg-[#f8f6f1] py-10 sm:py-16" aria-labelledby="destinations-title">
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-5 sm:mb-8">
           <h2 id="destinations-title" className="text-xl sm:text-2xl md:text-3xl font-bold text-text-primary">

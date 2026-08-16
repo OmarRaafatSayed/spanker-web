@@ -54,8 +54,8 @@ export default function RootLayout({
   return (
     // lang and dir are managed dynamically by I18nProvider via useEffect
     // We set the default (Arabic/RTL) here as the initial HTML attribute
-    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">
+    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`}>
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full">
         <I18nProvider><AuthProvider>{children}</AuthProvider></I18nProvider>
       </body>
     </html>
