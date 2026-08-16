@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -12,21 +14,20 @@ export interface BreadcrumbItem {
 }
 
 export interface PageMeta {
-  /** Unique snake_case key — used by the dashboard to identify the page */
   pageId: string;
-  /** Section label shown above the title (e.g. "سبانكر") */
   section?: string;
-  /** Main H1 title */
-  title: string;
-  /** Subtitle / description line */
+  /** Required for light-theme pages. For dark hero pages, heroTitle is used instead. */
+  title?: string;
   subtitle?: string;
-  /** Breadcrumb trail. If omitted the shell auto-generates Home → title */
   breadcrumbs?: BreadcrumbItem[];
-  /** Constrain inner content width. Defaults to "lg" */
   maxWidth?: "sm" | "md" | "lg" | "xl" | "full";
+  /** Dark hero with icon — used by the new en-eg pages */
+  heroTitle?: string;
+  heroSubtitle?: string;
+  heroIcon?: React.ReactNode;
+  /** If true, renders the dark-theme hero instead of the light InnerPageHeader */
+  darkHero?: boolean;
 }
-
-// ─── Width map ────────────────────────────────────────────────────────────────
 
 const WIDTH_CLASS: Record<NonNullable<PageMeta["maxWidth"]>, string> = {
   sm: "max-w-2xl",
@@ -52,10 +53,7 @@ function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
                   {item.label}
                 </span>
               ) : (
-                <Link
-                  href={item.href}
-                  className="hover:text-brand-red transition-colors"
-                >
+                <Link href={item.href} className="hover:text-brand-red transition-colors">
                   {item.label}
                 </Link>
               )}
@@ -67,11 +65,11 @@ function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   );
 }
 
-// ─── Inner page header (reusable standalone) ──────────────────────────────────
+// ─── Light inner page header ──────────────────────────────────────────────────
 
 export function InnerPageHeader({
   section,
-  title,
+  title = "",
   subtitle,
   breadcrumbs,
 }: Pick<PageMeta, "section" | "title" | "subtitle" | "breadcrumbs">) {
@@ -96,6 +94,32 @@ export function InnerPageHeader({
   );
 }
 
+// ─── Dark hero header (used by en-eg pages) ───────────────────────────────────
+
+export function DarkPageHero({
+  heroTitle,
+  heroSubtitle,
+  heroIcon,
+}: {
+  heroTitle: string;
+  heroSubtitle?: string;
+  heroIcon?: React.ReactNode;
+}) {
+  return (
+    <div className="bg-gradient-to-b from-[#1a3a1f] to-[#0f1a0b] py-14 px-4 text-center border-b border-white/10">
+      {heroIcon && (
+        <div className="w-14 h-14 rounded-2xl bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mx-auto mb-4 text-brand-green">
+          {heroIcon}
+        </div>
+      )}
+      <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{heroTitle}</h1>
+      {heroSubtitle && (
+        <p className="text-white/55 text-base max-w-xl mx-auto">{heroSubtitle}</p>
+      )}
+    </div>
+  );
+}
+
 // ─── Content width wrapper ────────────────────────────────────────────────────
 
 export function InnerPageContent({
@@ -108,13 +132,7 @@ export function InnerPageContent({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "mx-auto px-4 lg:px-8 py-10",
-        WIDTH_CLASS[maxWidth ?? "lg"],
-        className
-      )}
-    >
+    <div className={cn("mx-auto px-4 lg:px-8 py-10", WIDTH_CLASS[maxWidth ?? "lg"], className)}>
       {children}
     </div>
   );
@@ -124,23 +142,9 @@ export function InnerPageContent({
 
 interface PageShellProps extends PageMeta {
   children: React.ReactNode;
-  /** Extra classes on <main> */
   className?: string;
 }
 
-/**
- * Unified wrapper for all secondary / inner pages.
- *
- * Usage:
- * ```tsx
- * <PageShell pageId="about" section="سبانكر" title="عن سبانكر" subtitle="نحن نطير بك..." maxWidth="lg">
- *   {content}
- * </PageShell>
- * ```
- *
- * The `pageId` is exposed as a `data-page-id` attribute on <main>
- * so the future dashboard can target/highlight the page.
- */
 export function PageShell({
   pageId,
   section,
@@ -148,9 +152,38 @@ export function PageShell({
   subtitle,
   breadcrumbs,
   maxWidth = "lg",
+  heroTitle,
+  heroSubtitle,
+  heroIcon,
+  darkHero = false,
   children,
   className,
 }: PageShellProps) {
+  const isDark = darkHero || !!heroTitle;
+
+  if (isDark) {
+    return (
+      <>
+        <Navbar />
+        <main
+          data-page-id={pageId}
+          className={cn("min-h-screen bg-[#0f1a0b] pt-16 pb-20 lg:pb-0", className)}
+        >
+          <DarkPageHero
+            heroTitle={heroTitle ?? title ?? ""}
+            heroSubtitle={heroSubtitle ?? subtitle}
+            heroIcon={heroIcon}
+          />
+          <div className={cn("mx-auto px-4 py-12", WIDTH_CLASS[maxWidth ?? "xl"])}>
+            {children}
+          </div>
+        </main>
+        <Footer />
+        <BottomNav />
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar />
