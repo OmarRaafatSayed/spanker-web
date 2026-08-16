@@ -139,20 +139,20 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed top-0 inset-x-0 z-50 h-16 bg-brand-dark transition-shadow duration-300",
+          "fixed top-0 inset-x-0 z-50 h-16 bg-brand-dark transition-shadow duration-300 overflow-hidden",
           scrolled && "shadow-lg shadow-black/30"
         )}
       >
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 h-full flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 h-full flex items-center justify-between gap-2">
 
           {/* ── Logo ── */}
           <Link href="/" className="shrink-0 hover:opacity-85 transition-opacity">
             <img
               src="/width-logo.png"
               alt="Spanker"
-              width={110}
-              height={36}
-              className="h-9 w-auto object-contain"
+              width={100}
+              height={34}
+              className="h-8 sm:h-9 w-auto object-contain"
             />
           </Link>
 

@@ -200,8 +200,8 @@ export function FlightSearchWidget() {
                 onChange={(e) => setDeparture(e.target.value)}
                 min={new Date().toISOString().split("T")[0]}
                 className={cn(
-                  fieldInput,
-                  "text-xs sm:text-sm min-w-0",
+                  "w-full min-w-0 h-full bg-transparent outline-none text-white font-medium px-2",
+                  "text-[11px] sm:text-sm",
                   "[color-scheme:dark]",
                   "[&::-webkit-calendar-picker-indicator]:opacity-0",
                   "[&::-webkit-calendar-picker-indicator]:absolute",
@@ -228,8 +228,8 @@ export function FlightSearchWidget() {
                     onChange={(e) => setReturnDate(e.target.value)}
                     min={departure}
                     className={cn(
-                      fieldInput,
-                      "text-xs sm:text-sm min-w-0",
+                      "w-full min-w-0 h-full bg-transparent outline-none text-white font-medium px-2",
+                      "text-[11px] sm:text-sm",
                       "[color-scheme:dark]",
                       "[&::-webkit-calendar-picker-indicator]:opacity-0",
                       "[&::-webkit-calendar-picker-indicator]:absolute",
@@ -257,7 +257,7 @@ export function FlightSearchWidget() {
               )}
             >
               <span className="text-brand-yellow me-2 shrink-0"><PassengersIcon size={15} /></span>
-              <span className="flex-1 text-start text-white text-sm truncate">
+              <span className="flex-1 text-start text-white text-[11px] sm:text-sm truncate">
                 {totalPassengers} {isAr ? (totalPassengers === 1 ? "مسافر" : "مسافرون") : "Pax"}
               </span>
               <ChevronDownIcon
@@ -316,7 +316,7 @@ export function FlightSearchWidget() {
                 classOpen && "border-brand-yellow ring-1 ring-brand-yellow/40"
               )}
             >
-              <span className="flex-1 text-start text-white text-sm truncate">
+              <span className="flex-1 text-start text-white text-[11px] sm:text-sm truncate">
                 {CLASS_LABELS[travelClass][locale as keyof typeof CLASS_LABELS[TravelClass]]}
               </span>
               <ChevronDownIcon
