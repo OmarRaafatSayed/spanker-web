@@ -227,3 +227,170 @@ export interface AdminBannerForm {
   start_date?: string;
   end_date?: string;
 }
+
+// =============================================================================
+// Phase 1 Types — Visa Types, Hotels, Offers, Visa Document Requirements
+// =============================================================================
+
+export type VisaCategory = "vip" | "standard" | "urgent" | "multi_entry" | "extension";
+export type ProfessionTier = "high" | "medium" | "weak" | "none";
+
+export interface VisaType {
+  id: string;
+  country_code: string;
+  country_name: string;
+  visa_name: string;
+  duration_days: number;
+  category: VisaCategory;
+  profession_tier: ProfessionTier | null;
+  price: number;
+  deposit_amount: number;
+  child_price: number | null;
+  processing_days: number;
+  is_urgent_available: boolean;
+  urgent_price: number | null;
+  is_active: boolean;
+  notes: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type BoardType = "room_only" | "bed_breakfast" | "half_board" | "full_board";
+
+export interface HotelRoom {
+  id: string;
+  hotel_id: string;
+  room_type: string;
+  board_type: BoardType;
+  price_per_night: number;
+  currency: string;
+  max_occupancy: number;
+  description: string | null;
+  images: string[];
+  is_available: boolean;
+  created_at: string;
+}
+
+export interface Hotel {
+  id: string;
+  name: string;
+  stars: number | null;
+  country: string;
+  city: string;
+  address: string | null;
+  google_maps_url: string | null;
+  amenities: string[];
+  check_in_time: string | null;
+  check_out_time: string | null;
+  cancellation_policy: string | null;
+  booking_conditions: string | null;
+  is_active: boolean;
+  cover_image: string | null;
+  images: string[];
+  description: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  hotel_rooms?: HotelRoom[];
+}
+
+export type OfferType = "flight" | "hotel" | "visa" | "package";
+
+export interface Offer {
+  id: string;
+  title: string;
+  offer_type: OfferType;
+  destination: string;
+  original_price: number | null;
+  discounted_price: number;
+  discount_percent: number | null;
+  currency: string;
+  start_date: string | null;
+  end_date: string | null;
+  description: string | null;
+  terms_and_conditions: string | null;
+  images: string[];
+  available_slots: number | null;
+  is_active: boolean;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface VisaDocumentRequirement {
+  id: string;
+  country_code: string;
+  visa_type_id: string | null;
+  document_key: string;
+  document_label: string;
+  is_required: boolean;
+  conditions: Record<string, unknown>;
+  sort_order: number;
+  created_at: string;
+  visa_types?: Pick<VisaType, "id" | "visa_name" | "country_name"> | null;
+}
+
+// Form types for admin panels
+export interface VisaTypeForm {
+  country_code: string;
+  country_name: string;
+  visa_name: string;
+  duration_days: number;
+  category: VisaCategory;
+  profession_tier?: ProfessionTier;
+  price: number;
+  deposit_amount?: number;
+  child_price?: number;
+  processing_days: number;
+  is_urgent_available: boolean;
+  urgent_price?: number;
+  is_active: boolean;
+  notes?: string;
+}
+
+export interface HotelForm {
+  name: string;
+  stars?: number;
+  country: string;
+  city: string;
+  address?: string;
+  google_maps_url?: string;
+  amenities?: string[];
+  check_in_time?: string;
+  check_out_time?: string;
+  cancellation_policy?: string;
+  booking_conditions?: string;
+  is_active: boolean;
+  cover_image?: string;
+  images?: string[];
+  description?: string;
+}
+
+export interface HotelRoomForm {
+  room_type: string;
+  board_type: BoardType;
+  price_per_night: number;
+  currency?: string;
+  max_occupancy?: number;
+  description?: string;
+  images?: string[];
+  is_available?: boolean;
+}
+
+export interface OfferForm {
+  title: string;
+  offer_type: OfferType;
+  destination: string;
+  original_price?: number;
+  discounted_price: number;
+  discount_percent?: number;
+  currency?: string;
+  start_date?: string;
+  end_date?: string;
+  description?: string;
+  terms_and_conditions?: string;
+  images?: string[];
+  available_slots?: number;
+  is_active: boolean;
+}

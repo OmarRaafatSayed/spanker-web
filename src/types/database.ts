@@ -284,6 +284,37 @@ export interface Database {
         }
         Returns: number
       }
+      create_quotation: {
+        Args: {
+          p_user_id: string
+          p_visa_app_id: string | null
+          p_items: Json
+          p_total_amount: number
+          p_currency?: string
+        }
+        Returns: string
+      }
+      send_quotation: {
+        Args: {
+          p_quote_id: string
+        }
+        Returns: void
+      }
+      accept_quotation_and_create_booking: {
+        Args: {
+          p_quote_id: string
+        }
+        Returns: string
+      }
+      record_payment_and_generate_voucher: {
+        Args: {
+          p_transaction_id: string
+          p_amount_paid: number
+          p_payment_method: string
+          p_receipt_url?: string | null
+        }
+        Returns: void
+      }
     }
     Enums: {
       [_ in never]: never
