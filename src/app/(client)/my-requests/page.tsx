@@ -10,7 +10,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
 import { supabase } from "@/lib/supabase";
 import { normalizeToPortalStatus, type PortalStatus } from "@/types/visa-states";

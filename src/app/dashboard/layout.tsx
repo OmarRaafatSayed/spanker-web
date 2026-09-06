@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
 
 // ─── Nav items ────────────────────────────────────────────────────────────────

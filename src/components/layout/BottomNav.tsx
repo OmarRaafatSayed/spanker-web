@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 
 /* ─── Icons ─────────────────────────────────────────────────── */
 

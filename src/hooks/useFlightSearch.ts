@@ -10,7 +10,7 @@
  */
 
 import { useState } from "react";
-import { crmAdapter } from "@/lib/services/crm-adapter";
+import { crmAdapter } from "@/modules/crm";
 import type { FlightOffer, FlightSearchRequest, TravelClass } from "@/types/flights";
 
 export interface FlightSearchState {

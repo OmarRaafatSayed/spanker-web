@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdminAuth } from "@/lib/admin-auth";
+import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {

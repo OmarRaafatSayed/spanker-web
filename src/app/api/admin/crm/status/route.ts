@@ -5,7 +5,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { requireAdminAuth } from "@/lib/admin-auth";
+import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 
 export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);

@@ -20,7 +20,7 @@
  */
 
 import { supabase } from "@/lib/supabase";
-import { crmAdapter } from "@/lib/services/crm-adapter";
+import { crmAdapter } from "@/modules/crm";
 import type { CustomerDocument } from "@/types";
 
 export interface UploadDocumentParams {

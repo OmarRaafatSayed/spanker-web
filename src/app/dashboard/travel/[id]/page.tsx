@@ -15,7 +15,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { travelRequestsService, customerDocumentsService } from "@/lib/services/travel-requests-service";
+import { travelRequestsService, customerDocumentsService } from "@/modules/travel/services/travel-requests-service";
 import { uploadDocument } from "@/modules/visa/document-upload-service";
 import { realtimeSubscriptions } from "@/lib/services/realtime-subscriptions";
 import {
@@ -24,7 +24,7 @@ import {
   normalizeToPortalStatus,
   type PortalStatus,
 } from "@/types/visa-states";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import type { TravelRequest, CustomerDocument, DocumentChecklist, DocumentItem } from "@/types";
 
 // =============================================================================

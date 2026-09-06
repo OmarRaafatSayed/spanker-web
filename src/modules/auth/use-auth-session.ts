@@ -17,8 +17,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useAuthStore } from "@/lib/store";
-import { resolveToken } from "@/lib/services/token-resolver";
+import { useAuthStore } from "@/modules/auth";
+import { resolveToken } from "@/modules/crm/services/token-resolver";
 
 const SESSION_KEYS = ["customer_portal_session", "travel_crm_sb_session"] as const;
 

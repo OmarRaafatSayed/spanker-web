@@ -15,7 +15,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { crmAdapter } from "@/lib/services/crm-adapter";
+import { crmAdapter } from "@/modules/crm";
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };

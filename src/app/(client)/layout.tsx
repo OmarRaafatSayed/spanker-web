@@ -1,33 +1,61 @@
-"use client";
+"use client"
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
+// =============================================================================
+// (client) route group layout
+// Guards all child routes and wraps them with the portal Navbar + Footer.
+// Redirect to /login if no Supabase session.
+// =============================================================================
 
-/**
- * (client) route group layout.
- * Guards all child routes — redirects to /login if not authenticated.
- * No wrapping chrome: each child page renders its own nav/footer.
- */
+import { useEffect, useState } from "react"
+import { useRouter, usePathname } from "next/navigation"
+import { supabase }     from "@/lib/supabase/client"
+import { Navbar }       from "@/components/layout/Navbar"
+import { Footer }       from "@/components/layout/Footer"
+import { FullPageSpinner } from "@/components/common/LoadingSpinner"
+import { ErrorBoundary } from "@/components/common/ErrorBoundary"
+
+/** Profile setup is inside (client) but must be accessible before profile exists */
+const SETUP_PATH = "/profile/setup"
+
 export default function ClientGroupLayout({ children }: { children: React.ReactNode }) {
-  const { user, isLoading } = useAuth();
-  const router = useRouter();
+  const router   = useRouter()
+  const pathname = usePathname()
+  const [checking, setChecking] = useState(true)
 
   useEffect(() => {
-    if (!isLoading && !user) {
-      router.replace("/login");
-    }
-  }, [isLoading, user, router]);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) {
+        router.replace(`/login?redirect=${encodeURIComponent(pathname)}`)
+      } else {
+        setChecking(false)
+      }
+    })
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-alt">
-        <div className="w-8 h-8 border-4 border-brand-green border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT" || !session) {
+        router.replace("/login")
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [router, pathname])
+
+  if (checking) return <FullPageSpinner />
+
+  // Profile setup page — no Navbar/Footer to keep the focus
+  if (pathname === SETUP_PATH) {
+    return <ErrorBoundary>{children}</ErrorBoundary>
   }
 
-  if (!user) return null;
-
-  return <>{children}</>;
+  return (
+    <ErrorBoundary>
+      <div className="min-h-screen flex flex-col bg-background">
+        <Navbar />
+        <main className="flex-1 container mx-auto px-4 py-8">
+          {children}
+        </main>
+        <Footer />
+      </div>
+    </ErrorBoundary>
+  )
 }

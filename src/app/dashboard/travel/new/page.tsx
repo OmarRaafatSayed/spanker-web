@@ -16,7 +16,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { travelRequestsService } from "@/lib/services/travel-requests-service";
+import { travelRequestsService } from "@/modules/travel/services/travel-requests-service";
 import type { TravelType } from "@/types";
 
 // =============================================================================

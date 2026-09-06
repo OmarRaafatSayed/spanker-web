@@ -22,7 +22,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
 import { LoginModal } from "@/components/ui/LoginModal";
 import { Navbar } from "@/components/layout/Navbar";

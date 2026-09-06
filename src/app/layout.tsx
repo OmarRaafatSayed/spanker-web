@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
-import { AuthProvider } from "@/lib/auth-context";
+import { AuthProvider } from "@/modules/auth";
 import "./globals.css";
 
 const cairo = Cairo({

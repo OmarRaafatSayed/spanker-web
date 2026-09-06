@@ -7,9 +7,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
-import { useRegistrationEvents } from "@/lib/hooks/useRegistrationEvents";
+import { useRegistrationEvents } from "@/modules/auth";
 
 // ─── Validation schema ────────────────────────────────────────────────────────
 

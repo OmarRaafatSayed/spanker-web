@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
 import { LoginModal } from "@/components/ui/LoginModal";
 import { uploadDocument } from "@/modules/visa";

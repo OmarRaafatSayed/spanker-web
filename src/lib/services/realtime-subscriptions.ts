@@ -19,7 +19,7 @@
 
 import type { RealtimeChannel } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
-import { useTravelRequestsStore } from "@/lib/store";
+import { useTravelRequestsStore } from "@/modules/travel";
 import type { TravelRequest } from "@/types";
 import type { CustomerDocument } from "@/types";
 

@@ -6,8 +6,8 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { requireAdminAuth } from "@/lib/admin-auth";
-import { logToSystemLogs } from "@/lib/services/system-logger";
+import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
+import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import {
   isPortalStatus,
   isValidTransition,

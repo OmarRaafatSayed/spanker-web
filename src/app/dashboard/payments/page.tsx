@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { crmAdapter } from "@/lib/services/crm-adapter";
+import { crmAdapter } from "@/modules/crm";
 import type { PaymentRecord, PaymentStatus } from "@/types/flights";
 
 const STATUS_CONFIG: Record<PaymentStatus, { labelAr: string; labelEn: string; cls: string }> = {

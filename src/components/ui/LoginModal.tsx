@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
-import { AuthModalService } from "@/lib/auth-modal-service";
+import { AuthModalService } from "@/modules/auth";
 
 interface LoginModalProps {
   open: boolean;

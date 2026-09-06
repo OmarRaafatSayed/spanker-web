@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/lib/auth-context";
-import { useAdminStore } from "@/lib/admin-store";
-import { CrmStatusPill } from "@/components/admin/CrmStatusPill";
-import { NotificationDropdown } from "@/components/admin/NotificationDropdown";
+import { useAuth } from "@/modules/auth";
+import { useAdminStore } from "@/modules/admin";
+import { CrmStatusPill } from "@/modules/admin/components/CrmStatusPill";
+import { NotificationDropdown } from "@/modules/admin/components/NotificationDropdown";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Navigation structure (from dashboard-stracture.md Phase 6)
