@@ -15,7 +15,15 @@ import type {
   DashboardResponse,
 } from "@/modules/portal/types/portal.types"
 
-const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/v1") + "/portal"
+// Use the Next.js proxy (/api/backend → FastAPI) to avoid CORS issues in the browser.
+// In production set NEXT_PUBLIC_API_BASE to your domain (e.g. https://yourdomain.com).
+const BASE = (
+  typeof window === "undefined"
+    // Server-side: call FastAPI directly (no CORS issue)
+    ? (process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1")
+    // Client-side: go through Next.js proxy (same origin → no CORS)
+    : "/api/backend"
+) + "/portal"
 
 // ---------------------------------------------------------------------------
 // Internal helpers

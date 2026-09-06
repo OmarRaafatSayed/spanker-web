@@ -16,7 +16,7 @@
  * - 500 Server Error: Processor crashed
  */
 
-import { processSyncQueue } from "@/lib/services/sync-queue-processor";
+import { processSyncQueue } from "@/modules/crm/services/sync-queue-processor";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs"; // Ensure this runs on Node.js (not Edge)

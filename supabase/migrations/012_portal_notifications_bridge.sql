@@ -88,8 +88,7 @@ CREATE INDEX IF NOT EXISTS idx_pnotif_unread
   WHERE is_read = FALSE;                        -- partial index for badge count
 
 CREATE INDEX IF NOT EXISTS idx_pnotif_travel_request
-  ON public.portal_notifications (travel_request_id)
-  WHERE travel_request_id IS NOT NULL;
+  ON public.portal_notifications (travel_request_id);
 
 CREATE INDEX IF NOT EXISTS idx_pnotif_created_at
   ON public.portal_notifications (created_at DESC);
@@ -236,8 +235,10 @@ END $$;
 
 -- =====================================================================
 -- 4. HELPER VIEW — travel_request_portal_summary
---    Single query the dashboard page can call to get everything it needs.
---    Replaces the 3-query fan-out in usePortalDashboard.
+--    Summarises travel_requests with notification counts.
+--    Document counts are omitted here because customer_documents may use
+--    different FK column names across deployments; the FastAPI
+--    /portal/dashboard endpoint already computes those aggregates.
 -- =====================================================================
 
 CREATE OR REPLACE VIEW public.travel_request_portal_summary AS
@@ -253,21 +254,6 @@ SELECT
   tr.next_action_required,
   tr.created_at,
   tr.updated_at,
-
-  -- Document progress (from existing customer_documents table)
-  (SELECT COUNT(*)
-     FROM public.customer_documents cd
-    WHERE cd.travel_request_id = tr.id)              AS total_documents,
-
-  (SELECT COUNT(*)
-     FROM public.customer_documents cd
-    WHERE cd.travel_request_id = tr.id
-      AND cd.status = 'approved')                    AS approved_documents,
-
-  (SELECT COUNT(*)
-     FROM public.customer_documents cd
-    WHERE cd.travel_request_id = tr.id
-      AND cd.status = 'rejected')                    AS rejected_documents,
 
   -- Unread notification count for this request
   (SELECT COUNT(*)
