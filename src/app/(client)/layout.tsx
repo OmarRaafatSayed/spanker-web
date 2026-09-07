@@ -9,8 +9,8 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { supabase }     from "@/lib/supabase/client"
-import { Navbar }       from "@/components/layout/Navbar"
-import { Footer }       from "@/components/layout/Footer"
+import { PortalNavbar } from "@/components/layout/PortalNavbar"
+import { PortalFooter } from "@/components/layout/PortalFooter"
 import { FullPageSpinner } from "@/components/common/LoadingSpinner"
 import { ErrorBoundary } from "@/components/common/ErrorBoundary"
 
@@ -50,11 +50,11 @@ export default function ClientGroupLayout({ children }: { children: React.ReactN
   return (
     <ErrorBoundary>
       <div className="min-h-screen flex flex-col bg-background">
-        <Navbar />
+        <PortalNavbar />
         <main className="flex-1 container mx-auto px-4 py-8">
           {children}
         </main>
-        <Footer />
+        <PortalFooter />
       </div>
     </ErrorBoundary>
   )
