@@ -91,7 +91,7 @@ function Dropdown({ item }: { item: NavItem }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute top-full pt-1 z-[110]" style={{ minWidth: "200px", right: 0 }}>
+        <div className="absolute left-0 top-full mt-2 min-w-[200px] z-[110]">
           <div className="bg-[#1a3a1f] border border-white/15 rounded-xl shadow-2xl overflow-hidden py-1">
             {item.links.map((link) => (
               <Link
