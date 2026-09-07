@@ -91,7 +91,7 @@ function Dropdown({ item }: { item: NavItem }) {
         </svg>
       </button>
       {open && (
-        <div className="absolute top-full pt-1 z-50" style={{ minWidth: "200px", right: 0 }}>
+        <div className="absolute top-full pt-1 z-[110]" style={{ minWidth: "200px", right: 0 }}>
           <div className="bg-[#1a3a1f] border border-white/15 rounded-xl shadow-2xl overflow-hidden py-1">
             {item.links.map((link) => (
               <Link
@@ -132,8 +132,9 @@ export function Navbar() {
   return (
     <>
       <header
+        dir="ltr"
         className={cn(
-          "fixed top-0 inset-x-0 z-50 h-16 bg-brand-dark transition-shadow duration-300 overflow-x-hidden",
+          "fixed top-0 inset-x-0 z-[100] h-16 bg-brand-dark transition-shadow duration-300 overflow-x-hidden",
           scrolled && "shadow-lg shadow-black/30"
         )}
       >
