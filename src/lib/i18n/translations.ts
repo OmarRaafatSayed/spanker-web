@@ -5,7 +5,10 @@ export const translations = {
     // Navbar
     nav: {
       book: "الحجز",
-      bookFlight: "احجز رحلة",
+      bookFlight: "حجز طيران",
+      bookHotel: "حجز فنادق",
+      bookVisa: "تأشيرات",
+      bookTours: "رحلات سياحية",
       myBooking: "حجوزاتي",
       checkin: "تسجيل الوصول",
       onlineCheckin: "تسجيل وصول إلكتروني",
@@ -190,6 +193,9 @@ export const translations = {
     nav: {
       book: "Book",
       bookFlight: "Book a Flight",
+      bookHotel: "Book a Hotel",
+      bookVisa: "Visa Application",
+      bookTours: "Tours & Packages",
       myBooking: "My Booking",
       checkin: "Check-in",
       onlineCheckin: "Online Check-in",

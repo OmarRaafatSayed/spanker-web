@@ -1,52 +1,89 @@
-/**
- * GET  /api/profile  — get authenticated user's profile
- * PATCH /api/profile — update profile fields
- *
- * FIXED: Uses BACKEND_INTERNAL_URL (server-side) not NEXT_PUBLIC_API_URL (browser-only)
- */
-
 import { NextRequest, NextResponse } from "next/server";
-
-// BACKEND_INTERNAL_URL is for server→server calls. NEXT_PUBLIC_API_URL is browser-only.
-const BACKEND = process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1";
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const res = await fetch(`${BACKEND}/profile/me`, {
-      headers: { Authorization: authHeader, "Content-Type": "application/json" },
-      cache: "no-store",
-    });
+    const supabase = await createServerClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError) {
+      return NextResponse.json(
+        { error: profileError.message },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      profile: {
+        id: profile.id,
+        email: profile.email,
+        first_name: profile.first_name,
+        last_name: profile.last_name,
+        phone: profile.phone,
+        role: profile.role,
+        has_complete_profile: profile.has_complete_profile,
+        created_at: profile.created_at,
+        updated_at: profile.updated_at,
+      },
+    });
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 502 });
+    return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }
 
 export async function PATCH(req: NextRequest): Promise<NextResponse> {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
-    const body = await req.json();
-    const res = await fetch(`${BACKEND}/profile/me`, {
-      method: "PATCH",
-      headers: { Authorization: authHeader, "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
+    const supabase = await createServerClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await req.json();
+
+    const { data: profile, error: updateError } = await supabase
+      .from("profiles")
+      .update({
+        first_name: body.first_name,
+        last_name: body.last_name,
+        phone: body.phone,
+        has_complete_profile: true,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id)
+      .select()
+      .single();
+
+    if (updateError) {
+      return NextResponse.json(
+        { error: updateError.message },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      profile,
+    });
   } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 502 });
+    return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }

@@ -1,21 +1,25 @@
-"use client"
+"use client";
 
 // =============================================================================
-// Supabase Browser Client
+// Supabase Browser Client (SSR)
 // =============================================================================
 
-import { createClient } from "@supabase/supabase-js"
+import { createBrowserClient } from "@supabase/ssr";
+import type { Database } from "@/types/database";
 
-const url  = process.env.NEXT_PUBLIC_SUPABASE_URL  ?? "https://placeholder.supabase.co"
-const key  = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "placeholder"
+const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://placeholder.supabase.co";
+const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "placeholder";
 
-export const supabase = createClient(url, key, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-  },
-  realtime: {
-    params: { eventsPerSecond: 10 },
-  },
-})
+/**
+ * Creates a Supabase client for use in browser (Client Components).
+ * Uses @supabase/ssr for proper cookie handling.
+ */
+export function createClient() {
+  return createBrowserClient<Database>(url, key);
+}
+
+/**
+ * Singleton browser client instance for use in Client Components.
+ * Automatically handles cookie-based session management.
+ */
+export const supabase = createClient();

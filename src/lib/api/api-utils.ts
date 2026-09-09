@@ -51,3 +51,13 @@ export async function apiFetch<T>(
   }
   return data as T;
 }
+
+export class ValidationError extends Error {
+  constructor(
+    message: string,
+    public details?: Record<string, string[]>
+  ) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}

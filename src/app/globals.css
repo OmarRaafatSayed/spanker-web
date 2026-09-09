@@ -265,3 +265,55 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* =============================================================================
+   RTL / BIDIRECTIONAL SUPPORT
+   Tailwind v4 supports dir-aware variants automatically via:
+   - ms-* / me-* (margin-start / margin-end)
+   - ps-* / pe-* (padding-start / padding-end)
+   - start-* / end-* (logical inset)
+   - border-s-* / border-e-* (logical borders)
+   - rounded-s-* / rounded-e-* (logical radius)
+   
+   The following overrides handle cases where legacy physical properties
+   need RTL correction.
+   ============================================================================= */
+
+@layer base {
+  /* Font stack — Cairo covers both Arabic & Latin */
+  [dir="rtl"] {
+    font-family: var(--font-cairo), "Cairo", "Noto Naskh Arabic", sans-serif;
+    letter-spacing: 0;           /* Arabic doesn't use letter-spacing */
+    word-spacing: normal;
+  }
+
+  /* Reverse flex rows in RTL where physical direction was assumed */
+  [dir="rtl"] .rtl\:flex-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  /* Text alignment helpers */
+  [dir="rtl"] .rtl\:text-right {
+    text-align: right;
+  }
+  [dir="rtl"] .rtl\:text-left {
+    text-align: left;
+  }
+
+  /* Scroll containers — flip horizontal scroll in RTL */
+  [dir="rtl"] .overflow-x-auto {
+    direction: rtl;
+  }
+  [dir="rtl"] .overflow-x-auto > * {
+    direction: ltr;             /* Re-reset children if needed */
+  }
+}
+
+/* =============================================================================
+   BRAND COLORS — verified to work in both LTR and RTL
+   These are CSS custom properties and are direction-agnostic:
+   brand-green  : #3D6833
+   brand-yellow : #FDD12A
+   brand-dark   : #1a1a1a
+   brand-blue   : #2473BC
+   ============================================================================= */

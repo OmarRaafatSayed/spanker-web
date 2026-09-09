@@ -1,90 +1,72 @@
-/**
- * GET /api/visa/my-applications
- * ==============================
- * Server-side Next.js proxy to the FastAPI backend.
- *
- * REFACTORED (Task 1):
- *   - Removed inline STATUS_MAP — integer→slug conversion now uses
- *     mapCrmStatusToPortal() from @/types/visa-states (single source of truth)
- *   - Fallback chain preserved: /visa/my-applications → /visa/applications
- *   - Field normalization (appointment_notes → notes) kept
- */
-
 import { NextRequest, NextResponse } from "next/server";
-import { mapCrmStatusToPortal } from "@/types/visa-states";
-
-const BACKEND =
-  process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1";
-
-function normalizeApplication(app: Record<string, unknown>) {
-  return {
-    ...app,
-    // Convert integer CRM status to portal slug. If already a string slug, keep it.
-    status:
-      typeof app.status === "number"
-        ? mapCrmStatusToPortal(app.status)
-        : app.status,
-    // Normalize field name discrepancy between DB and frontend type
-    notes: (app.notes ?? app.appointment_notes ?? null) as string | null,
-  };
-}
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const supabase = await createServerClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-  const { searchParams } = new URL(req.url);
-  const forwardParams = new URLSearchParams();
-  for (const [key, value] of searchParams.entries()) {
-    forwardParams.set(key, value);
-  }
-  const qs = forwardParams.toString();
-
-  // Try dedicated customer endpoint first; fall back to staff endpoint
-  const urls = [
-    `${BACKEND}/visa/my-applications${qs ? `?${qs}` : ""}`,
-    `${BACKEND}/visa/applications${qs ? `?${qs}` : ""}`,
-  ];
-
-  let lastError = "";
-
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, {
-        headers: {
-          Authorization: authHeader,
-          "Content-Type": "application/json",
-        },
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        const body = await res.text();
-        lastError = body;
-        if (res.status === 404) continue;   // endpoint not deployed yet → try next
-        return NextResponse.json({ error: lastError }, { status: res.status });
-      }
-
-      const data = (await res.json()) as Record<string, unknown>;
-
-      const rawResults: Record<string, unknown>[] = Array.isArray(data.results)
-        ? (data.results as Record<string, unknown>[])
-        : Array.isArray(data)
-          ? (data as Record<string, unknown>[])
-          : [];
-
-      const results = rawResults.map(normalizeApplication);
-
-      return NextResponse.json({ results, count: results.length });
-    } catch (err) {
-      lastError = String(err);
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-  }
 
-  return NextResponse.json(
-    { error: lastError || "Backend unavailable" },
-    { status: 502 }
-  );
+    const { searchParams } = new URL(req.url);
+    const limit = parseInt(searchParams.get("limit") || "50");
+    const offset = parseInt(searchParams.get("offset") || "0");
+
+    const { data: bookings, error: bookingsError } = await supabase
+      .from("travel_requests")
+      .select(`
+        *,
+        visa_booking_details (
+          *,
+          visa:visas (
+            destination_country,
+            visa_type,
+            processing_days,
+            price,
+            service_fee,
+            currency
+          )
+        )
+      `)
+      .eq("customer_id", user.id)
+      .eq("booking_type", "visa")
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit - 1);
+
+    if (bookingsError) {
+      return NextResponse.json(
+        { error: bookingsError.message },
+        { status: 400 }
+      );
+    }
+
+    const results = bookings?.map((booking) => {
+      const details = Array.isArray(booking.visa_booking_details)
+        ? booking.visa_booking_details[0]
+        : booking.visa_booking_details;
+
+      return {
+        id: details?.id || booking.id,
+        booking_id: booking.id,
+        reference: booking.reference,
+        status: details?.review_status || "pending",
+        destination_country: details?.visa?.destination_country || "",
+        visa_type: details?.visa?.visa_type || "",
+        applicant_name: `${details?.applicant?.first_name || ""} ${details?.applicant?.last_name || ""}`.trim(),
+        passport_number: details?.applicant?.passport_number || "",
+        submitted_at: details?.submitted_at || booking.created_at,
+        notes: details?.staff_notes || null,
+        created_at: booking.created_at,
+      };
+    }) || [];
+
+    return NextResponse.json({ results, count: results.length });
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
 }

@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
   const supabase = getServiceClient();
 
   let query = supabase
-    .from("bookings")
+    .from("travel_requests")
     .select(
       `
       *,

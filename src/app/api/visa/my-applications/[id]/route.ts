@@ -1,72 +1,74 @@
-/**
- * GET /api/visa/my-applications/[id]
- * ====================================
- * Single visa application detail for the authenticated customer.
- *
- * REFACTORED (Task 2):
- *   - Removed inline STATUS_MAP — uses mapCrmStatusToPortal() from visa-states
- *   - Falls back from /my-applications/:id → /applications/:id automatically
- *   - Normalises notes field name discrepancy
- */
-
 import { NextRequest, NextResponse } from "next/server";
-import { mapCrmStatusToPortal } from "@/types/visa-states";
-
-const BACKEND =
-  process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1";
-
-function normalizeApplication(app: Record<string, unknown>) {
-  return {
-    ...app,
-    status:
-      typeof app.status === "number"
-        ? mapCrmStatusToPortal(app.status)
-        : app.status,
-    notes: (app.notes ?? app.appointment_notes ?? null) as string | null,
-  };
-}
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ): Promise<NextResponse> {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const supabase = await createServerClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-  const { id } = await params;
-
-  const urls = [
-    `${BACKEND}/visa/my-applications/${id}`,
-    `${BACKEND}/visa/applications/${id}`,
-  ];
-
-  let lastError = "";
-
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, {
-        headers: { Authorization: authHeader, "Content-Type": "application/json" },
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        const body = await res.text();
-        lastError = body;
-        if (res.status === 404) continue;
-        return NextResponse.json({ error: lastError }, { status: res.status });
-      }
-
-      const data = (await res.json()) as Record<string, unknown>;
-      return NextResponse.json(normalizeApplication(data));
-    } catch (err) {
-      lastError = String(err);
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-  }
 
-  return NextResponse.json(
-    { error: lastError || "Not found" },
-    { status: 404 }
-  );
+    const { id } = await params;
+
+    const { data: detail, error: detailError } = await supabase
+      .from("visa_booking_details")
+      .select(`
+        *,
+        booking:bookings (
+          reference,
+          total_amount,
+          contact,
+          customer_id,
+          created_at
+        ),
+        visa:visas (
+          destination_country,
+          visa_type,
+          processing_days,
+          price,
+          service_fee,
+          currency,
+          validity_months,
+          max_stay_days
+        )
+      `)
+      .eq("id", id)
+      .single();
+
+    if (detailError || !detail) {
+      return NextResponse.json(
+        { error: "Application not found" },
+        { status: 404 }
+      );
+    }
+
+    if (detail.booking?.customer_id !== user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    return NextResponse.json({
+      id: detail.id,
+      booking_id: detail.booking_id,
+      reference: detail.booking?.reference,
+      status: detail.review_status || "pending",
+      destination_country: detail.visa?.destination_country,
+      visa_type: detail.visa?.visa_type,
+      applicant: detail.applicant,
+      submitted_at: detail.submitted_at,
+      reviewed_at: detail.reviewed_at,
+      notes: detail.staff_notes,
+      created_at: detail.booking?.created_at,
+      total_amount: detail.booking?.total_amount,
+    });
+  } catch (err) {
+    return NextResponse.json({ error: String(err) }, { status: 500 });
+  }
 }

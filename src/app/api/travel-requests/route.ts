@@ -1,14 +1,23 @@
 /**
  * POST /api/travel-requests
  * Server-side route — uses Supabase service_role key to bypass RLS.
- * Auth is validated via the JWT token from our FastAPI auth system.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
 import type { Database } from "@/types/database";
 
-// Server-side Supabase client with service_role — bypasses RLS
+const TravelRequestSchema = z.object({
+  client_user_id: z.string().uuid("client_user_id must be a valid UUID"),
+  destination_country: z.string().min(1, "destination_country is required"),
+  travel_type: z.string().min(1, "travel_type is required"),
+  departure_date: z.string().nullable().optional(),
+  return_date: z.string().nullable().optional(),
+  traveler_count: z.number().int().min(1).max(50).default(1),
+  customer_notes: z.string().max(2000).nullable().optional(),
+});
+
 function getServiceClient() {
   const url  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key  = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -20,26 +29,22 @@ function getServiceClient() {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json() as {
-      client_user_id:       string;
-      destination_country:  string;
-      travel_type:          string;
-      departure_date?:      string | null;
-      return_date?:         string | null;
-      traveler_count:       number;
-      customer_notes?:      string | null;
-    };
+    const raw = await req.json();
+    const parsed = TravelRequestSchema.safeParse(raw);
 
-    const { client_user_id, destination_country, travel_type,
-            departure_date, return_date, traveler_count, customer_notes } = body;
-
-    if (!client_user_id || !destination_country || !travel_type) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
     }
 
-    const db = getServiceClient();
+    const {
+      client_user_id, destination_country, travel_type,
+      departure_date, return_date, traveler_count, customer_notes,
+    } = parsed.data;
 
-    // Build default document checklist
+    const db = getServiceClient();
     const documentChecklist = { required: [], optional: [] };
 
     const { data, error } = await db

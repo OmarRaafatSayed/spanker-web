@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
   const supabase = getServiceClient();
 
   let query = supabase
-    .from("hotels")
+    .from("hotel_offers")
     .select("*, hotel_rooms(id, room_type, board_type, price_per_night, currency, is_available)")
     .order("name", { ascending: true });
 
@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("hotels")
+    .from("hotel_offers")
     .insert({
       name: name as string,
       stars: body.stars != null ? Number(body.stars) : null,

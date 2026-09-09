@@ -1,30 +1,63 @@
-/**
- * POST /api/auth/login
- * Thin server-side proxy to FastAPI login.
- * FIXED: Uses BACKEND_INTERNAL_URL (server-side) not NEXT_PUBLIC_API_URL (browser-only).
- */
-
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { createServerClient } from "@/lib/supabase/server";
 
-const BACKEND = process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1";
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(1, "Password is required"),
+});
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const body = await req.json();
+    const raw = await req.json();
+    const parsed = LoginSchema.safeParse(raw);
 
-    const res = await fetch(`${BACKEND}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-      cache: "no-store",
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+
+    const supabase = await createServerClient();
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: parsed.data.email,
+      password: parsed.data.password,
     });
 
-    const data = await res.json();
-    return NextResponse.json(data, { status: res.status });
+    if (error) {
+      return NextResponse.json(
+        { error: error.message, success: false },
+        { status: 401 }
+      );
+    }
+
+    if (!data.session || !data.user) {
+      return NextResponse.json(
+        { error: "Login failed — no session returned", success: false },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      user: {
+        id: data.user.id,
+        email: data.user.email,
+        first_name: data.user.user_metadata?.first_name,
+        last_name: data.user.user_metadata?.last_name,
+        phone: data.user.user_metadata?.phone,
+      },
+      session: {
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
+        expires_at: data.session.expires_at,
+      },
+    });
   } catch (err) {
     return NextResponse.json(
       { error: String(err), success: false },
-      { status: 502 }
+      { status: 500 }
     );
   }
 }

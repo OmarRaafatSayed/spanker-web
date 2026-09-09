@@ -13,18 +13,29 @@
  * @deprecated Use feature-module imports above instead.
  */
 
-export { login, signup }                    from "@/modules/auth";
-export { getMyVisaApplications }            from "@/modules/visa";
+export { login, signup } from "@/modules/auth";
+export { getMyVisaApplications } from "@/modules/visa";
 export {
   travelRequestsApi,
   documentRequirementsApi,
   documentsApi,
   realtimeApi,
   crmApi,
-}                                           from "@/modules/travel";
+} from "@/modules/travel";
 
-// Remaining endpoints still in lib/api/
-export { searchFlights }                    from "./api/flight-endpoints";
-export { getProfile, updateProfile }        from "./api/profile-endpoints";
-export { getMyPayments }                    from "./api/payment-endpoints";
-export { saveSession, clearSession, getToken } from "./api/api-utils";
+export { searchFlights } from "./api/flight-endpoints";
+export { getProfile, updateProfile } from "./api/profile-endpoints";
+export { getMyPayments } from "./api/payment-endpoints";
+export { saveSession, clearSession, getToken, ValidationError } from "./api/api-utils";
+export {
+  createSupabaseServerClient,
+  requireUser,
+  requireCompleteProfile,
+  requireStaff,
+  requireOwnerOrStaff,
+  successResponse,
+  errorResponse,
+  notFoundResponse,
+  validationErrorResponse,
+  handleRPCError,
+} from "./api/server-utils";

@@ -1,121 +1,106 @@
-// =============================================================================
-// Portal API Client — typed fetch wrapper for FastAPI /api/v1/portal/* endpoints
-// =============================================================================
+/**
+ * Portal API Client
+ * Temporary wrapper - migrate to direct Supabase calls
+ */
 
-import { supabase } from "@/lib/supabase/client"
-import type {
-  ProfileSetupRequest,
-  ProfileResponse,
-  CreateRequestBody,
-  RequestResponse,
-  RequestDetailResponse,
-  RegisterDocumentBody,
-  DocumentResponse,
-  NotificationResponse,
-  DashboardResponse,
-} from "@/modules/portal/types/portal.types"
-
-// Use the Next.js proxy (/api/backend → FastAPI) to avoid CORS issues in the browser.
-// In production set NEXT_PUBLIC_API_BASE to your domain (e.g. https://yourdomain.com).
-const BASE = (
-  typeof window === "undefined"
-    // Server-side: call FastAPI directly (no CORS issue)
-    ? (process.env.BACKEND_INTERNAL_URL ?? "http://localhost:8000/api/v1")
-    // Client-side: go through Next.js proxy (same origin → no CORS)
-    : "/api/backend"
-) + "/portal"
-
-// ---------------------------------------------------------------------------
-// Internal helpers
-// ---------------------------------------------------------------------------
-
-async function authHeaders(): Promise<HeadersInit> {
-  const { data } = await supabase.auth.getSession()
-  const token = data.session?.access_token
-  if (!token) throw new Error("Not authenticated")
-  return { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
-}
-
-async function portalFetch<T>(path: string, init?: RequestInit): Promise<T> {
-  const headers = await authHeaders()
-  const res = await fetch(BASE + path, {
-    ...init,
-    headers: { ...headers, ...(init?.headers ?? {}) },
-  })
-  if (!res.ok) {
-    let detail = res.statusText
-    try {
-      const body = await res.json()
-      detail = body.detail ?? detail
-    } catch { /* ignore parse error */ }
-    throw new Error(detail)
-  }
-  return res.json() as Promise<T>
-}
-
-// ---------------------------------------------------------------------------
-// Public API surface
-// ---------------------------------------------------------------------------
+import { supabase } from "@/lib/supabase/client";
 
 export const portalApi = {
-  // ── Profile ────────────────────────────────────────────────────────────────
-  setupProfile: (body: ProfileSetupRequest) =>
-    portalFetch<ProfileResponse>("/profile/setup", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  async getRequests() {
+    const { data, error } = await supabase
+      .from('travel_requests')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return { success: true, data: data || [] };
+  },
 
-  getProfile: () =>
-    portalFetch<ProfileResponse>("/profile"),
+  async getRequestById(id: string) {
+    const { data, error } = await supabase
+      .from('travel_requests')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) throw error;
+    return { success: true, data };
+  },
 
-  // ── Requests ───────────────────────────────────────────────────────────────
-  createRequest: (body: CreateRequestBody) =>
-    portalFetch<RequestResponse>("/requests", {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+  async getNotifications() {
+    const { data, error } = await supabase
+      .from('portal_notifications')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return { success: true, data: data || [] };
+  },
 
-  listRequests: (params?: { status_filter?: string; limit?: number; offset?: number }) =>
-    portalFetch<{ requests: RequestResponse[]; total: number }>(
-      "/requests?" + new URLSearchParams(params as Record<string, string>)
-    ),
+  async markNotificationRead(id: string) {
+    const { error } = await supabase
+      .from('portal_notifications')
+      .update({ is_read: true })
+      .eq('id', id);
+    
+    if (error) throw error;
+    return { success: true };
+  },
 
-  getRequest: (id: string) =>
-    portalFetch<RequestDetailResponse>(`/requests/${id}`),
+  async getDocuments() {
+    const { data, error } = await supabase
+      .from('customer_documents')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    return { success: true, data: data || [] };
+  },
 
-  updateRequest: (id: string, body: Partial<CreateRequestBody>) =>
-    portalFetch<RequestResponse>(`/requests/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(body),
-    }),
+  async getDashboard() {
+    // Fetch summary data
+    const [requests, notifications, documents] = await Promise.all([
+      supabase.from('travel_requests').select('*', { count: 'exact', head: true }),
+      supabase.from('portal_notifications').select('*').eq('is_read', false),
+      supabase.from('customer_documents').select('*', { count: 'exact', head: true }),
+    ]);
 
-  // ── Documents ──────────────────────────────────────────────────────────────
-  registerDocument: (requestId: string, body: RegisterDocumentBody) =>
-    portalFetch<DocumentResponse>(`/requests/${requestId}/documents`, {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
+    return {
+      success: true,
+      data: {
+        requestsCount: requests.count || 0,
+        unreadNotifications: notifications.data?.length || 0,
+        documentsCount: documents.count || 0,
+      }
+    };
+  },
 
-  deleteDocument: (requestId: string, docId: string) =>
-    portalFetch<{ success: boolean }>(`/requests/${requestId}/documents/${docId}`, {
-      method: "DELETE",
-    }),
+  async getProfile() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
 
-  // ── Notifications ──────────────────────────────────────────────────────────
-  listNotifications: (params?: { unread_only?: boolean; limit?: number }) =>
-    portalFetch<{ notifications: NotificationResponse[]; total: number; unread_count: number }>(
-      "/notifications?" + new URLSearchParams(params as Record<string, string>)
-    ),
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+    
+    if (error) throw error;
+    return { success: true, data };
+  },
 
-  markRead: (id: string) =>
-    portalFetch<{ success: boolean }>(`/notifications/${id}/read`, { method: "PATCH" }),
+  async updateProfile(updates: any) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
 
-  markAllRead: () =>
-    portalFetch<{ success: boolean; marked_read: number }>("/notifications/read-all", {
-      method: "POST",
-    }),
-
-  // ── Dashboard ──────────────────────────────────────────────────────────────
-  getDashboard: () =>
-    portalFetch<DashboardResponse>("/dashboard"),
-}
+    const { data, error } = await supabase
+      .from('profiles')
+      .update(updates)
+      .eq('user_id', user.id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    return { success: true, data };
+  },
+};
