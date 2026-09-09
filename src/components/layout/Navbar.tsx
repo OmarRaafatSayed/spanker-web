@@ -34,13 +34,6 @@ function useNavItems(locale: string): NavItem[] {
       ],
     },
     {
-      label: t.nav.checkin,
-      links: [
-        { label: t.nav.onlineCheckin,  href: p("/check-in-online") },
-        { label: t.nav.airportCheckin, href: p("/airport-check-in") },
-      ],
-    },
-    {
       label: t.nav.travelInfo,
       links: [
         { label: t.nav.baggage,       href: p("/baggage") },
@@ -279,7 +272,7 @@ export function Navbar() {
           </nav>
 
           {/* ── Right / End side ── */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center justify-center gap-2 shrink-0">
             {/* Language toggle */}
             <button
               type="button"
@@ -309,14 +302,14 @@ export function Navbar() {
                 <button
                   type="button"
                   onClick={() => setLoginOpen(true)}
-                  className="lg:hidden h-8 px-3 text-xs font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
+                  className="lg:hidden inline-flex items-center justify-center h-8 px-3 text-xs font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
                 >
                   {t.common.login}
                 </button>
                 <button
                   type="button"
                   onClick={() => setLoginOpen(true)}
-                  className="hidden lg:inline-flex h-9 px-4 text-sm font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
+                  className="hidden lg:inline-flex items-center justify-center h-9 px-4 text-sm font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
                 >
                   {t.common.login}
                 </button>

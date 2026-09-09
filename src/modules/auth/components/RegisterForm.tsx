@@ -147,14 +147,24 @@ export function RegisterForm() {
       {/* Confirm */}
       <div className="space-y-1.5">
         <Label htmlFor="confirm">Confirm password</Label>
-        <Input
-          id="confirm"
-          type="password"
-          autoComplete="new-password"
-          placeholder="••••••••"
-          className={cn(errors.confirm && "border-red-400")}
-          {...register("confirm")}
-        />
+        <div className="relative">
+          <Input
+            id="confirm"
+            type={showPw ? "text" : "password"}
+            autoComplete="new-password"
+            placeholder="••••••••"
+            className={cn("pr-10", errors.confirm && "border-red-400")}
+            {...register("confirm")}
+          />
+          <button
+            type="button"
+            onClick={() => setShowPw(v => !v)}
+            className="absolute inset-y-0 right-3 flex items-center text-muted-foreground hover:text-foreground transition-colors"
+            aria-label={showPw ? "Hide password" : "Show password"}
+          >
+            {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+          </button>
+        </div>
         {errors.confirm && <p className="text-xs text-red-600">{errors.confirm.message}</p>}
       </div>
 

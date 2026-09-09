@@ -43,20 +43,23 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     return null;
   }
 
-  // Check if user is staff
-  const { data: staffRecord } = await supabase
-    .from('staff')
-    .select('role, is_active')
+  // Check if user is staff (staff are profiles with specific roles)
+  const { data: profileRecord } = await supabase
+    .from('profiles')
+    .select('role')
     .eq('user_id', user.id)
     .maybeSingle();
 
-  const isStaff = !!staffRecord && staffRecord.is_active;
+  const isStaff = profileRecord?.role && ['staff', 'admin', 'super_admin'].includes(profileRecord.role);
+  const staffRole = isStaff 
+    ? (profileRecord.role === 'admin' || profileRecord.role === 'super_admin' ? 'admin' : 'agent') as 'admin' | 'agent' | 'reviewer'
+    : undefined;
 
   return {
     id: user.id,
     email: user.email,
     isStaff,
-    staffRole: isStaff ? staffRecord.role : undefined,
+    staffRole: staffRole,
   };
 }
 

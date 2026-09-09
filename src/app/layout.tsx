@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://spanker.travel"),
   title: "سبانكر - طر أينما تريد | Spanker - Fly Wherever You Want",
   description:
-    "سبانكر — احجز رحلاتك إلى مصر وما بعدها. عروض خاصة على رحلات مرسى علم، الغردقة، شرم الشيخ، الأقصر، أسوان وأكثر.",
+    "سبانكر — احجز رحلاتك إلى مصر وما بعدها. عروض خاصة على رحلات مرسى علم الغردقة شرم الشيخ الأقصر أسوان وأكثر.",
   icons: {
     icon: [
       { url: '/icone-LOGO.png', type: 'image/png' },
@@ -52,11 +52,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // lang and dir are managed dynamically by I18nProvider via useEffect
-    // We set the default (Arabic/RTL) here as the initial HTML attribute
-    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`}>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full">
-        <I18nProvider><AuthProvider>{children}</AuthProvider></I18nProvider>
+        <I18nProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </I18nProvider>
       </body>
     </html>
   );

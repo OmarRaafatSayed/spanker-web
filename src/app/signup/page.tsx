@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/modules/auth";
+import { usePortalAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
 import { useRegistrationEvents } from "@/modules/auth";
 
@@ -36,13 +36,15 @@ type SignupFields = z.infer<typeof signupSchema>;
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signup } = useAuth();
+  const { register: registerUser, isLoading, error: authError, clearError } = usePortalAuth();
   const { locale } = useI18n();
   const isAr = locale === "ar";
   const { dispatchUserRegistered } = useRegistrationEvents();
 
   const [serverError, setServerError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+
+  
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -55,16 +57,16 @@ export default function SignupPage() {
   });
 
   async function onSubmit(data: SignupFields) {
-    setServerError(null);
-    setLoading(true);
+    clearError();
+    
     try {
-      const res = await signup(
-        data.email,
-        data.password,
-        data.first_name,
-        data.last_name,
-        data.phone
-      );
+      const res = await registerUser({
+        email: data.email,
+        password: data.password,
+        first_name: data.first_name,
+        last_name: data.last_name,
+        phone: data.phone,
+      });
       if (res.success) {
         // Dispatch registration event async (fire & forget)
         // This queues CRM provisioning without blocking navigation
@@ -89,12 +91,12 @@ export default function SignupPage() {
           router.push("/login?registered=1&confirm=1");
         }
       } else {
-        setServerError(res.error ?? res.detail ?? (isAr ? "فشل إنشاء الحساب" : "Signup failed"));
+        // Error handled by usePortalAuth
       }
     } catch (err) {
-      setServerError(err instanceof Error ? err.message : isAr ? "خطأ غير متوقع" : "Unexpected error");
+      // Error handled by usePortalAuth
     } finally {
-      setLoading(false);
+      
     }
   }
 
@@ -132,9 +134,9 @@ export default function SignupPage() {
           {isAr ? "تتبّع طلباتك وحجوزاتك ومدفوعاتك" : "Track your applications, bookings and payments"}
         </p>
 
-        {serverError && (
+        {(authError || serverError) && (
           <div className="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm text-center">
-            {serverError}
+            {authError || serverError}
           </div>
         )}
 
@@ -305,15 +307,15 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isLoading}
             className={cn(
               "w-full h-12 rounded-xl text-white text-sm font-bold transition-colors mt-2",
-              loading
+              isLoading
                 ? "bg-brand-green/50 cursor-not-allowed"
                 : "bg-brand-green hover:bg-brand-green-dark active:scale-[0.98]"
             )}
           >
-            {loading
+            {isLoading
               ? isAr ? "جاري إنشاء الحساب..." : "Creating account..."
               : isAr ? "إنشاء الحساب" : "Create account"}
           </button>

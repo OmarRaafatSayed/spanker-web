@@ -3,9 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/modules/auth";
+import { usePortalAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
-import { AuthModalService } from "@/modules/auth";
 
 interface LoginModalProps {
   open: boolean;
@@ -15,52 +14,36 @@ interface LoginModalProps {
 type Tab = "login" | "signup";
 
 export function LoginModal({ open, onClose }: LoginModalProps) {
-  const { login, signup } = useAuth();
+  const { login, register, isLoading, error: authError, clearError } = usePortalAuth();
   const { locale } = useI18n();
   const isAr = locale === "ar";
 
-  // Form state
   const [tab, setTab] = useState<Tab>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
-  const authService = useRef<AuthModalService | null>(null);
 
-  // Initialize auth service
-  useEffect(() => {
-    authService.current = new AuthModalService({
-      login,
-      signup,
-      isAr,
-    });
-  }, [login, signup, isAr]);
-
-  // Mount client-side only (for Portal)
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Reset state when modal opens/closes
   useEffect(() => {
     if (open) {
-      setError(null);
-      setSuccessMsg(null);
+      clearError();
       setEmail("");
       setPassword("");
       setFirstName("");
       setLastName("");
-      setTimeout(() => emailRef.current?.focus(), 50);
+      setShowPassword(false);
+      setTimeout(() => emailRef.current?.focus(), 100);
     }
-  }, [open]);
+  }, [open, clearError]);
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return;
     const handler = (e: KeyboardEvent) => {
@@ -72,53 +55,21 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   if (!open || !mounted) return null;
 
-  // Handle form submission
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!authService.current) return;
+    clearError();
 
-    setError(null);
-    setSuccessMsg(null);
-    setLoading(true);
-
-    try {
-      if (tab === "login") {
-        const res = await authService.current.handleLoginSubmit(email, password);
-        if (res.success) {
-          onClose();
-        } else {
-          setError(res.error || (isAr ? "خطأ غير متوقع" : "Unexpected error"));
-        }
-      } else {
-        const res = await authService.current.handleSignupSubmit(
-          email,
-          password,
-          firstName,
-          lastName
-        );
-        if (res.success) {
-          if (res.requiresEmailConfirmation) {
-            setSuccessMsg(
-              isAr
-                ? "تم إنشاء الحساب! إذا طُلب تأكيد الإيميل، افحص بريدك ثم سجّل الدخول."
-                : "Account created! Check your inbox for confirmation, then log in."
-            );
-            setTab("login");
-            setPassword("");
-          } else {
-            onClose();
-          }
-        } else {
-          setError(res.error || (isAr ? "خطأ غير متوقع" : "Unexpected error"));
-        }
+    if (tab === "login") {
+      await login({ email, password });
+    } else {
+      const result = await register({ email, password, first_name: firstName, last_name: lastName });
+      if (result?.email_confirmation_required) {
+        alert(isAr ? "تم إنشاء الحساب! افحص بريدك للتأكيد ثم سجل الدخول." : "Account created! Check your email for confirmation.");
+        setTab("login");
+        setPassword("");
       }
-    } finally {
-      setLoading(false);
     }
   }
-
-  const inputClass =
-    "w-full h-11 px-3 border border-border-light rounded-lg text-sm text-text-primary focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition bg-[#f8f6f1]";
 
   const modalContent = (
     <div
@@ -126,40 +77,37 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label={isAr ? "تسجيل الدخول" : "Login"}
     >
-      <div className="bg-[#fffdf9] rounded-2xl shadow-2xl w-full max-w-sm p-6 relative max-h-[90vh] overflow-y-auto">
-        {/* Close button */}
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative max-h-[90vh] overflow-y-auto">
         <button
+          type="button"
           onClick={onClose}
-          className="absolute top-4 end-4 text-text-muted hover:text-text-primary transition"
-          aria-label={isAr ? "إغلاق" : "Close"}
+          className="absolute top-4 end-4 text-gray-500 hover:text-gray-900 transition"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
         </button>
 
-        {/* Logo */}
         <div className="flex justify-center mb-4">
           <img 
             src="/assets/brand/icone-LOGO.png" 
-            alt="Spanker Logo" 
+            alt="Logo" 
             className="w-10 h-10 object-contain"
           />
         </div>
 
-        {/* Tabs */}
-        <div className="flex border-b border-border-light mb-5">
+        <div className="flex border-b border-gray-200 mb-5">
           {(["login", "signup"] as Tab[]).map((t) => (
             <button
               key={t}
-              onClick={() => { setTab(t); setError(null); setSuccessMsg(null); }}
+              type="button"
+              onClick={() => { setTab(t); clearError(); }}
               className={cn(
-                "flex-1 pb-2.5 text-sm font-semibold transition-colors relative",
+                "flex-1 pb-2.5 text-sm font-semibold transition-colors",
                 tab === t
                   ? "text-brand-red border-b-2 border-brand-red"
-                  : "text-text-muted hover:text-text-primary"
+                  : "text-gray-500 hover:text-gray-900"
               )}
             >
               {t === "login"
@@ -169,58 +117,54 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           ))}
         </div>
 
-        {/* Success message */}
-        {successMsg && (
-          <p className="text-xs text-green-700 bg-green-50 border border-green-200 rounded-lg px-3 py-2 mb-4 text-center">
-            {successMsg}
-          </p>
+        {authError && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 text-center">
+            {authError}
+          </div>
         )}
 
-        {/* Error message */}
-        {error && (
-          <p className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2 mb-4 text-center">
-            {error}
-          </p>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-          {/* First/Last name fields (signup only) */}
+        <form onSubmit={handleSubmit} className="space-y-4">
           {tab === "signup" && (
-            <div className="flex gap-2">
-              <div className="flex-1">
-                <label className="block text-xs font-medium text-text-secondary mb-1">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1.5">
                   {isAr ? "الاسم الأول" : "First name"}
                 </label>
                 <input
+                  id="firstName"
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder={isAr ? "أحمد" : "John"}
-                  className={inputClass}
+                  disabled={isLoading}
+                  style={{ color: '#000000' }}
+                  className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
-              <div className="flex-1">
-                <label className="block text-xs font-medium text-text-secondary mb-1">
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1.5">
                   {isAr ? "الاسم الأخير" : "Last name"}
                 </label>
                 <input
+                  id="lastName"
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder={isAr ? "محمد" : "Doe"}
-                  className={inputClass}
+                  disabled={isLoading}
+                  style={{ color: '#000000' }}
+                  className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
             </div>
           )}
 
-          {/* Email field */}
           <div>
-            <label className="block text-xs font-medium text-text-secondary mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
               {isAr ? "البريد الإلكتروني" : "Email"}
             </label>
             <input
+              id="email"
               ref={emailRef}
               type="email"
               value={email}
@@ -228,38 +172,64 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
               placeholder={isAr ? "مثال@بريد.com" : "you@example.com"}
               required
               autoComplete="email"
-              className={inputClass}
+              disabled={isLoading}
+              style={{ color: '#000000' }}
+              className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>
 
-          {/* Password field */}
           <div>
-            <label className="block text-xs font-medium text-text-secondary mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
               {isAr ? "كلمة المرور" : "Password"}
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              autoComplete={tab === "login" ? "current-password" : "new-password"}
-              className={inputClass}
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                autoComplete={tab === "login" ? "current-password" : "new-password"}
+                disabled={isLoading}
+                style={{ color: '#000000' }}
+                className="w-full h-11 px-3 pe-11 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                disabled={isLoading}
+                className="absolute inset-y-0 end-3 flex items-center text-gray-500 hover:text-gray-900 transition disabled:opacity-50"
+                tabIndex={-1}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  {showPassword ? (
+                    <>
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                      <line x1="1" y1="1" x2="23" y2="23" />
+                    </>
+                  ) : (
+                    <>
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </>
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
 
-          {/* Submit button */}
           <button
             type="submit"
-            disabled={loading || !email || !password}
+            disabled={isLoading || !email || !password}
             className={cn(
-              "w-full h-11 rounded-lg text-white text-sm font-semibold transition-all duration-200 font-sans",
-              loading || !email || !password
-                ? "bg-brand-red/40 cursor-not-allowed opacity-50"
-                : "bg-brand-red hover:bg-brand-red-dark active:scale-95 shadow-md hover:shadow-lg"
+              "w-full h-12 rounded-lg text-white text-base font-bold transition-all duration-200",
+              isLoading || !email || !password
+                ? "bg-red-300 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-700 active:scale-[0.98] shadow-md hover:shadow-lg"
             )}
           >
-            {loading
+            {isLoading
               ? isAr ? "جاري التحميل..." : "Loading..."
               : tab === "login"
                 ? isAr ? "دخول" : "Sign in"
@@ -270,7 +240,6 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
     </div>
   );
 
-  // Use Portal to render above all other content
   if (typeof document === "undefined") return null;
   return createPortal(modalContent, document.body);
 }

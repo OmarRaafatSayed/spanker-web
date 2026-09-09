@@ -32,16 +32,13 @@ export async function POST(request: NextRequest) {
     if (authError) throw authError;
     if (!authData.user) throw new Error('Failed to create user');
 
-    // 2. Insert staff record
-    const { error: staffError } = await supabase.from('staff').insert({
-      user_id: authData.user.id,
-      full_name,
-      email,
+    // 2. Update profile to admin role (profiles created automatically by trigger)
+    const { error: profileError } = await supabase.from('profiles').update({
       role: 'admin',
-      is_active: true,
-    });
+      full_name,
+    }).eq('user_id', authData.user.id);
 
-    if (staffError) throw staffError;
+    if (profileError) throw profileError;
 
     return successResponse(
       { user_id: authData.user.id, email, role: 'admin' },
