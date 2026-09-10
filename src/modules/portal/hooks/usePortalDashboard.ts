@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { portalApi } from "@/lib/portal-api/client"
+import { supabase } from "@/lib/supabase/client"
 import type { DashboardResponse } from "@/modules/portal/types/portal.types"
 
 export function usePortalDashboard() {
@@ -13,7 +13,7 @@ export function usePortalDashboard() {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await portalApi.getDashboard()
+      const res = await supabase.getDashboard()
       setData(res)
     } catch (err: unknown) {
       setError((err as Error)?.message ?? "Failed to load dashboard")

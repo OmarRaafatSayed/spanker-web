@@ -1,63 +1,48 @@
-import type { AuthResponse } from "@/types/flights";
-
-const SESSION_KEY = "customer_portal_session";
-
-export function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as { session?: { access_token?: string } };
-    return parsed?.session?.access_token ?? null;
-  } catch {
-    return null;
+﻿export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = "ValidationError"
   }
 }
 
-export function saveSession(
-  res: AuthResponse,
-  extra?: { first_name?: string; last_name?: string; phone?: string }
-) {
-  if (typeof window === "undefined") return;
-  const payload = {
-    session: res.session,
-    user: { ...res.user, ...(extra ?? {}) },
-  };
-  localStorage.setItem(SESSION_KEY, JSON.stringify(payload));
+export function saveSession(token: string) {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("auth_token", token)
+  }
 }
 
 export function clearSession() {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(SESSION_KEY);
+  if (typeof window !== "undefined") {
+    localStorage.removeItem("auth_token")
+  }
 }
 
-export async function apiFetch<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const token = getToken();
-  const BASE = process.env.NEXT_PUBLIC_API_URL ?? "/api/backend";
-  const res = await fetch(`${BASE}${path}`, {
+export function getToken(): string | null {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("auth_token")
+  }
+  return null
+}
+
+export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const token = getToken()
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...((options.headers as Record<string, string>) || {}),
+  }
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  const response = await fetch(`/api/v1${path}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers ?? {}),
-    },
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw Object.assign(new Error(data?.detail ?? data?.error ?? res.statusText), data);
-  }
-  return data as T;
-}
+    headers,
+  })
 
-export class ValidationError extends Error {
-  constructor(
-    message: string,
-    public details?: Record<string, string[]>
-  ) {
-    super(message);
-    this.name = "ValidationError";
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: "Request failed" }))
+    throw new Error(error.message || `HTTP ${response.status}`)
   }
+
+  return response.json()
 }

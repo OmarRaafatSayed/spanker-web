@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
-import { AuthProvider } from "@/modules/auth";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -55,7 +54,7 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth">
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full">
         <I18nProvider>
-          <AuthProvider>{children}</AuthProvider>
+          {children}
         </I18nProvider>
       </body>
     </html>

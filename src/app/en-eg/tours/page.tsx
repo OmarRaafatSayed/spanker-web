@@ -1,320 +1,413 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { PageShell } from "@/components/layout/PageShell";
-import { useI18n } from "@/lib/i18n/context";
-import { useAuth } from "@/modules/auth";
-import { LoginModal } from "@/components/ui/LoginModal";
-import { cn } from "@/lib/utils";
+import { useState, useEffect } from "react"
+import { useSearchParams } from "next/navigation"
+import { motion } from "framer-motion"
+import { PageShell } from "@/components/layout/PageShell"
+import { useI18n } from "@/lib/i18n/context"
+import { cn } from "@/lib/utils"
+import { getTourImageUrl } from "@/lib/image-utils"
+import { OptimizedImage } from "@/components/ui/OptimizedImage"
+import { Tour, TourCategory } from "@/types/tourism"
 
-// ─── Static data ──────────────────────────────────────────────────────────────
 
-const TOURS = [
+
+const SAMPLE_TOURS: Tour[] = [
   {
-    id: "nile-cruise",
-    emoji: "🚢",
-    titleAr: "كروز النيل الفاخر",
-    titleEn: "Luxury Nile Cruise",
-    descAr: "رحلة لا تُنسى على نهر النيل بين الأقصر وأسوان مع زيارة أشهر المعابد الفرعونية.",
-    descEn: "An unforgettable journey along the Nile between Luxor and Aswan, visiting Egypt's most iconic temples.",
-    daysAr: "5 أيام / 4 ليالي",
-    daysEn: "5 Days / 4 Nights",
-    priceAr: "يبدأ من 8,500 جنيه",
-    priceEn: "From EGP 8,500",
-    tag: "الأكثر حجزاً",
-    tagEn: "Most Booked",
+    id: "1",
+    name: "رحلة الغردقة الاستوائية",
+    nameEn: "Hurghada Tropical Getaway",
+    destination: "الغردقة، البحر الأحمر",
+    destinationEn: "Hurghada, Red Sea",
+    duration: 4,
+    basePrice: 2500,
+    pricePerPerson: 1200,
+    maxPersons: 8,
+    minPersons: 2,
+    image: getTourImageUrl("1"),
+    highlights: ["الشعاب المرجانية", "الغطس", "رحلات القوارب", "الشواطئ الرملية"],
+    description: "استمتع بأجمل 4 أيام في الغردقة مع رحلات الغطس والقوارب الزجاجية",
+    descriptionEn: "Enjoy the best 4 days in Hurghada with diving and glass boat trips",
+    includes: ["الإقامة 3 نجوم", "الإفطار", "رحلة غطس", "النقل من المطار"],
+    category: "بحري"
   },
   {
-    id: "sharm-package",
-    emoji: "🤿",
-    titleAr: "باقة شرم الشيخ",
-    titleEn: "Sharm El-Sheikh Package",
-    descAr: "استمتع بشواطئ شرم الشيخ الساحرة وغوص في المياه الكريستالية لأجمل شعاب مرجانية.",
-    descEn: "Enjoy Sharm's stunning beaches and dive into crystal-clear waters with world-class coral reefs.",
-    daysAr: "4 أيام / 3 ليالي",
-    daysEn: "4 Days / 3 Nights",
-    priceAr: "يبدأ من 6,200 جنيه",
-    priceEn: "From EGP 6,200",
-    tag: "عرض محدود",
-    tagEn: "Limited Offer",
+    id: "2",
+    name: "رحلة أسوان والمعابد",
+    nameEn: "Aswan Temples Tour", 
+    destination: "أسوان، صعيد مصر",
+    destinationEn: "Aswan, Upper Egypt",
+    duration: 3,
+    basePrice: 1800,
+    pricePerPerson: 900,
+    maxPersons: 12,
+    minPersons: 4,
+    image: getTourImageUrl("2"),
+    highlights: ["معبد فيلة", "السد العالي", "رحلة فلوكة نيلية", "جزيرة النباتات"],
+    description: "اكتشف حضارة النوبة القديمة وجمال النيل في أسوان التاريخية",
+    descriptionEn: "Discover ancient Nubian civilization and Nile beauty in historic Aswan",
+    includes: ["الإقامة فندق نيلي", "جميع الوجبات", "دليل سياحي", "النقل المكيف"],
+    category: "تاريخي"
   },
   {
-    id: "cairo-pyramids",
-    emoji: "🏛️",
-    titleAr: "القاهرة والأهرامات",
-    titleEn: "Cairo & Pyramids",
-    descAr: "جولة شاملة في القاهرة التاريخية تشمل الأهرامات وأبو الهول والمتحف المصري والخان الخليلي.",
-    descEn: "A full guided tour of historic Cairo including the Pyramids, Sphinx, Egyptian Museum, and Khan El-Khalili.",
-    daysAr: "3 أيام / 2 ليالي",
-    daysEn: "3 Days / 2 Nights",
-    priceAr: "يبدأ من 4,500 جنيه",
-    priceEn: "From EGP 4,500",
-    tag: null,
-    tagEn: null,
+    id: "3",
+    name: "رحلة الإسكندرية الساحرة",
+    nameEn: "Charming Alexandria Tour",
+    destination: "الإسكندرية، البحر المتوسط", 
+    destinationEn: "Alexandria, Mediterranean",
+    duration: 2,
+    basePrice: 1200,
+    pricePerPerson: 600,
+    maxPersons: 15,
+    minPersons: 3,
+    image: getTourImageUrl("3"),
+    highlights: ["مكتبة الإسكندرية", "قلعة قايتباي", "الكورنيش", "المتحف الروماني"],
+    description: "يومان في عروس البحر المتوسط بين التاريخ والجمال الطبيعي",
+    descriptionEn: "Two days in the Pearl of Mediterranean between history and natural beauty",
+    includes: ["الإقامة فندق 4 نجوم", "الإفطار والعشاء", "جولة مدينة", "النقل"],
+    category: "ثقافي"
   },
   {
-    id: "budapest-europe",
-    emoji: "🏰",
-    titleAr: "بودابست — أوروبا القلب",
-    titleEn: "Budapest — Heart of Europe",
-    descAr: "اكتشف جمال بودابست الرومانسي بجولة شاملة تتضمن الطيران والفندق والجولات السياحية.",
-    descEn: "Discover Budapest's romantic charm with an all-inclusive package covering flights, hotel, and guided tours.",
-    daysAr: "7 أيام / 6 ليالي",
-    daysEn: "7 Days / 6 Nights",
-    priceAr: "يبدأ من 6,481 جنيه",
-    priceEn: "From EGP 6,481",
-    tag: "شامل الطيران",
-    tagEn: "Incl. Flights",
+    id: "4",
+    name: "رحلة شرم الشيخ المميزة",
+    nameEn: "Premium Sharm El Sheikh Tour",
+    destination: "شرم الشيخ، جنوب سيناء",
+    destinationEn: "Sharm El Sheikh, South Sinai",
+    duration: 5,
+    basePrice: 3200,
+    pricePerPerson: 1600,
+    maxPersons: 10,
+    minPersons: 2,
+    image: getTourImageUrl("4"),
+    highlights: ["رأس محمد", "دهب", "جبل سيناء", "دير سانت كاترين"],
+    description: "رحلة مميزة لجنوب سيناء مع زيارة أهم المعالم الطبيعية والدينية",
+    descriptionEn: "Premium South Sinai tour visiting top natural and religious landmarks",
+    includes: ["منتجع 5 نجوم", "جميع الوجبات", "رحلات استكشافية", "النقل الفاخر"],
+    category: "مغامرات"
   },
   {
-    id: "hurghada-diving",
-    emoji: "🌊",
-    titleAr: "باقة الغردقة والغطس",
-    titleEn: "Hurghada Diving Package",
-    descAr: "رحلة مثالية لعشاق البحر مع دروس غطس احترافية وجولات بحرية يومية في البحر الأحمر.",
-    descEn: "Perfect for sea lovers — professional diving lessons and daily boat trips on the Red Sea.",
-    daysAr: "5 أيام / 4 ليالي",
-    daysEn: "5 Days / 4 Nights",
-    priceAr: "يبدأ من 5,800 جنيه",
-    priceEn: "From EGP 5,800",
-    tag: null,
-    tagEn: null,
+    id: "5",
+    name: "رحلة مرسى علم الاستكشافية",
+    nameEn: "Marsa Alam Explorer Tour",
+    destination: "مرسى علم، البحر الأحمر",
+    destinationEn: "Marsa Alam, Red Sea",
+    duration: 3,
+    basePrice: 2100,
+    pricePerPerson: 1050,
+    maxPersons: 6,
+    minPersons: 2,
+    image: getTourImageUrl("5"),
+    highlights: ["دغونج البحر", "السلاحف البحرية", "الشعاب البكر", "الصيد البحري"],
+    description: "اكتشف كنوز البحر الأحمر الخفية في مرسى علم الساحرة",
+    descriptionEn: "Discover hidden Red Sea treasures in enchanting Marsa Alam",
+    includes: ["إيكولودج بحري", "الغطس المتقدم", "رحلات بحرية", "النقل البيئي"],
+    category: "بحري"
   },
   {
-    id: "aswan-abu-simbel",
-    emoji: "⛩️",
-    titleAr: "أسوان وأبو سمبل",
-    titleEn: "Aswan & Abu Simbel",
-    descAr: "زيارة معبد أبو سمبل الأسطوري وسد أسوان العالي وجزيرة فيلة في رحلة لا تُنسى.",
-    descEn: "Visit the legendary Abu Simbel temple, Aswan High Dam, and the island of Philae on this unforgettable trip.",
-    daysAr: "3 أيام / 2 ليالي",
-    daysEn: "3 Days / 2 Nights",
-    priceAr: "يبدأ من 5,000 جنيه",
-    priceEn: "From EGP 5,000",
-    tag: null,
-    tagEn: null,
-  },
-];
+    id: "6",
+    name: "رحلة وادي الملوك التراثية",
+    nameEn: "Valley of Kings Heritage Tour",
+    destination: "الأقصر، وادي الملوك",
+    destinationEn: "Luxor, Valley of Kings",
+    duration: 4,
+    basePrice: 2800,
+    pricePerPerson: 1400,
+    maxPersons: 8,
+    minPersons: 3,
+    image: getTourImageUrl("6"),
+    highlights: ["مقبرة توت عنخ آمون", "معبد الكرنك", "معبد حتشبسوت", "رحلة بالون هوائي"],
+    description: "رحلة تاريخية لا تنسى في قلب الحضارة الفرعونية العريقة",
+    descriptionEn: "Unforgettable historical journey in the heart of ancient pharaonic civilization",
+    includes: ["فندق تاريخي", "دليل مصريات", "رحلة البالون", "جميع التذاكر"],
+    category: "تاريخي"
+  }
+]
 
-const FEATURES = [
-  {
-    iconPath: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-    titleAr: "باقات شاملة",
-    titleEn: "All-Inclusive Packages",
-    descAr: "طيران + فندق + جولات سياحية في باقة واحدة بسعر مميز",
-    descEn: "Flights + hotel + tours bundled into one great-value package",
-  },
-  {
-    iconPath: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z",
-    titleAr: "مرشد سياحي متخصص",
-    titleEn: "Expert Tour Guide",
-    descAr: "مرشدون محترفون ثنائيو اللغة في كل الجولات",
-    descEn: "Professional bilingual guides accompany every tour",
-  },
-  {
-    iconPath: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
-    titleAr: "أسعار مضمونة",
-    titleEn: "Price Guaranteed",
-    descAr: "لا رسوم خفية — السعر المعروض هو السعر النهائي",
-    descEn: "No hidden fees — the price you see is the final price",
-  },
-];
-
-// ─── Tour Card ────────────────────────────────────────────────────────────────
-
-function TourCard({
-  tour,
-  isAr,
-  onBook,
-}: {
-  tour: typeof TOURS[0];
-  isAr: boolean;
-  onBook: (tourId: string) => void;
-}) {
-  const tag = isAr ? tour.tag : tour.tagEn;
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:border-brand-green/40 transition-all duration-200 group"
-    >
-      {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-3">
-          <span className="text-3xl">{tour.emoji}</span>
-          <div>
-            <h3 className="font-bold text-white text-base leading-tight">
-              {isAr ? tour.titleAr : tour.titleEn}
-            </h3>
-            <p className="text-xs text-white/50 mt-0.5">
-              {isAr ? tour.daysAr : tour.daysEn}
-            </p>
-          </div>
-        </div>
-        {tag && (
-          <span className="shrink-0 text-[10px] font-bold px-2 py-1 rounded-full bg-brand-yellow/20 text-brand-yellow border border-brand-yellow/30">
-            {tag}
-          </span>
-        )}
-      </div>
-
-      {/* Description */}
-      <p className="text-sm text-white/60 leading-relaxed flex-1">
-        {isAr ? tour.descAr : tour.descEn}
-      </p>
-
-      {/* Footer */}
-      <div className="flex items-center justify-between pt-2 border-t border-white/10">
-        <span className="text-sm font-bold text-brand-yellow">
-          {isAr ? tour.priceAr : tour.priceEn}
-        </span>
-        <button
-          onClick={() => onBook(tour.id)}
-          className="h-9 px-4 bg-brand-green text-white text-sm font-bold rounded-xl hover:bg-brand-green-light active:scale-95 transition-all duration-150 shadow-sm shadow-brand-green/20"
-        >
-          {isAr ? "احجز الآن" : "Book Now"}
-        </button>
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Main Page ────────────────────────────────────────────────────────────────
+const CATEGORIES = [
+  { id: "all", label: "الكل", labelEn: "All" },
+  { id: "بحري", label: "بحري", labelEn: "Marine" },
+  { id: "تاريخي", label: "تاريخي", labelEn: "Historical" }, 
+  { id: "ثقافي", label: "ثقافي", labelEn: "Cultural" },
+  { id: "مغامرات", label: "مغامرات", labelEn: "Adventure" }
+]
 
 export default function ToursPage() {
-  const { locale } = useI18n();
-  const { user } = useAuth();
-  const router = useRouter();
-  const isAr = locale === "ar";
+  const { t, isRTL } = useI18n()
+  const searchParams = useSearchParams()
+  
+  const [tours, setTours] = useState<Tour[]>(SAMPLE_TOURS)
+  const [filteredTours, setFilteredTours] = useState<Tour[]>(SAMPLE_TOURS)
+  const [loading, setLoading] = useState(false)
+  const [selectedCategory, setSelectedCategory] = useState("all")
+  const [selectedTour, setSelectedTour] = useState<Tour | null>(null)
+  const [bookingData, setBookingData] = useState({
+    persons: 2,
+    startDate: "",
+    contactName: "",
+    contactPhone: "",
+    contactEmail: ""
+  })
 
-  const [loginOpen, setLoginOpen] = useState(false);
-  const [requested, setRequested] = useState<string | null>(null);
-
-  function handleBook(tourId: string) {
-    if (!user) {
-      setLoginOpen(true);
-      return;
+  useEffect(() => {
+    if (selectedCategory === "all") {
+      setFilteredTours(tours)
+    } else {
+      setFilteredTours(tours.filter(tour => tour.category === selectedCategory))
     }
-    // For now, redirect to special-offers or submit request
-    // Future: dedicated tour booking flow per tourId
-    setRequested(tourId);
+  }, [selectedCategory, tours])
+
+  const calculateTotalPrice = (tour: Tour, persons: number) => {
+    return tour.basePrice + (tour.pricePerPerson * persons)
+  }
+
+  const handleBookTour = (tour: Tour) => {
+    setSelectedTour(tour)
+    setBookingData({
+      persons: tour.minPersons,
+      startDate: "",
+      contactName: "",
+      contactPhone: "",
+      contactEmail: ""
+    })
+  }
+
+  const submitBooking = () => {
+    if (!selectedTour) return
+    
+    // Simulate booking submission
+    alert(`تم حجز ${selectedTour.name} بنجاح!\nعدد الأشخاص: ${bookingData.persons}\nالسعر الإجمالي: ${calculateTotalPrice(selectedTour, bookingData.persons).toLocaleString()} ج.م`)
+    setSelectedTour(null)
   }
 
   return (
-    <>
-      <PageShell
-        pageId="tours"
-        heroTitle={isAr ? "رحلات سياحية مميزة" : "Tours & Packages"}
-        heroSubtitle={
-          isAr
-            ? "اكتشف أجمل وجهاتنا مع باقات شاملة بأسعار لا تُنافس"
-            : "Discover our top destinations with all-inclusive packages at unbeatable prices"
-        }
-        maxWidth="xl"
-        heroIcon={
-          <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" />
-            <line x1="2" y1="12" x2="22" y2="12" />
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-          </svg>
-        }
-      >
-        {/* ── Success banner after booking request ── */}
-        {requested && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-8 bg-brand-green/15 border border-brand-green/40 rounded-2xl px-5 py-4 flex items-center justify-between gap-4"
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">✅</span>
-              <div>
-                <p className="text-sm font-bold text-white">
-                  {isAr ? "تم استلام طلبك!" : "Request Received!"}
-                </p>
-                <p className="text-xs text-white/60">
-                  {isAr
-                    ? "سيتواصل معك فريقنا خلال 24 ساعة بتفاصيل الباقة وسعرها النهائي."
-                    : "Our team will contact you within 24 hours with full package details and pricing."}
-                </p>
-              </div>
-            </div>
+    <PageShell
+      pageId="tours"
+      title="الرحلات السياحية"
+      subtitle="اكتشف أجمل الوجهات مع رحلاتنا المنظمة"
+      maxWidth="7xl"
+    >
+      <div className="space-y-6">
+        {/* Category Filter */}
+        <div className="flex flex-wrap gap-2">
+          {CATEGORIES.map((category) => (
             <button
-              onClick={() => setRequested(null)}
-              className="text-white/40 hover:text-white transition shrink-0"
-              aria-label="close"
+              key={category.id}
+              onClick={() => setSelectedCategory(category.id)}
+              className={cn(
+                "px-4 py-2 rounded-full text-sm font-medium transition-colors",
+                selectedCategory === category.id
+                  ? "bg-green-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              )}
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
+              {category.label}
             </button>
-          </motion.div>
-        )}
-
-        {/* ── Features ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-          {FEATURES.map((f) => (
-            <div key={f.titleEn} className="bg-white/5 border border-white/10 rounded-2xl p-5 text-center">
-              <div className="w-11 h-11 rounded-xl bg-brand-green/20 border border-brand-green/30 flex items-center justify-center mx-auto mb-3 text-brand-green">
-                <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-                  <path d={f.iconPath} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <h3 className="font-bold text-white text-sm mb-1">{isAr ? f.titleAr : f.titleEn}</h3>
-              <p className="text-xs text-white/55 leading-relaxed">{isAr ? f.descAr : f.descEn}</p>
-            </div>
           ))}
         </div>
 
-        {/* ── Tours grid ── */}
-        <div className="mb-4">
-          <h2 className="text-xl font-bold text-white mb-6">
-            {isAr ? "الباقات المتاحة" : "Available Packages"}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {TOURS.map((tour, i) => (
+        {/* Tours Grid */}
+        <div>
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
+            الرحلات المتاحة ({filteredTours.length})
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredTours.map((tour, index) => (
               <motion.div
                 key={tour.id}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.07 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+                className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
               >
-                <TourCard tour={tour} isAr={isAr} onBook={handleBook} />
+                <div className="aspect-video relative overflow-hidden">
+                  <OptimizedImage
+                    src={tour.image}
+                    alt={tour.name}
+                    className="rounded-t-2xl"
+                  />
+                  <div className="absolute top-3 right-3 bg-green-600 text-white px-2 py-1 rounded-full text-sm font-medium">
+                    {tour.duration} أيام
+                  </div>
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-sm font-medium">
+                    {tour.category}
+                  </div>
+                </div>
+                
+                <div className="p-4">
+                  <h4 className="font-bold text-gray-900 mb-1">{tour.name}</h4>
+                  <p className="text-sm text-gray-600 mb-2 flex items-center gap-1">
+                    <span>📍</span>
+                    {tour.destination}
+                  </p>
+                  
+                  <p className="text-sm text-gray-700 mb-3 line-clamp-2">
+                    {tour.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    {tour.highlights.slice(0, 3).map((highlight) => (
+                      <span key={highlight} className="px-2 py-1 bg-green-50 text-xs font-medium text-green-700 rounded-full">
+                        {highlight}
+                      </span>
+                    ))}
+                  </div>
+                  
+                  <div className="border-t pt-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-600">السعر الأساسي:</span>
+                      <span className="font-semibold text-green-600">
+                        {tour.basePrice.toLocaleString()} ج.م
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-gray-600">للشخص الإضافي:</span>
+                      <span className="font-semibold text-green-600">
+                        +{tour.pricePerPerson.toLocaleString()} ج.م
+                      </span>
+                    </div>
+                    
+                    <div className="text-xs text-gray-500 mb-3">
+                      من {tour.minPersons} إلى {tour.maxPersons} أشخاص
+                    </div>
+                    
+                    <button 
+                      onClick={() => handleBookTour(tour)}
+                      className="w-full px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      احجز الرحلة
+                    </button>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* ── Custom trip CTA ── */}
-        <div className="mt-10 bg-gradient-to-r from-brand-green/20 to-brand-green/5 border border-brand-green/30 rounded-3xl p-8 text-center">
-          <p className="text-3xl mb-3">✈️</p>
-          <h2 className="text-xl font-bold text-white mb-2">
-            {isAr ? "باقة مخصصة لك؟" : "Want a Custom Package?"}
-          </h2>
-          <p className="text-white/60 text-sm mb-6 max-w-md mx-auto">
-            {isAr
-              ? "أخبرنا بوجهتك وتواريخ سفرك وميزانيتك وسنصمم لك باقة مثالية تناسبك تماماً."
-              : "Tell us your destination, dates, and budget — we'll design the perfect package just for you."}
-          </p>
-          <Link
-            href="/en-eg/special-offers"
-            className="inline-flex items-center gap-2 h-11 px-6 bg-brand-green text-white font-bold rounded-xl hover:bg-brand-green-light transition-colors text-sm shadow-lg shadow-brand-green/20"
+      {/* Booking Modal */}
+      {selectedTour && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
-            {isAr ? "شوف العروض الخاصة" : "Browse Special Offers"}
-            <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </Link>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900">حجز الرحلة</h3>
+              <button
+                onClick={() => setSelectedTour(null)}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-1">{selectedTour.name}</h4>
+                <p className="text-sm text-gray-600">{selectedTour.destination}</p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  عدد الأشخاص
+                </label>
+                <select
+                  value={bookingData.persons}
+                  onChange={(e) => setBookingData({...bookingData, persons: parseInt(e.target.value)})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                >
+                  {Array.from(
+                    { length: selectedTour.maxPersons - selectedTour.minPersons + 1 },
+                    (_, i) => selectedTour.minPersons + i
+                  ).map(num => (
+                    <option key={num} value={num}>
+                      {num} {num === 1 ? "شخص" : "أشخاص"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  تاريخ بداية الرحلة
+                </label>
+                <input
+                  type="date"
+                  value={bookingData.startDate}
+                  onChange={(e) => setBookingData({...bookingData, startDate: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  required
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 gap-3">
+                <input
+                  type="text"
+                  placeholder="الاسم الكامل"
+                  value={bookingData.contactName}
+                  onChange={(e) => setBookingData({...bookingData, contactName: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  required
+                />
+                
+                <input
+                  type="tel"
+                  placeholder="رقم الهاتف"
+                  value={bookingData.contactPhone}
+                  onChange={(e) => setBookingData({...bookingData, contactPhone: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  required
+                />
+                
+                <input
+                  type="email"
+                  placeholder="البريد الإلكتروني"
+                  value={bookingData.contactEmail}
+                  onChange={(e) => setBookingData({...bookingData, contactEmail: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  required
+                />
+              </div>
+              
+              <div className="bg-green-50 p-3 rounded-lg">
+                <div className="text-sm space-y-1">
+                  <div className="flex justify-between">
+                    <span>السعر الأساسي:</span>
+                    <span>{selectedTour.basePrice.toLocaleString()} ج.م</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>إضافي ({bookingData.persons} أشخاص):</span>
+                    <span>{(selectedTour.pricePerPerson * bookingData.persons).toLocaleString()} ج.م</span>
+                  </div>
+                  <div className="flex justify-between font-bold text-green-700 border-t border-green-200 pt-2">
+                    <span>المجموع:</span>
+                    <span>{calculateTotalPrice(selectedTour, bookingData.persons).toLocaleString()} ج.م</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setSelectedTour(null)}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  إلغاء
+                </button>
+                <button
+                  onClick={submitBooking}
+                  disabled={!bookingData.startDate || !bookingData.contactName || !bookingData.contactPhone}
+                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  تأكيد الحجز
+                </button>
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </PageShell>
-
-      <LoginModal
-        open={loginOpen}
-        onClose={() => setLoginOpen(false)}
-      />
-    </>
-  );
+      )}
+    </PageShell>
+  )
 }

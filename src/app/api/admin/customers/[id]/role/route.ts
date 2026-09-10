@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminOnly } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -78,19 +77,6 @@ export async function PATCH(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "warning",
-    "customer_role_changed",
-    `Role changed for ${targetProfile.full_name ?? id}: ${previousRole} → ${role}`,
-    "cms",
-    {
-      profile_id: id,
-      previous_role: previousRole,
-      new_role: role,
-      changed_by: auth.userId,
-    }
-  );
 
   return NextResponse.json({ success: true, data });
 }

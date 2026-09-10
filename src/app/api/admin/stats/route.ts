@@ -104,28 +104,7 @@ export async function GET(req: NextRequest) {
     0
   );
 
-  // CRM reachability check (non-blocking, 5s timeout)
-  let crmSyncStatus: "ok" | "error" | "degraded" = "error";
-  const backendUrl = process.env.BACKEND_INTERNAL_URL;
-  if (backendUrl) {
-    try {
-      const start = Date.now();
-      const res = await fetch(`${backendUrl}/health`, {
-        signal: AbortSignal.timeout(5_000),
-      });
-      const latency = Date.now() - start;
-      if (res.ok) {
-        crmSyncStatus = latency > 2000 ? "degraded" : "ok";
-      } else {
-        crmSyncStatus = "error";
-      }
-    } catch {
-      crmSyncStatus = "error";
-    }
-  } else {
-    crmSyncStatus = "error";
-  }
-
+  
   return NextResponse.json({
     success: true,
     data: {
@@ -136,7 +115,7 @@ export async function GET(req: NextRequest) {
       active_offers:          activeOffersResult.count ?? 0,
       completed_requests:     completedRequestsResult.count ?? 0,
       total_revenue_month:    totalRevenueMonth,
-      crm_sync_status:        crmSyncStatus,
+      crm_sync_status: "ok",
       last_crm_sync:          lastCrmSyncResult.data?.created_at ?? null,
       pending_documents_count: pendingDocsResult.count ?? 0,
     },

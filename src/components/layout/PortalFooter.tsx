@@ -1,8 +1,4 @@
-// =============================================================================
-// PortalFooter — used only inside the (client) portal route group
-// =============================================================================
-
-import Link from "next/link"
+﻿import Link from "next/link"
 
 export function PortalFooter() {
   const year = new Date().getFullYear()
@@ -13,7 +9,6 @@ export function PortalFooter() {
         <nav className="flex gap-4" aria-label="Footer navigation">
           <Link href="/dashboard" className="hover:text-foreground transition-colors">Dashboard</Link>
           <Link href="/requests"  className="hover:text-foreground transition-colors">Requests</Link>
-          <Link href="/documents" className="hover:text-foreground transition-colors">Documents</Link>
         </nav>
       </div>
     </footer>

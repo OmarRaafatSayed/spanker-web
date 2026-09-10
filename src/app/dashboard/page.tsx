@@ -16,7 +16,6 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
-import { crmAdapter } from "@/modules/crm";
 import {
   PORTAL_STATUS_LABELS,
   PORTAL_STATUS_VARIANT,

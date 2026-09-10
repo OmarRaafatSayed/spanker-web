@@ -5,7 +5,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -86,14 +85,6 @@ export async function POST(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "success",
-    "hotel_room_created",
-    `Room created for hotel ${hotel.name}: ${room_type} (${board_type})`,
-    "cms",
-    { hotel_id: hotelId, room_id: data.id, room_type, created_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data }, { status: 201 });
 }

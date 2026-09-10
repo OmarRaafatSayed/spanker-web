@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -79,20 +78,6 @@ export async function PATCH(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    status === "approved" ? "success" : "warning",
-    "document_reviewed",
-    `Document ${docId} ${status} for lead ${leadId}`,
-    "cms",
-    {
-      lead_id: leadId,
-      doc_id: docId,
-      new_status: status,
-      rejection_reason: rejection_reason ?? null,
-      reviewed_by: auth.userId,
-    }
-  );
 
   return NextResponse.json({ success: true, data });
 }

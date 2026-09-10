@@ -1,13 +1,6 @@
-import { createServerClient } from "@supabase/ssr";
+﻿import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 
-/**
- * Updates the Supabase session in middleware.
- * This ensures the user's session is refreshed before protected routes are accessed.
- * 
- * @param request - Next.js request object
- * @returns Response with updated cookies
- */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({
     request,
@@ -22,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
+          cookiesToSet.forEach(({ name, value }) => {
             request.cookies.set(name, value);
           });
           response = NextResponse.next({
@@ -36,10 +29,9 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Refresh session if expired
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
-  return { response, user };
+  return { response, user: session?.user ?? null };
 }

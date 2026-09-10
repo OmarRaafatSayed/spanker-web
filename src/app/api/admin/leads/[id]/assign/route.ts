@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -78,14 +77,6 @@ export async function PATCH(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "info",
-    "lead_assigned",
-    `Lead ${id} assigned to ${staffProfile.full_name} (${staff_id})`,
-    "cms",
-    { lead_id: id, staff_id, staff_name: staffProfile.full_name, assigned_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data });
 }

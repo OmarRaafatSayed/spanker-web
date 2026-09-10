@@ -17,7 +17,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -123,20 +122,6 @@ export async function POST(
     .select("*, financial_transactions(*)")
     .eq("id", bookingId)
     .single();
-
-  await logToSystemLogs(
-    "success",
-    "booking_payment_recorded",
-    `Payment of ${amount_paid} (${method}) recorded for booking ${bookingId}`,
-    "cms",
-    {
-      booking_id:       bookingId,
-      transaction_id:   transaction.id,
-      amount_paid,
-      payment_method:   method,
-      recorded_by:      auth.userId,
-    }
-  );
 
   return NextResponse.json({ success: true, data: updated }, { status: 201 });
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
-import { portalApi } from "@/lib/portal-api/client"
+import { supabase } from "@/lib/supabase/client"
 import type {
   RequestResponse,
   RequestDetailResponse,
@@ -24,7 +24,7 @@ export function useRequests(options: UseRequestsOptions = {}) {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await portalApi.listRequests(options)
+      const res = await supabase.listRequests(options)
       setRequests(res.requests)
       setTotal(res.total)
     } catch (err: unknown) {
@@ -37,14 +37,14 @@ export function useRequests(options: UseRequestsOptions = {}) {
   useEffect(() => { fetchRequests() }, [fetchRequests])
 
   const createRequest = useCallback(async (body: CreateRequestBody) => {
-    const req = await portalApi.createRequest(body)
+    const req = await supabase.createRequest(body)
     setRequests(prev => [req, ...prev])
     setTotal(prev => prev + 1)
     return req
   }, [])
 
   const updateRequest = useCallback(async (id: string, body: Partial<CreateRequestBody>) => {
-    const updated = await portalApi.updateRequest(id, body)
+    const updated = await supabase.updateRequest(id, body)
     setRequests(prev => prev.map(r => r.id === id ? updated : r))
     return updated
   }, [])
@@ -62,7 +62,7 @@ export function useRequest(id: string) {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await portalApi.getRequest(id)
+      const res = await supabase.getRequest(id)
       setRequest(res)
     } catch (err: unknown) {
       setError((err as Error)?.message ?? "Failed to load request")

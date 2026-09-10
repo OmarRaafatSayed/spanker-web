@@ -6,8 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { useAuth } from "@/modules/auth";
-import { crmAdapter } from "@/modules/crm";
 import type { CustomerProfile } from "@/types/flights";
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────

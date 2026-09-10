@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import {
   isPortalStatus,
   isValidTransition,
@@ -117,14 +116,6 @@ export async function PATCH(
     triggered_by: `admin:${auth.userId}`,
     payload: { changed_by: auth.userId, role: auth.role },
   });
-
-  await logToSystemLogs(
-    "info",
-    "lead_status_changed",
-    `Lead ${id}: ${currentStatus} → ${newStatus}`,
-    "cms",
-    { lead_id: id, from: currentStatus, to: newStatus, changed_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data });
 }

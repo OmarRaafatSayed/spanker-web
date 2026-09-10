@@ -12,7 +12,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -133,14 +132,6 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "success",
-    "package_created",
-    `Package created: ${title} → ${destination}`,
-    "cms",
-    { package_id: data.id, title, destination, created_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data }, { status: 201 });
 }

@@ -60,8 +60,6 @@ function EnvField({ label, value, masked }: { label: string; value: string; mask
 export default function AdminSettingsPage() {
   const [staff, setStaff]             = useState<StaffMember[]>([]);
   const [countries, setCountries]     = useState<VisaCountry[]>([]);
-  const [crmStatus, setCrmStatus]     = useState<CrmStatus | null>(null);
-  const [crmLoading, setCrmLoading]   = useState(false);
   const [staffLoading, setStaffLoading] = useState(true);
 
   // Notifications prefs (local UI state)
@@ -137,59 +135,6 @@ export default function AdminSettingsPage() {
         <p className="text-xs text-text-muted mt-4 bg-bg-alt rounded-lg px-3 py-2">
           ℹ️ هذه الحقول للعرض فقط في الوقت الحالي. حفظ البيانات سيتطلب endpoint مخصص.
         </p>
-      </Section>
-
-      {/* ── CRM Integration ── */}
-      <Section title="تكامل CRM" icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>}>
-        <div className="space-y-4">
-          <EnvField
-            label="BACKEND_INTERNAL_URL"
-            value={process.env.NEXT_PUBLIC_SUPABASE_URL ? "https://crm.railway.app (من Vercel env)" : "غير محدد"}
-          />
-          <EnvField label="CRM_WEBHOOK_SECRET" value="sk_live_xxxxxxxxxxxx" masked />
-
-          {/* Webhook URL display */}
-          <div>
-            <label className="block text-xs font-semibold text-text-secondary mb-1">Webhook URL (للإعداد في CRM)</label>
-            <div className="flex items-center gap-2">
-              <div className="flex-1 h-10 px-3 border border-border-light rounded-lg bg-bg-alt text-xs font-mono text-text-muted flex items-center truncate" dir="ltr">
-                {typeof window !== "undefined" ? `${window.location.origin}/api/webhooks/crm` : "/api/webhooks/crm"}
-              </div>
-              <button
-                onClick={() => {
-                  if (typeof window !== "undefined") {
-                    navigator.clipboard.writeText(`${window.location.origin}/api/webhooks/crm`).catch(() => {});
-                  }
-                }}
-                className="h-10 px-3 border border-border-light rounded-lg text-xs font-semibold text-text-secondary hover:bg-bg-alt transition"
-              >
-                نسخ
-              </button>
-            </div>
-          </div>
-
-          {/* Ping test */}
-          <div className="flex items-center gap-3">
-            <button onClick={pingCrm} disabled={crmLoading} className="h-9 px-4 bg-brand-green text-white text-xs font-bold rounded-xl hover:bg-brand-green-dark disabled:opacity-50 transition flex items-center gap-2">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={crmLoading ? "animate-spin" : ""}><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-              {crmLoading ? "جاري الاختبار…" : "اختبار الاتصال"}
-            </button>
-            {crmStatus && (
-              <div className={cn("flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-full",
-                crmStatus.reachable ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
-              )}>
-                <span className={cn("w-1.5 h-1.5 rounded-full", crmStatus.reachable ? "bg-green-500" : "bg-red-500")} />
-                {crmStatus.reachable
-                  ? `متصل · ${crmStatus.latency_ms}ms${crmStatus.version ? ` · v${crmStatus.version}` : ""}`
-                  : `غير متصل${crmStatus.error ? ` · ${crmStatus.error}` : ""}`
-                }
-              </div>
-            )}
-          </div>
-          <p className="text-xs text-text-muted bg-bg-alt rounded-lg px-3 py-2">
-            ℹ️ لتغيير BACKEND_INTERNAL_URL أو CRM_WEBHOOK_SECRET، استخدم Vercel Environment Variables.
-          </p>
-        </div>
       </Section>
 
       {/* ── Supported Countries ── */}

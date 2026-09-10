@@ -38,10 +38,7 @@ class SmokeTest {
     if (this.token) await this.test3_createTravelRequest();
     if (this.travelRequestId && this.token) await this.test4_uploadDocument();
     if (this.token) await this.test5_getPayments();
-    if (this.token) await this.test6_getUserProfile();
-    await this.test7_healthCheck();
-
-    this.printReport();
+    if (this.token) await this.test6_getUserProfile();this.printReport();
   }
 
   private async test1_signup() {

@@ -6,7 +6,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -69,14 +68,6 @@ export async function PATCH(
     );
   }
 
-  await logToSystemLogs(
-    "info",
-    "hotel_room_updated",
-    `Room updated: ${roomId} in hotel ${hotelId}`,
-    "cms",
-    { hotel_id: hotelId, room_id: roomId, updated_by: auth.userId }
-  );
-
   return NextResponse.json({ success: true, data });
 }
 
@@ -116,14 +107,6 @@ export async function DELETE(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "warning",
-    "hotel_room_deleted",
-    `Room deleted: ${existing?.room_type ?? roomId} from hotel ${hotelId}`,
-    "cms",
-    { hotel_id: hotelId, room_id: roomId, deleted_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data: null });
 }

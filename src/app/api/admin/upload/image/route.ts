@@ -13,7 +13,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -147,20 +146,6 @@ export async function POST(req: NextRequest) {
   const {
     data: { publicUrl },
   } = supabase.storage.from(bucket).getPublicUrl(filePath);
-
-  await logToSystemLogs(
-    "success",
-    "image_uploaded",
-    `Image uploaded to ${bucket}/${filePath}`,
-    "cms",
-    {
-      bucket,
-      path:       filePath,
-      size_bytes: file.size,
-      mime,
-      uploaded_by: auth.userId,
-    }
-  );
 
   return NextResponse.json(
     {

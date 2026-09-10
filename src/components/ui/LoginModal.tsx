@@ -1,10 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
-import { usePortalAuth } from "@/modules/auth";
+import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
+import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   open: boolean;
@@ -14,8 +15,9 @@ interface LoginModalProps {
 type Tab = "login" | "signup";
 
 export function LoginModal({ open, onClose }: LoginModalProps) {
-  const { login, register, isLoading, error: authError, clearError } = usePortalAuth();
+  const { signIn, signUp } = useAuth();
   const { locale } = useI18n();
+  const router = useRouter();
   const isAr = locale === "ar";
 
   const [tab, setTab] = useState<Tab>("login");
@@ -25,6 +27,8 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -34,7 +38,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   useEffect(() => {
     if (open) {
-      clearError();
+      setError("");
       setEmail("");
       setPassword("");
       setFirstName("");
@@ -42,7 +46,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
       setShowPassword(false);
       setTimeout(() => emailRef.current?.focus(), 100);
     }
-  }, [open, clearError]);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -57,17 +61,29 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    clearError();
+    setError("");
+    setLoading(true);
 
-    if (tab === "login") {
-      await login({ email, password });
-    } else {
-      const result = await register({ email, password, first_name: firstName, last_name: lastName });
-      if (result?.email_confirmation_required) {
-        alert(isAr ? "تم إنشاء الحساب! افحص بريدك للتأكيد ثم سجل الدخول." : "Account created! Check your email for confirmation.");
-        setTab("login");
-        setPassword("");
+    try {
+      if (tab === "login") {
+        await signIn(email, password);
+        onClose();
+        router.push("/profile");
+      } else {
+        const { session } = await signUp(email, password, { first_name: firstName, last_name: lastName });
+        if (!session) {
+          alert(isAr ? "تم إنشاء الحساب! افحص بريدك للتأكيد ثم سجل الدخول." : "Account created! Check your email for confirmation.");
+          setTab("login");
+          setPassword("");
+        } else {
+          onClose();
+          router.push("/profile");
+        }
       }
+    } catch (err: any) {
+      setError(err.message || (isAr ? "حدث خطأ" : "An error occurred"));
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -102,7 +118,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
             <button
               key={t}
               type="button"
-              onClick={() => { setTab(t); clearError(); }}
+              onClick={() => { setTab(t); setError(""); }}
               className={cn(
                 "flex-1 pb-2.5 text-sm font-semibold transition-colors",
                 tab === t
@@ -117,9 +133,9 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
           ))}
         </div>
 
-        {authError && (
+        {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 text-center">
-            {authError}
+            {error}
           </div>
         )}
 
@@ -136,7 +152,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder={isAr ? "أحمد" : "John"}
-                  disabled={isLoading}
+                  disabled={loading}
                   style={{ color: '#000000' }}
                   className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
@@ -151,7 +167,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder={isAr ? "محمد" : "Doe"}
-                  disabled={isLoading}
+                  disabled={loading}
                   style={{ color: '#000000' }}
                   className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
@@ -172,7 +188,7 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
               placeholder={isAr ? "مثال@بريد.com" : "you@example.com"}
               required
               autoComplete="email"
-              disabled={isLoading}
+              disabled={loading}
               style={{ color: '#000000' }}
               className="w-full h-11 px-3 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
             />
@@ -191,14 +207,14 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
                 placeholder="••••••••"
                 required
                 autoComplete={tab === "login" ? "current-password" : "new-password"}
-                disabled={isLoading}
+                disabled={loading}
                 style={{ color: '#000000' }}
                 className="w-full h-11 px-3 pe-11 border-2 border-gray-300 rounded-lg text-base font-medium focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/30 transition bg-white placeholder-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
+                disabled={loading}
                 className="absolute inset-y-0 end-3 flex items-center text-gray-500 hover:text-gray-900 transition disabled:opacity-50"
                 tabIndex={-1}
               >
@@ -221,15 +237,15 @@ export function LoginModal({ open, onClose }: LoginModalProps) {
 
           <button
             type="submit"
-            disabled={isLoading || !email || !password}
+            disabled={loading || !email || !password}
             className={cn(
               "w-full h-12 rounded-lg text-white text-base font-bold transition-all duration-200",
-              isLoading || !email || !password
+              loading || !email || !password
                 ? "bg-red-300 cursor-not-allowed"
                 : "bg-red-600 hover:bg-red-700 active:scale-[0.98] shadow-md hover:shadow-lg"
             )}
           >
-            {isLoading
+            {loading
               ? isAr ? "جاري التحميل..." : "Loading..."
               : tab === "login"
                 ? isAr ? "دخول" : "Sign in"

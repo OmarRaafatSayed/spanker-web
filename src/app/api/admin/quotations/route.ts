@@ -12,7 +12,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -138,19 +137,6 @@ export async function POST(req: NextRequest) {
     .select("*")
     .eq("id", data as string)
     .single();
-
-  await logToSystemLogs(
-    "success",
-    "quotation_created",
-    `Quotation created for user ${crmUser.email} (${user_id})`,
-    "cms",
-    {
-      quotation_id: data,
-      user_id,
-      total_amount,
-      created_by: auth.userId,
-    }
-  );
 
   return NextResponse.json({ success: true, data: created }, { status: 201 });
 }

@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -67,20 +66,6 @@ export async function POST(
     .select("*, financial_transactions(*)")
     .eq("id", bookingId as string)
     .single();
-
-  await logToSystemLogs(
-    "success",
-    "quotation_converted",
-    `Quotation ${id} converted to booking ${bookingId}`,
-    "cms",
-    {
-      quotation_id: id,
-      booking_id: bookingId,
-      user_id: quotation.user_id,
-      total_amount: quotation.total_amount,
-      converted_by: auth.userId,
-    }
-  );
 
   return NextResponse.json({
     success: true,

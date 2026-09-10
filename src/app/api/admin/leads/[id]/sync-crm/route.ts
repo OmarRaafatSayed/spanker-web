@@ -8,7 +8,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -129,13 +128,6 @@ export async function POST(
     .eq("id", leadId);
 
   if (syncError) {
-    await logToSystemLogs(
-      "error",
-      "lead_crm_sync_failed",
-      `CRM sync failed for lead ${leadId}: ${syncError}`,
-      "crm",
-      { lead_id: leadId, error: syncError, triggered_by: auth.userId }
-    );
 
     return NextResponse.json(
       {
@@ -146,14 +138,6 @@ export async function POST(
       { status: 502 }
     );
   }
-
-  await logToSystemLogs(
-    "success",
-    "lead_crm_synced",
-    `Lead ${leadId} synced to CRM (crm_id=${crmId ?? "unknown"})`,
-    "crm",
-    { lead_id: leadId, crm_id: crmId, triggered_by: auth.userId }
-  );
 
   return NextResponse.json({
     success: true,

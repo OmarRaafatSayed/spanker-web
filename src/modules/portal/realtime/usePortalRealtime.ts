@@ -1,8 +1,4 @@
-"use client"
-
-// =============================================================================
-// usePortalRealtime — Supabase Realtime channel for the customer portal
-// =============================================================================
+﻿"use client"
 
 import { useEffect } from "react"
 import { supabase }  from "@/lib/supabase/client"
@@ -18,8 +14,15 @@ export function usePortalRealtime(userId: string, callbacks: RealtimeCallbacks) 
   useEffect(() => {
     if (!userId) return
 
+    const channelName = `portal-live-${userId}`
+    
+    const existingChannel = supabase.getChannels().find(ch => ch.topic === `realtime:${channelName}`)
+    if (existingChannel) {
+      return () => {}
+    }
+
     const channel = supabase
-      .channel(`portal-live-${userId}`)
+      .channel(channelName)
       .on(
         "postgres_changes",
         {
@@ -55,6 +58,5 @@ export function usePortalRealtime(userId: string, callbacks: RealtimeCallbacks) 
     return () => {
       supabase.removeChannel(channel)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId])
+  }, [userId, callbacks])
 }

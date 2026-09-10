@@ -1,19 +1,5 @@
-/**
- * lib/api.ts — COMPATIBILITY SHIM
- * =================================
- * All API endpoints have been moved to their feature modules.
- * This file re-exports everything for backward compatibility.
- *
- * Prefer importing directly from feature modules:
- *   import { login, signup }          from "@/modules/auth";
- *   import { getMyVisaApplications }  from "@/modules/visa";
- *   import { crmAdapter }             from "@/modules/crm";
- *   import { travelRequestsApi }      from "@/modules/travel";
- *
- * @deprecated Use feature-module imports above instead.
- */
-
-export { login, signup } from "@/modules/auth";
+﻿export { searchFlights } from "./api/flight-endpoints";
+export { getProfile, updateProfile } from "./api/profile-endpoints";
 export { getMyVisaApplications } from "@/modules/visa";
 export {
   travelRequestsApi,
@@ -22,10 +8,6 @@ export {
   realtimeApi,
   crmApi,
 } from "@/modules/travel";
-
-export { searchFlights } from "./api/flight-endpoints";
-export { getProfile, updateProfile } from "./api/profile-endpoints";
-export { getMyPayments } from "./api/payment-endpoints";
 export { saveSession, clearSession, getToken, ValidationError } from "./api/api-utils";
 export {
   createSupabaseServerClient,

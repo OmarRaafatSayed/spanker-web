@@ -1,13 +1,11 @@
-import { updateSession } from "@/lib/supabase/middleware";
+﻿import { updateSession } from "@/lib/supabase/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const PROTECTED_PREFIXES = [
   "/dashboard",
   "/requests",
-  "/documents",
   "/notifications",
-  "/profile",
 ];
 
 const AUTH_PAGES = ["/login", "/register"];
@@ -29,7 +27,7 @@ export async function middleware(req: NextRequest) {
 
   if (isAuthPage && user) {
     const url = req.nextUrl.clone();
-    url.pathname = "/dashboard";
+    url.pathname = "/profile";
     return NextResponse.redirect(url);
   }
 
@@ -40,9 +38,7 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/requests/:path*",
-    "/documents/:path*",
     "/notifications/:path*",
-    "/profile/:path*",
     "/login",
     "/register",
   ],

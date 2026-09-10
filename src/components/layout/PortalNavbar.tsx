@@ -1,33 +1,27 @@
-"use client"
-
-// =============================================================================
-// PortalNavbar — used only inside the (client) portal route group
-// =============================================================================
+﻿"use client"
 
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, FileText, FolderOpen, User, LogOut, Menu, X } from "lucide-react"
+import { LayoutDashboard, FileText, User, LogOut, Menu, X } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
 import { NotificationBell } from "@/modules/portal/components/NotificationBell"
 import { useNotifications } from "@/modules/portal/hooks/useNotifications"
 import { usePortalRealtime } from "@/modules/portal/realtime/usePortalRealtime"
-import { useAuthStore } from "@/modules/auth/store/authStore"
-import { authService } from "@/modules/auth/services/authService"
+import { useAuth } from "@/modules/auth"
 import { useRouter } from "next/navigation"
 
 const NAV_LINKS = [
   { href: "/dashboard",  label: "Dashboard",   icon: LayoutDashboard },
   { href: "/requests",   label: "My Requests", icon: FileText },
-  { href: "/documents",  label: "Documents",   icon: FolderOpen },
 ]
 
 export function PortalNavbar() {
   const pathname = usePathname()
   const router   = useRouter()
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { user, logout } = useAuthStore()
+  const { user, signOut } = useAuth()
 
   const { notifications, unreadCount, markRead, markAllRead, pushNotification } = useNotifications()
 
@@ -36,20 +30,17 @@ export function PortalNavbar() {
   })
 
   const handleLogout = async () => {
-    await authService.logout()
-    logout()
+    await signOut()
     router.replace("/login")
   }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between gap-4">
-        {/* Logo */}
         <Link href="/dashboard" className="flex items-center gap-2 shrink-0">
           <Image src="/width-logo.png" alt="Spanker" width={120} height={36} className="h-8 w-auto object-contain" priority />
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
           {NAV_LINKS.map(({ href, label, icon: Icon }) => (
             <Link
@@ -68,7 +59,6 @@ export function PortalNavbar() {
           ))}
         </nav>
 
-        {/* Right actions */}
         <div className="flex items-center gap-2">
           <NotificationBell
             notifications={notifications}
@@ -100,7 +90,6 @@ export function PortalNavbar() {
             Sign out
           </button>
 
-          {/* Mobile toggle */}
           <button
             type="button"
             className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground hover:bg-muted transition-colors"
@@ -113,7 +102,6 @@ export function PortalNavbar() {
         </div>
       </div>
 
-      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background px-4 pb-4">
           <nav className="flex flex-col gap-1 pt-2" aria-label="Mobile navigation">

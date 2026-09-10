@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react"
 import { supabase }   from "@/lib/supabase/client"
-import { portalApi }  from "@/lib/portal-api/client"
 import type { DocumentResponse, DocType } from "@/modules/portal/types/portal.types"
 
 const BUCKET = "portal-documents"
@@ -36,7 +35,7 @@ export function useDocuments() {
       if (!signedData?.signedUrl) throw new Error("Failed to generate signed URL")
 
       // Step 2 — Register with FastAPI backend
-      const doc = await portalApi.registerDocument(requestId, {
+      const doc = await supabase.registerDocument(requestId, {
         doc_type:  docType,
         file_url:  signedData.signedUrl,
         file_name: file.name,
@@ -56,7 +55,7 @@ export function useDocuments() {
   const deleteDocument = useCallback(async (requestId: string, docId: string) => {
     setError(null)
     try {
-      await portalApi.deleteDocument(requestId, docId)
+      await supabase.deleteDocument(requestId, docId)
     } catch (err: unknown) {
       const msg = (err as Error)?.message ?? "Delete failed"
       setError(msg)

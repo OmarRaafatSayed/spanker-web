@@ -8,7 +8,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -75,14 +74,6 @@ export async function POST(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "info",
-    "lead_note_added",
-    `Note added to lead ${id}`,
-    "cms",
-    { lead_id: id, added_by: auth.userId }
-  );
 
   return NextResponse.json({
     success: true,

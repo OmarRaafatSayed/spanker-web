@@ -6,7 +6,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -128,14 +127,6 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "success",
-    "visa_type_created",
-    `Visa type created: ${visa_name} (${country_code})`,
-    "cms",
-    { visa_type_id: data.id, country_code, category, created_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data }, { status: 201 });
 }

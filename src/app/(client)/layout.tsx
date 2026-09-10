@@ -1,61 +1,54 @@
-"use client"
-
-// =============================================================================
-// (client) route group layout
-// Guards all child routes and wraps them with the portal Navbar + Footer.
-// Redirect to /login if no Supabase session.
-// =============================================================================
+﻿"use client"
 
 import { useEffect, useState } from "react"
-import { useRouter, usePathname } from "next/navigation"
-import { supabase }     from "@/lib/supabase/client"
-import { PortalNavbar } from "@/components/layout/PortalNavbar"
-import { PortalFooter } from "@/components/layout/PortalFooter"
+import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import { useAuth } from "@/modules/auth"
+import { Navbar } from "@/components/layout/Navbar"
+import { Footer } from "@/components/layout/Footer"
 import { FullPageSpinner } from "@/components/common/LoadingSpinner"
 import { ErrorBoundary } from "@/components/common/ErrorBoundary"
+import { I18nProvider } from "@/lib/i18n/context"
+import { BottomNav } from "@/components/layout/BottomNav"
 
-/** Profile setup is inside (client) but must be accessible before profile exists */
 const SETUP_PATH = "/profile/setup"
 
 export default function ClientGroupLayout({ children }: { children: React.ReactNode }) {
-  const router   = useRouter()
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, loading } = useAuth()
   const [checking, setChecking] = useState(true)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) {
-        router.replace(`/login?redirect=${encodeURIComponent(pathname)}`)
+    if (!loading) {
+      if (!user) {
+        router.push("/login")
       } else {
         setChecking(false)
       }
-    })
+    }
+  }, [user, loading, router])
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_OUT" || !session) {
-        router.replace("/login")
-      }
-    })
+  if (checking || loading) return <FullPageSpinner />
 
-    return () => subscription.unsubscribe()
-  }, [router, pathname])
+  if (!user) return null
 
-  if (checking) return <FullPageSpinner />
-
-  // Profile setup page — no Navbar/Footer to keep the focus
   if (pathname === SETUP_PATH) {
     return <ErrorBoundary>{children}</ErrorBoundary>
   }
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen flex flex-col bg-background">
-        <PortalNavbar />
-        <main className="flex-1 container mx-auto px-4 py-8">
-          {children}
-        </main>
-        <PortalFooter />
-      </div>
-    </ErrorBoundary>
+    <I18nProvider>
+      <ErrorBoundary>
+        <div className="min-h-screen flex flex-col">
+          <Navbar />
+          <main className="flex-1 pb-20 lg:pb-0">
+            {children}
+          </main>
+          <Footer />
+          <BottomNav />
+        </div>
+      </ErrorBoundary>
+    </I18nProvider>
   )
 }

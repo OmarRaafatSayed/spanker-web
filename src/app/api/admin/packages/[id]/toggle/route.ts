@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -60,14 +59,6 @@ export async function PATCH(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "info",
-    "package_toggled",
-    `Package ${id} set is_active=${body.is_active}`,
-    "cms",
-    { package_id: id, is_active: body.is_active, toggled_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data });
 }

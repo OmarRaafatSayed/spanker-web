@@ -1,8 +1,4 @@
-"use client"
-
-// =============================================================================
-// /requests/[id] — request detail + documents + status timeline
-// =============================================================================
+﻿"use client"
 
 import { use, useState } from "react"
 import Link from "next/link"
@@ -16,22 +12,21 @@ import { RequestForm }        from "@/modules/portal/components/RequestForm"
 import { LoadingSpinner }     from "@/components/common/LoadingSpinner"
 import { Button }             from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { useAuthStore }       from "@/modules/auth/store/authStore"
-import { portalApi }          from "@/lib/portal-api/client"
+import { useAuth }            from "@/modules/auth"
+import { supabase }          from "@/lib/supabase/client"
 import type { DocumentResponse, RequestResponse } from "@/modules/portal/types/portal.types"
 
 interface PageProps { params: Promise<{ id: string }> }
 
 export default function RequestDetailPage({ params }: PageProps) {
   const { id }    = use(params)
-  const { user }  = useAuthStore()
+  const { user }  = useAuth()
   const { request, isLoading, error, refresh, applyRealtimeUpdate } = useRequest(id)
   const [editing, setEditing]     = useState(false)
   const [editLoading, setEditL]   = useState(false)
   const [editError,   setEditErr] = useState<string | null>(null)
   const [docs, setDocs] = useState<DocumentResponse[] | null>(null)
 
-  // Live updates
   usePortalRealtime(user?.id ?? "", {
     onRequestUpdate: applyRealtimeUpdate,
     onDocumentUpdate: (partial) => {
@@ -48,7 +43,7 @@ export default function RequestDetailPage({ params }: PageProps) {
   }
 
   const handleDocDelete = async (docId: string) => {
-    await portalApi.deleteDocument(id, docId)
+    await supabase.deleteDocument(id, docId)
     setDocs(prev =>
       prev ? prev.filter(d => d.id !== docId) : (request?.documents ?? []).filter(d => d.id !== docId)
     )
@@ -58,7 +53,7 @@ export default function RequestDetailPage({ params }: PageProps) {
     setEditL(true)
     setEditErr(null)
     try {
-      await portalApi.updateRequest(id, body as Parameters<typeof portalApi.updateRequest>[1])
+      await supabase.updateRequest(id, body as Parameters<typeof supabase.updateRequest>[1])
       await refresh()
       setEditing(false)
     } catch (err: unknown) {
@@ -91,7 +86,6 @@ export default function RequestDetailPage({ params }: PageProps) {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      {/* Back */}
       <div className="flex items-center gap-3">
         <Link href="/requests" className="text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft className="h-5 w-5" />
@@ -101,7 +95,6 @@ export default function RequestDetailPage({ params }: PageProps) {
         </h1>
       </div>
 
-      {/* Rejected doc alert */}
       {docRejected && (
         <div className="flex items-start gap-2 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
@@ -109,7 +102,6 @@ export default function RequestDetailPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Request details */}
       <Card>
         <CardHeader className="pb-2 flex flex-row items-center justify-between">
           <CardTitle className="text-base">Request Details</CardTitle>
@@ -156,7 +148,6 @@ export default function RequestDetailPage({ params }: PageProps) {
         </CardContent>
       </Card>
 
-      {/* Documents */}
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-base">Documents ({documents.length})</CardTitle>
@@ -187,7 +178,6 @@ export default function RequestDetailPage({ params }: PageProps) {
         </CardContent>
       </Card>
 
-      {/* Timeline */}
       {request.status_log?.length > 0 && (
         <Card>
           <CardHeader className="pb-2">

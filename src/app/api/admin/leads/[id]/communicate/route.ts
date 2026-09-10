@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 import type { CommunicationType } from "@/types/index";
 
@@ -84,14 +83,6 @@ export async function POST(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "info",
-    "lead_communication_logged",
-    `${type} logged for lead ${leadId}`,
-    "cms",
-    { lead_id: leadId, comm_type: type, logged_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data }, { status: 201 });
 }

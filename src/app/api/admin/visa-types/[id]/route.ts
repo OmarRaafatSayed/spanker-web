@@ -7,7 +7,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import { logToSystemLogs } from "@/modules/crm/services/system-logger";
 import type { Database } from "@/types/database";
 
 function getServiceClient() {
@@ -110,14 +109,6 @@ export async function PATCH(
     );
   }
 
-  await logToSystemLogs(
-    "info",
-    "visa_type_updated",
-    `Visa type updated: ${id}`,
-    "cms",
-    { visa_type_id: id, updates: Object.keys(body), updated_by: auth.userId }
-  );
-
   return NextResponse.json({ success: true, data });
 }
 
@@ -153,14 +144,6 @@ export async function DELETE(
       { status: 500 }
     );
   }
-
-  await logToSystemLogs(
-    "warning",
-    "visa_type_deleted",
-    `Visa type deleted: ${existing?.visa_name ?? id} (${existing?.country_code ?? ""})`,
-    "cms",
-    { visa_type_id: id, deleted_by: auth.userId }
-  );
 
   return NextResponse.json({ success: true, data: null });
 }

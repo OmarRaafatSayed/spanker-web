@@ -13,7 +13,6 @@
 
 import { supabase } from "@/lib/supabase";
 import { normalizeToPortalStatus } from "@/types/visa-states";
-import type { ServiceResult } from "@/modules/crm";
 import type {
   TravelRequest,
   TravelRequestForm,
