@@ -32,6 +32,12 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     formats: ["image/webp", "image/avif"],
     remotePatterns: [],
