@@ -1,25 +1,11 @@
-/**
- * POST /api/v1/bookings/:id/cancel
- * 
- * Cancel a booking and calculate refund
- * Requires authentication + ownership or staff access
- */
-
 import { NextRequest } from 'next/server';
-import {
-  createSupabaseServerClient,
-  requireOwnerOrStaff,
-  successResponse,
-  errorResponse,
-  notFoundResponse,
-  handleRPCError,
-  ValidationError,
-} from '@/lib/api';
+import { createServerClient } from '@/lib/supabase/server';
+import { requireOwnerOrStaff } from '@/lib/api/server-utils';
+import { successResponse, errorResponse, notFoundResponse } from '@/lib/api/response';
+import { handleRPCError, ValidationError, AppError } from '@/lib/api/errors';
+import { TABLES } from '@/lib/db/schema';
 import type { CancelBookingResponse } from '@/types/api';
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// POST /api/v1/bookings/:id/cancel
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import type { Json } from '@/types/database';
 
 export async function POST(
   request: NextRequest,
@@ -27,71 +13,41 @@ export async function POST(
 ) {
   try {
     const bookingId = params.id;
+    if (!bookingId) throw new ValidationError('Booking ID is required');
 
-    if (!bookingId) {
-      throw new ValidationError('Booking ID is required');
-    }
+    const supabase = await createServerClient();
 
-    const supabase = createSupabaseServerClient();
-
-    // 1. Get booking to check ownership
     const { data: booking, error: fetchError } = await supabase
-      .from('bookings')
-      .select('customer_id, status')
+      .from(TABLES.travelRequests)
+      .select('client_user_id, booking_status')
       .eq('id', bookingId)
       .maybeSingle();
 
-    if (fetchError) {
-      console.error('[POST /api/v1/bookings/:id/cancel] Fetch error:', fetchError);
-      throw new Error(`Failed to fetch booking: ${fetchError.message}`);
-    }
+    if (fetchError) throw new AppError(`Failed to fetch booking: ${fetchError.message}`, 500);
+    if (!booking) return notFoundResponse('Booking');
 
-    if (!booking) {
-      return notFoundResponse('Booking');
-    }
+    await requireOwnerOrStaff(supabase, booking.client_user_id ?? '');
 
-    // 2. Check ownership or staff access
-    await requireOwnerOrStaff(booking.customer_id);
+    const status = booking.booking_status ?? '';
+    if (status === 'cancelled') throw new ValidationError('Booking is already cancelled');
+    if (status === 'completed') throw new ValidationError('Cannot cancel completed booking');
+    if (status === 'refunded') throw new ValidationError('Booking is already refunded');
 
-    // 3. Validate booking status
-    if (booking.status === 'cancelled') {
-      throw new ValidationError('Booking is already cancelled');
-    }
-
-    if (booking.status === 'completed') {
-      throw new ValidationError('Cannot cancel completed booking');
-    }
-
-    if (booking.status === 'refunded') {
-      throw new ValidationError('Booking is already refunded');
-    }
-
-    // 4. Parse request body for cancellation reason
     const body = await request.json().catch(() => ({}));
-    const reason = body.reason || null;
+    const reason: string | null = (body as Record<string, string>).reason ?? null;
 
-    // 5. Call cancel_booking RPC function
     const { data: result, error: rpcError } = await supabase.rpc('cancel_booking', {
-      p_booking_id: bookingId,
-      p_reason: reason,
+      p_request_id: bookingId,
+      p_reason: reason ?? undefined,
     });
 
-    if (rpcError) {
-      console.error('[POST /api/v1/bookings/:id/cancel] RPC error:', rpcError);
-      throw new Error(`Cancellation failed: ${rpcError.message}`);
-    }
+    if (rpcError) throw new AppError(`Cancellation failed: ${rpcError.message}`, 500);
 
-    // 6. Check RPC function response
-    if (!result.ok) {
-      handleRPCError(result);
-    }
+    const rpcResult = result as { ok: boolean; code?: string; message?: string; data?: Json };
+    if (!rpcResult?.ok) handleRPCError(rpcResult);
 
-    return successResponse(
-      result.data as CancelBookingResponse,
-      'Booking cancelled successfully'
-    );
+    return successResponse(rpcResult.data as unknown as CancelBookingResponse, 'Booking cancelled successfully');
   } catch (error) {
-    console.error('[POST /api/v1/bookings/:id/cancel] Error:', error);
     return errorResponse(error as Error);
   }
 }

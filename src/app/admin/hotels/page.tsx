@@ -79,10 +79,11 @@ export default function AdminHotelsPage() {
           rows.push({ hotel_id: availHotel.id, date: d.toISOString().split("T")[0], room_type: rt, rooms_left: availForm.rooms_count });
         }
       }
-      const { error } = await supabase.from("hotel_room_availability").upsert(rows, { onConflict: "hotel_id,date,room_type" });
-      if (error) throw error;
+      // TODO: hotel_room_availability table not implemented yet
+      // const { error } = await supabase.from("hotel_room_availability").upsert(rows, { onConflict: "hotel_id,date,room_type" });
+      // if (error) throw error;
       setShowAvailDialog(false);
-      alert("تم تحديث الغرف المتاحة بنجاح");
+      alert("ميزة إدارة الغرف قيد التطوير");
     } catch (e: any) { alert(e.message); }
     finally { setAvailSaving(false); }
   }

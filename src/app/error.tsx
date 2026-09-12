@@ -45,18 +45,8 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
   const handleRetry = useCallback(async () => {
     setIsLoadingRetry(true);
-    
-    // Check if backend is back up before retrying
-    const isReachable = await crmAdapter.isBackendReachable();
-    
-    if (isReachable) {
-      setRetryCount((c) => c + 1);
-      reset();
-    } else {
-      console.warn("[global/error] Backend still unreachable after retry");
-      // Don't increment retryCount, just wait
-    }
-    
+    setRetryCount((c) => c + 1);
+    reset();
     setIsLoadingRetry(false);
   }, [reset]);
 

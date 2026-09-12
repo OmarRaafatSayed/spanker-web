@@ -1,12 +1,8 @@
-/**
- * GET /api/admin/bookings/[id]
- * Full booking detail with financial transactions, linked quotation, and user.
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
+import { TABLES } from "@/lib/db/schema";
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -25,21 +21,8 @@ export async function GET(
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("bookings")
-    .select(
-      `
-      *,
-      users!bookings_user_id_fkey (
-        id, email, first_name, last_name, phone
-      ),
-      quotations!bookings_quotation_id_fkey (
-        id, total_amount, currency, status, items, sent_at, accepted_at, valid_until
-      ),
-      financial_transactions (
-        *
-      )
-      `
-    )
+    .from(TABLES.travelRequests)
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -47,21 +30,22 @@ export async function GET(
     return NextResponse.json({ success: false, error: "Booking not found" }, { status: 404 });
   }
 
-  // Calculate balance summary
-  const transactions = (data.financial_transactions as Array<{
-    amount_paid: number;
-    remaining_balance: number;
-  }>) ?? [];
+  const { data: payments } = await supabase
+    .from(TABLES.paymentRecords)
+    .select("id, amount, remaining_balance, payment_method, status, payment_date")
+    .eq("booking_id", id);
 
-  const totalPaid = transactions.reduce((sum, t) => sum + (t.amount_paid ?? 0), 0);
+  const transactions = (payments ?? []) as Array<{ amount: number; remaining_balance: number | null }>;
+  const totalPaid = transactions.reduce((sum, t) => sum + (t.amount ?? 0), 0);
   const latestRemaining = transactions.length > 0
     ? transactions[transactions.length - 1].remaining_balance
-    : (data.quotations as { total_amount?: number } | null)?.total_amount ?? 0;
+    : (data.total_amount ?? 0);
 
   return NextResponse.json({
     success: true,
     data: {
       ...data,
+      payment_records: payments ?? [],
       total_paid:        totalPaid,
       remaining_balance: latestRemaining,
     },

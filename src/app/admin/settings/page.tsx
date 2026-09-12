@@ -61,6 +61,8 @@ export default function AdminSettingsPage() {
   const [staff, setStaff]             = useState<StaffMember[]>([]);
   const [countries, setCountries]     = useState<VisaCountry[]>([]);
   const [staffLoading, setStaffLoading] = useState(true);
+  const [crmLoading, setCrmLoading]   = useState(false);
+  const [crmStatus, setCrmStatus]     = useState<CrmStatus | null>(null);
 
   // Notifications prefs (local UI state)
   const [notifPrefs, setNotifPrefs] = useState({

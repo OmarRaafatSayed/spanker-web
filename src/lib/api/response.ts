@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Standardized API Response Formatter
  * 
  * Consistent JSON response structure across all API routes
@@ -7,9 +7,9 @@
 import { NextResponse } from 'next/server';
 import { AppError } from './errors';
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Response Types
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 export interface ApiSuccessResponse<T = unknown> {
   success: true;
@@ -34,9 +34,9 @@ export interface ApiErrorResponse {
 
 export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse;
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Success Response Helpers
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Return successful API response (200 OK)
@@ -50,8 +50,8 @@ export function successResponse<T>(
     {
       success: true,
       data,
-      ...(message && { message }),
-      ...(meta && { meta }),
+      ...(message !== undefined ? { message } : {}),
+      ...(meta !== undefined ? { meta } : {}),
     },
     { status: 200 }
   );
@@ -68,7 +68,7 @@ export function createdResponse<T>(
     {
       success: true,
       data,
-      ...(message && { message }),
+      ...(message !== undefined ? { message } : {}),
     },
     { status: 201 }
   );
@@ -81,9 +81,9 @@ export function noContentResponse(): NextResponse {
   return new NextResponse(null, { status: 204 });
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Error Response Helpers
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Return error response with appropriate status code
@@ -100,7 +100,7 @@ export function errorResponse(
         error: {
           code: error.code,
           message: error.message,
-          ...(error.details && { details: error.details }),
+          ...(error.details !== undefined && { details: error.details as Record<string, unknown> }),
         },
       },
       { status: error.statusCode }
@@ -136,7 +136,7 @@ export function validationErrorResponse(
       error: {
         code: 'VALIDATION_ERROR',
         message,
-        ...(details && { details }),
+        ...(details !== undefined ? { details } : {}),
       },
     },
     { status: 400 }
@@ -197,9 +197,9 @@ export function notFoundResponse(
   );
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Type Guards
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 export function isSuccessResponse<T>(
   response: ApiResponse<T>
@@ -212,3 +212,4 @@ export function isErrorResponse(
 ): response is ApiErrorResponse {
   return response.success === false;
 }
+

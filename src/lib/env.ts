@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 
 const serverSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z
@@ -30,12 +30,12 @@ function validateEnv() {
   const parsed = serverSchema.safeParse(process.env);
 
   if (!parsed.success) {
-    const missing = parsed.error.errors
-      .map((e) => `  ✗ ${e.path.join(".")}: ${e.message}`)
+    const missing = parsed.error.issues
+      .map((e) => `  ✗ ${(e.path ?? []).join(".")}: ${e.message}`)
       .join("\n");
 
     throw new Error(
-      `\n\n❌ Invalid environment variables:\n${missing}\n\n` +
+      `\n\nâŒ Invalid environment variables:\n${missing}\n\n` +
         `Copy .env.local.example to .env.local and fill in all required values.\n`
     );
   }
@@ -49,3 +49,4 @@ export const clientEnv = clientSchema.parse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
 });
+

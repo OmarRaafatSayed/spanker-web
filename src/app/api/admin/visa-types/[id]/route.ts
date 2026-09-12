@@ -1,9 +1,3 @@
-/**
- * GET    /api/admin/visa-types/[id]  — get single visa type
- * PATCH  /api/admin/visa-types/[id]  — update visa type (partial)
- * DELETE /api/admin/visa-types/[id]  — delete visa type
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
@@ -15,50 +9,41 @@ function getServiceClient() {
   return createClient<Database>(url, key, { auth: { persistSession: false } });
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/admin/visa-types/[id]
-// ---------------------------------------------------------------------------
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
 
-  const { id } = await params;
+  const { searchParams } = new URL(req.url);
+  const country = searchParams.get("country");
+  const visaTypeId = searchParams.get("visa_type_id");
+
   const supabase = getServiceClient();
 
-  const { data, error } = await supabase
-    .from("visa_types")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error || !data) {
-    return NextResponse.json({ success: false, error: "Visa type not found" }, { status: 404 });
-  }
-
-  // Include related document requirements
-  const { data: docReqs } = await supabase
+  let query = supabase
     .from("visa_document_requirements")
     .select("*")
-    .eq("visa_type_id", id)
+    .order("country_code", { ascending: true })
     .order("sort_order", { ascending: true });
 
-  return NextResponse.json({ success: true, data: { ...data, document_requirements: docReqs ?? [] } });
+  if (country) query = query.eq("country_code", country.toUpperCase());
+  if (visaTypeId) query = query.eq("visa_type_id", visaTypeId);
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.error("[admin/visa-documents GET]", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch visa document requirements", details: error.message },
+      { status: 500 }
+    );
+  }
+
+  return NextResponse.json({ success: true, data, total: data?.length ?? 0 });
 }
 
-// ---------------------------------------------------------------------------
-// PATCH /api/admin/visa-types/[id]
-// ---------------------------------------------------------------------------
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
-
-  const { id } = await params;
 
   let body: Record<string, unknown>;
   try {
@@ -67,83 +52,53 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // Whitelist updatable fields
-  const ALLOWED_FIELDS = [
-    "country_code", "country_name", "visa_name", "duration_days", "category",
-    "profession_tier", "price", "deposit_amount", "child_price", "processing_days",
-    "is_urgent_available", "urgent_price", "is_active", "notes",
-  ];
+  const { country_code, document_key, document_label } = body;
 
-  const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
-  for (const field of ALLOWED_FIELDS) {
-    if (field in body) {
-      updates[field] = body[field];
-    }
-  }
-
-  if (updates.country_code) {
-    updates.country_code = (updates.country_code as string).toUpperCase();
-  }
-
-  if (Object.keys(updates).length === 1) {
-    return NextResponse.json({ success: false, error: "No valid fields to update" }, { status: 400 });
+  if (!country_code || !document_key || !document_label) {
+    return NextResponse.json(
+      { success: false, error: "Missing required fields: country_code, document_key, document_label" },
+      { status: 400 }
+    );
   }
 
   const supabase = getServiceClient();
 
+  if (body.visa_type_id) {
+    const { data: visaType } = await supabase
+      .from("visa_types")
+      .select("id")
+      .eq("id", body.visa_type_id as string)
+      .single();
+
+    if (!visaType) {
+      return NextResponse.json(
+        { success: false, error: "visa_type_id does not reference a valid visa type" },
+        { status: 400 }
+      );
+    }
+  }
+
   const { data, error } = await supabase
-    .from("visa_types")
-    .update(updates)
-    .eq("id", id)
+    .from("visa_document_requirements")
+    .insert({
+      country_code: (country_code as string).toUpperCase(),
+      visa_type_id: (body.visa_type_id as string | undefined) ?? null,
+      document_key: document_key as string,
+      document_label: document_label as string,
+      is_required: body.is_required !== undefined ? Boolean(body.is_required) : true,
+      conditions: (body.conditions as Record<string, unknown> | undefined) ?? {},
+      sort_order: body.sort_order != null ? Number(body.sort_order) : 0,
+    } as unknown as Record<string, unknown>)
     .select()
     .single();
 
   if (error) {
-    console.error("[admin/visa-types PATCH]", error);
-    if (error.code === "PGRST116") {
-      return NextResponse.json({ success: false, error: "Visa type not found" }, { status: 404 });
-    }
+    console.error("[admin/visa-documents POST]", error);
     return NextResponse.json(
-      { success: false, error: "Failed to update visa type", details: error.message },
+      { success: false, error: "Failed to create document requirement", details: error.message },
       { status: 500 }
     );
   }
 
-  return NextResponse.json({ success: true, data });
-}
-
-// ---------------------------------------------------------------------------
-// DELETE /api/admin/visa-types/[id]
-// ---------------------------------------------------------------------------
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const auth = await requireAdminAuth(req);
-  if (!auth.ok) return auth.response;
-
-  const { id } = await params;
-  const supabase = getServiceClient();
-
-  // Fetch before delete for logging
-  const { data: existing } = await supabase
-    .from("visa_types")
-    .select("visa_name, country_code")
-    .eq("id", id)
-    .single();
-
-  const { error } = await supabase.from("visa_types").delete().eq("id", id);
-
-  if (error) {
-    console.error("[admin/visa-types DELETE]", error);
-    if (error.code === "PGRST116") {
-      return NextResponse.json({ success: false, error: "Visa type not found" }, { status: 404 });
-    }
-    return NextResponse.json(
-      { success: false, error: "Failed to delete visa type", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data: null });
+  return NextResponse.json({ success: true, data }, { status: 201 });
 }

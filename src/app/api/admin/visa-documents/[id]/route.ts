@@ -1,9 +1,3 @@
-/**
- * GET    /api/admin/visa-documents/[id]  — get single document requirement
- * PATCH  /api/admin/visa-documents/[id]  — update document requirement
- * DELETE /api/admin/visa-documents/[id]  — delete document requirement
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
@@ -15,9 +9,6 @@ function getServiceClient() {
   return createClient<Database>(url, key, { auth: { persistSession: false } });
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/admin/visa-documents/[id]
-// ---------------------------------------------------------------------------
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -30,7 +21,7 @@ export async function GET(
 
   const { data, error } = await supabase
     .from("visa_document_requirements")
-    .select("*, visa_types(id, visa_name, country_name, country_code)")
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -41,9 +32,6 @@ export async function GET(
   return NextResponse.json({ success: true, data });
 }
 
-// ---------------------------------------------------------------------------
-// PATCH /api/admin/visa-documents/[id]
-// ---------------------------------------------------------------------------
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -82,7 +70,7 @@ export async function PATCH(
 
   const { data, error } = await supabase
     .from("visa_document_requirements")
-    .update(updates)
+    .update(updates as unknown as Record<string, unknown>)
     .eq("id", id)
     .select()
     .single();
@@ -101,9 +89,6 @@ export async function PATCH(
   return NextResponse.json({ success: true, data });
 }
 
-// ---------------------------------------------------------------------------
-// DELETE /api/admin/visa-documents/[id]
-// ---------------------------------------------------------------------------
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -113,12 +98,6 @@ export async function DELETE(
 
   const { id } = await params;
   const supabase = getServiceClient();
-
-  const { data: existing } = await supabase
-    .from("visa_document_requirements")
-    .select("document_key, country_code")
-    .eq("id", id)
-    .single();
 
   const { error } = await supabase
     .from("visa_document_requirements")

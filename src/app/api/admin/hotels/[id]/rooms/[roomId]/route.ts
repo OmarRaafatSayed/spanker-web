@@ -1,112 +1,40 @@
 /**
- * PATCH  /api/admin/hotels/[id]/rooms/[roomId]  — update a room
- * DELETE /api/admin/hotels/[id]/rooms/[roomId]  — delete a room
+ * GET    /api/admin/hotels/[id]/rooms/[roomId]  — get single room
+ * PATCH  /api/admin/hotels/[id]/rooms/[roomId]  — update room
+ * DELETE /api/admin/hotels/[id]/rooms/[roomId]  — delete room
+ *
+ * NOTE: Hotel rooms management not yet implemented. This is a stub.
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import type { Database } from "@/types/database";
 
-function getServiceClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createClient<Database>(url, key, { auth: { persistSession: false } });
-}
-
-// ---------------------------------------------------------------------------
-// PATCH /api/admin/hotels/[id]/rooms/[roomId]
-// ---------------------------------------------------------------------------
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string; roomId: string }> }
-) {
+export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
 
-  const { id: hotelId, roomId } = await params;
-
-  let body: Record<string, unknown>;
-  try {
-    body = await req.json();
-  } catch {
-    return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
-  }
-
-  const ALLOWED_FIELDS = [
-    "room_type", "board_type", "price_per_night", "currency",
-    "max_occupancy", "description", "images", "is_available",
-  ];
-
-  const updates: Record<string, unknown> = {};
-  for (const field of ALLOWED_FIELDS) {
-    if (field in body) updates[field] = body[field];
-  }
-
-  if (Object.keys(updates).length === 0) {
-    return NextResponse.json({ success: false, error: "No valid fields to update" }, { status: 400 });
-  }
-
-  const supabase = getServiceClient();
-
-  const { data, error } = await supabase
-    .from("hotel_rooms")
-    .update(updates)
-    .eq("id", roomId)
-    .eq("hotel_id", hotelId)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("[admin/hotels/rooms PATCH]", error);
-    if (error.code === "PGRST116") {
-      return NextResponse.json({ success: false, error: "Room not found" }, { status: 404 });
-    }
-    return NextResponse.json(
-      { success: false, error: "Failed to update room", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data });
+  return NextResponse.json(
+    { success: false, error: "Hotel rooms management not yet implemented" },
+    { status: 501 }
+  );
 }
 
-// ---------------------------------------------------------------------------
-// DELETE /api/admin/hotels/[id]/rooms/[roomId]
-// ---------------------------------------------------------------------------
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string; roomId: string }> }
-) {
+export async function PATCH(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
 
-  const { id: hotelId, roomId } = await params;
-  const supabase = getServiceClient();
+  return NextResponse.json(
+    { success: false, error: "Hotel rooms management not yet implemented" },
+    { status: 501 }
+  );
+}
 
-  const { data: existing } = await supabase
-    .from("hotel_rooms")
-    .select("room_type, board_type")
-    .eq("id", roomId)
-    .eq("hotel_id", hotelId)
-    .single();
+export async function DELETE(req: NextRequest) {
+  const auth = await requireAdminAuth(req);
+  if (!auth.ok) return auth.response;
 
-  const { error } = await supabase
-    .from("hotel_rooms")
-    .delete()
-    .eq("id", roomId)
-    .eq("hotel_id", hotelId);
-
-  if (error) {
-    console.error("[admin/hotels/rooms DELETE]", error);
-    if (error.code === "PGRST116") {
-      return NextResponse.json({ success: false, error: "Room not found" }, { status: 404 });
-    }
-    return NextResponse.json(
-      { success: false, error: "Failed to delete room", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data: null });
+  return NextResponse.json(
+    { success: false, error: "Hotel rooms management not yet implemented" },
+    { status: 501 }
+  );
 }

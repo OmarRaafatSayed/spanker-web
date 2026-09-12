@@ -25,12 +25,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       }
 
       const { data: staffRecord } = await supabase
-        .from("staff")
-        .select("role, is_active, full_name")
+        .from("profiles")
+        .select("role, full_name")
         .eq("user_id", user.id)
         .maybeSingle();
 
-      if (!staffRecord || !staffRecord.is_active) {
+      // Check if user has staff role
+      if (!staffRecord || !['admin', 'agent', 'reviewer'].includes(staffRecord.role)) {
         router.push("/admin/login");
         return;
       }

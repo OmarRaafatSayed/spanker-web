@@ -2,6 +2,8 @@
  * GET    /api/admin/hotels/[id]  — get single hotel with rooms
  * PATCH  /api/admin/hotels/[id]  — update hotel
  * DELETE /api/admin/hotels/[id]  — delete hotel
+ *
+ * NOTE: Hotels management not yet fully implemented. Uses hotel_offers table.
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -29,8 +31,8 @@ export async function GET(
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("hotels")
-    .select("*, hotel_rooms(*)")
+    .from("hotel_offers")
+    .select("*")
     .eq("id", id)
     .single();
 
@@ -61,14 +63,19 @@ export async function PATCH(
   }
 
   const ALLOWED_FIELDS = [
-    "name", "stars", "country", "city", "address", "google_maps_url",
-    "amenities", "check_in_time", "check_out_time", "cancellation_policy",
-    "booking_conditions", "is_active", "cover_image", "images", "description",
-  ];
+    "hotel_name", "city", "country", "stars", "location", "amenities",
+    "room_type", "board_basis", "price_per_night", "currency", "available_from",
+    "available_until", "booking_deadline"
+  ] as const;
 
-  const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  const updates: Partial<Database['public']['Tables']['hotel_offers']['Update']> = { 
+    updated_at: new Date().toISOString() 
+  };
+  
   for (const field of ALLOWED_FIELDS) {
-    if (field in body) updates[field] = body[field];
+    if (field in body) {
+      (updates as Record<string, unknown>)[field] = body[field];
+    }
   }
 
   if (Object.keys(updates).length === 1) {
@@ -78,7 +85,7 @@ export async function PATCH(
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("hotels")
+    .from("hotel_offers")
     .update(updates)
     .eq("id", id)
     .select()
@@ -111,13 +118,10 @@ export async function DELETE(
   const { id } = await params;
   const supabase = getServiceClient();
 
-  const { data: existing } = await supabase
-    .from("hotels")
-    .select("name, city, country")
-    .eq("id", id)
-    .single();
-
-  const { error } = await supabase.from("hotels").delete().eq("id", id);
+  const { error } = await supabase
+    .from("hotel_offers")
+    .delete()
+    .eq("id", id);
 
   if (error) {
     console.error("[admin/hotels DELETE]", error);
@@ -130,5 +134,5 @@ export async function DELETE(
     );
   }
 
-  return NextResponse.json({ success: true, data: null });
+  return NextResponse.json({ success: true });
 }

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
+import { useAuth } from "@/modules/auth";
 import type { CustomerProfile } from "@/types/flights";
 
 // ─── Schemas ──────────────────────────────────────────────────────────────────
@@ -55,7 +56,7 @@ function Alert({ type, msg }: { type: "success" | "error"; msg: string }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export default function ProfilePage() {
   const { locale } = useI18n();
-  const { user, updateUserProfile } = useAuth();
+  const { user } = useAuth();
   const isAr = locale === "ar";
 
   const [profile,        setProfile]        = useState<CustomerProfile | null>(null);
@@ -78,15 +79,15 @@ export default function ProfilePage() {
     useForm<PasswordFields>({ resolver: zodResolver(passwordSchema) });
 
   useEffect(() => {
-    crmAdapter.getProfile()
+    fetch("/api/profile")
+      .then((r) => r.json())
       .then((res) => {
-        if (!res.ok) throw new Error();
-        setProfile(res.data);
-        reset({ first_name: res.data.first_name ?? "", last_name: res.data.last_name ?? "", phone: res.data.phone ?? "" });
+        if (res.profile) {
+          setProfile(res.profile);
+          reset({ first_name: res.profile.first_name ?? "", last_name: res.profile.last_name ?? "", phone: res.profile.phone ?? "" });
+        }
       })
-      .catch(() => {
-        if (user) reset({ first_name: user.first_name ?? "", last_name: user.last_name ?? "", phone: user.phone ?? "" });
-      })
+      .catch(() => {})
       .finally(() => setLoadingProfile(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,10 +95,15 @@ export default function ProfilePage() {
   async function onSave(data: ProfileFields) {
     setSaving(true); setSaveStatus(null);
     try {
-      const res = await crmAdapter.updateProfile({ first_name: data.first_name, last_name: data.last_name, phone: data.phone || undefined });
-      if (res.ok) { setProfile(res.data); reset({ first_name: res.data.first_name, last_name: res.data.last_name, phone: res.data.phone ?? "" }); }
-      else reset(data);
-      updateUserProfile({ first_name: data.first_name, last_name: data.last_name, phone: data.phone || undefined });
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      }).then((r) => r.json());
+      if (res.profile) {
+        setProfile(res.profile);
+        reset({ first_name: res.profile.first_name, last_name: res.profile.last_name, phone: res.profile.phone ?? "" });
+      }
       setSaveStatus("success"); setSaveMsg(isAr ? "تم حفظ البيانات بنجاح" : "Saved successfully");
       setTimeout(() => setSaveStatus(null), 4000);
     } catch {
@@ -108,8 +114,11 @@ export default function ProfilePage() {
   async function onChangePwd(data: PasswordFields) {
     setSavingPwd(true); setPwdStatus(null);
     try {
-      const res = await crmAdapter.changePassword(data.current_password, data.new_password);
-      if (!res.ok) throw new Error(res.error);
+      await fetch("/api/auth/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ current_password: data.current_password, new_password: data.new_password }),
+      });
       setPwdStatus("success"); setPwdMsg(isAr ? "تم تغيير كلمة المرور" : "Password changed");
       resetPwd();
       setTimeout(() => setPwdStatus(null), 4000);
@@ -118,7 +127,7 @@ export default function ProfilePage() {
     } finally { setSavingPwd(false); }
   }
 
-  const displayName  = [profile?.first_name ?? user?.first_name, profile?.last_name ?? user?.last_name].filter(Boolean).join(" ");
+  const displayName  = [profile?.first_name, profile?.last_name].filter(Boolean).join(" ");
   const displayEmail = profile?.email ?? user?.email ?? "";
   const initials     = displayName ? displayName.split(" ").filter(Boolean).slice(0,2).map(w => w[0]).join("").toUpperCase() : displayEmail[0]?.toUpperCase() ?? "?";
 

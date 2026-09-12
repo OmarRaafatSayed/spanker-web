@@ -24,9 +24,24 @@ export function useRequests(options: UseRequestsOptions = {}) {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await supabase.listRequests(options)
-      setRequests(res.requests)
-      setTotal(res.total)
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error("Not authenticated")
+
+      let query = supabase
+        .from("travel_requests")
+        .select("*", { count: "exact" })
+        .eq("client_user_id", user.id)
+        .order("created_at", { ascending: false })
+
+      if (options.status_filter) query = query.eq("booking_status", options.status_filter)
+      if (options.limit) query = query.limit(options.limit)
+      if (options.offset) query = query.range(options.offset, options.offset + (options.limit ?? 10) - 1)
+
+      const { data, count, error: qErr } = await query
+      if (qErr) throw qErr
+
+      setRequests((data as unknown as RequestResponse[]) ?? [])
+      setTotal(count ?? 0)
     } catch (err: unknown) {
       setError((err as Error)?.message ?? "Failed to load requests")
     } finally {
@@ -37,14 +52,29 @@ export function useRequests(options: UseRequestsOptions = {}) {
   useEffect(() => { fetchRequests() }, [fetchRequests])
 
   const createRequest = useCallback(async (body: CreateRequestBody) => {
-    const req = await supabase.createRequest(body)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) throw new Error("Not authenticated")
+    const { data, error } = await supabase
+      .from("travel_requests")
+      .insert({ ...(body as unknown as Record<string, unknown>), client_user_id: user.id })
+      .select()
+      .single()
+    if (error) throw error
+    const req = data as unknown as RequestResponse
     setRequests(prev => [req, ...prev])
     setTotal(prev => prev + 1)
     return req
   }, [])
 
   const updateRequest = useCallback(async (id: string, body: Partial<CreateRequestBody>) => {
-    const updated = await supabase.updateRequest(id, body)
+    const { data, error } = await supabase
+      .from("travel_requests")
+      .update(body as unknown as Record<string, unknown>)
+      .eq("id", id)
+      .select()
+      .single()
+    if (error) throw error
+    const updated = data as unknown as RequestResponse
     setRequests(prev => prev.map(r => r.id === id ? updated : r))
     return updated
   }, [])
@@ -62,8 +92,13 @@ export function useRequest(id: string) {
     setIsLoading(true)
     setError(null)
     try {
-      const res = await supabase.getRequest(id)
-      setRequest(res)
+      const { data, error: qErr } = await supabase
+        .from("travel_requests")
+        .select("*")
+        .eq("id", id)
+        .single()
+      if (qErr) throw qErr
+      setRequest(data as unknown as RequestDetailResponse)
     } catch (err: unknown) {
       setError((err as Error)?.message ?? "Failed to load request")
     } finally {
@@ -73,7 +108,6 @@ export function useRequest(id: string) {
 
   useEffect(() => { fetchRequest() }, [fetchRequest])
 
-  /** Merge partial realtime update into local state */
   const applyRealtimeUpdate = useCallback((partial: Partial<RequestResponse>) => {
     setRequest(prev => prev ? { ...prev, ...partial } : prev)
   }, [])

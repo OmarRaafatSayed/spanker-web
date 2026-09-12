@@ -16,6 +16,13 @@ import { supabase } from "@/lib/supabase";
 import { normalizeToPortalStatus, type PortalStatus } from "@/types/visa-states";
 import type { TravelRequest } from "@/types";
 
+// ─── Logout function ───────────────────────────────────────────────────────────
+
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = '/';
+}
+
 // ─── Travel type metadata ──────────────────────────────────────────────────────
 
 const TRAVEL_TYPE_META: Record<string, { ar: string; en: string; icon: string }> = {
@@ -136,7 +143,7 @@ function RequestCard({ req, isAr }: { req: TravelRequest; isAr: boolean }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function MyRequestsPage() {
-  const { user, logout } = useAuth();
+  const { user, signOut } = useAuth();
   const { locale } = useI18n();
   const router = useRouter();
   const isAr = locale === "ar";
@@ -154,7 +161,7 @@ export default function MyRequestsPage() {
       // returns 0 rows — the RPC always returns a set (empty array is valid).
       const { data, error: rpcErr } = await supabase.rpc("get_my_travel_requests");
       if (rpcErr) throw rpcErr;
-      const normalised = ((data as TravelRequest[]) ?? []).map(req => ({
+      const normalised = ((data as unknown as TravelRequest[]) ?? []).map(req => ({
         ...req,
         status: normalizeToPortalStatus(req.status) as TravelRequest["status"],
       }));

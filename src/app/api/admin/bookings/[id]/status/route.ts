@@ -8,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
+import { TABLES } from "@/lib/db/schema";
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -46,7 +47,7 @@ export async function PATCH(
   const supabase = getServiceClient();
 
   const { data: booking } = await supabase
-    .from("bookings")
+    .from(TABLES.travelRequests)
     .select("id, status, user_id")
     .eq("id", id)
     .single();
@@ -57,14 +58,16 @@ export async function PATCH(
 
   const previousStatus = booking.status as string;
 
-  const updates: Record<string, unknown> = {
-    status:     newStatus,
+  const updates: Partial<Database['public']['Tables']['travel_requests']['Update']> = {
+    booking_status: newStatus,
     updated_at: new Date().toISOString(),
   };
-  if (newStatus === "COMPLETED") updates.completed_at = new Date().toISOString();
+  if (newStatus === "COMPLETED") {
+    (updates as Record<string, unknown>).completed_at = new Date().toISOString();
+  }
 
   const { data, error } = await supabase
-    .from("bookings")
+    .from(TABLES.travelRequests)
     .update(updates)
     .eq("id", id)
     .select()

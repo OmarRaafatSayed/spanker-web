@@ -18,6 +18,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
+import { TABLES } from "@/lib/db/schema";
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -65,7 +66,7 @@ export async function POST(
 
   // Verify booking exists and is not already completed/cancelled
   const { data: booking } = await supabase
-    .from("bookings")
+    .from(TABLES.travelRequests)
     .select("id, status, user_id")
     .eq("id", bookingId)
     .single();
@@ -74,7 +75,7 @@ export async function POST(
     return NextResponse.json({ success: false, error: "Booking not found" }, { status: 404 });
   }
 
-  if (booking.status === "CANCELLED") {
+  if ((booking.status as string)?.toUpperCase() === "CANCELLED") {
     return NextResponse.json(
       { success: false, error: "Cannot record payment on a cancelled booking" },
       { status: 422 }
@@ -83,7 +84,7 @@ export async function POST(
 
   // Get the financial_transaction record for this booking
   const { data: transaction } = await supabase
-    .from("financial_transactions")
+    .from(TABLES.paymentRecords)
     .select("id, remaining_balance")
     .eq("booking_id", bookingId)
     .order("created_at", { ascending: false })
@@ -104,7 +105,7 @@ export async function POST(
       p_transaction_id: transaction.id,
       p_amount_paid:    Number(amount_paid),
       p_payment_method: method,
-      p_receipt_url:    (receipt_url as string | undefined) ?? null,
+      p_receipt_url:    (receipt_url as string | undefined) ?? undefined,
     }
   );
 
@@ -118,8 +119,8 @@ export async function POST(
 
   // Fetch updated booking + transaction
   const { data: updated } = await supabase
-    .from("bookings")
-    .select("*, financial_transactions(*)")
+    .from(TABLES.travelRequests)
+    .select("*")
     .eq("id", bookingId)
     .single();
 

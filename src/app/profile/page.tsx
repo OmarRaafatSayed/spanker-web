@@ -40,7 +40,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (user) {
-      supabase
+      void supabase
         .from("profiles")
         .select("*")
         .eq("user_id", user.id)
@@ -56,7 +56,6 @@ export default function ProfilePage() {
           }
           setLoading(false)
         })
-        .catch(() => setLoading(false))
     }
   }, [user])
 

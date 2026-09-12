@@ -50,5 +50,5 @@ export function useAuth() {
     router.push("/login")
   }
 
-  return { user, loading, signIn, signUp, signOut }
+  return { user, loading, isLoading: loading, signIn, signUp, signOut, logout: signOut }
 }

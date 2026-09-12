@@ -61,7 +61,8 @@ export async function PATCH(req: NextRequest) {
         .update({ display_order, updated_at: now })
         .eq("id", id)
         .select("id, display_order")
-        .single() as Promise<SingleResult>
+        .single()
+        .then((res) => res as unknown as SingleResult)
     )
   );
 

@@ -35,9 +35,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // Note: eslint configuration moved to eslint.config.mjs
   images: {
     formats: ["image/webp", "image/avif"],
     remotePatterns: [],

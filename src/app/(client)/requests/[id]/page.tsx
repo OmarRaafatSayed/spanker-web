@@ -43,17 +43,30 @@ export default function RequestDetailPage({ params }: PageProps) {
   }
 
   const handleDocDelete = async (docId: string) => {
-    await supabase.deleteDocument(id, docId)
-    setDocs(prev =>
-      prev ? prev.filter(d => d.id !== docId) : (request?.documents ?? []).filter(d => d.id !== docId)
-    )
+    // Direct API call instead of non-existent supabase method
+    const { error } = await supabase
+      .from('customer_documents')
+      .delete()
+      .eq('id', docId);
+    
+    if (!error) {
+      setDocs(prev =>
+        prev ? prev.filter(d => d.id !== docId) : (request?.documents ?? []).filter(d => d.id !== docId)
+      )
+    }
   }
 
   const handleEdit = async (body: Partial<RequestResponse>) => {
     setEditL(true)
     setEditErr(null)
     try {
-      await supabase.updateRequest(id, body as Parameters<typeof supabase.updateRequest>[1])
+      // Direct API call instead of non-existent supabase method
+      const { error } = await supabase
+        .from('travel_requests')
+        .update(body as Partial<Database['public']['Tables']['travel_requests']['Update']>)
+        .eq('id', id);
+      
+      if (error) throw error;
       await refresh()
       setEditing(false)
     } catch (err: unknown) {

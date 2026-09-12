@@ -16,6 +16,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/modules/auth";
 import { useI18n } from "@/lib/i18n/context";
+import { supabase } from "@/lib/supabase/client";
 import {
   PORTAL_STATUS_LABELS,
   PORTAL_STATUS_VARIANT,
@@ -102,34 +103,35 @@ export default function DashboardPage() {
 
   useEffect(() => {
     async function fetchAll() {
-      const [v, p, pr] = await Promise.allSettled([
-        crmAdapter.getMyVisaApplications(),
-        crmAdapter.getMyPayments(),
-        crmAdapter.getProfile(),
-      ]);
+      try {
+        const [v, p] = await Promise.allSettled([
+          supabase.rpc("get_my_visa_applications"),
+          supabase.rpc("get_my_payments"),
+        ]);
 
-      // Each result is a ServiceResult — only set state on success
-      if (v.status === "fulfilled" && v.value.ok) setVisaData(v.value.data);
-      if (p.status === "fulfilled" && p.value.ok) setPaymentData(p.value.data);
-      if (pr.status === "fulfilled" && pr.value.ok) setProfile(pr.value.data);
+        if (v.status === "fulfilled" && !v.value.error && v.value.data) {
+          const rows = v.value.data as unknown as NonNullable<VisaApplicationsResponse>["results"];
+          setVisaData({ results: rows, count: rows.length } as VisaApplicationsResponse);
+        }
+        if (p.status === "fulfilled" && !p.value.error && p.value.data) {
+          const rows = p.value.data as unknown as NonNullable<PaymentsResponse>["results"];
+          setPaymentData({ results: rows } as PaymentsResponse);
+        }
 
-      // Detect backend down: if all three failed with network errors
-      const allFailed =
-        (v.status  === "fulfilled" && !v.value.ok)  &&
-        (p.status  === "fulfilled" && !p.value.ok)  &&
-        (pr.status === "fulfilled" && !pr.value.ok);
-      setBackendDown(allFailed);
-
-      setLoading(false);
+        const allFailed =
+          (v.status === "fulfilled" && !!v.value.error) &&
+          (p.status === "fulfilled" && !!p.value.error);
+        setBackendDown(allFailed);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchAll();
   }, []);
 
   const displayName = profile
     ? `${profile.first_name} ${profile.last_name}`.trim()
-    : user?.first_name
-      ? `${user.first_name} ${(user as { last_name?: string }).last_name ?? ""}`.trim()
-      : (user as { email?: string })?.email ?? "";
+    : (user as { email?: string })?.email ?? "";
 
   const totalPaid = paymentData?.results
     .filter(p => p.status === "full")

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { TABLES } from "@/lib/db/schema";
 
 export async function GET(
   req: NextRequest,
@@ -7,10 +8,7 @@ export async function GET(
 ): Promise<NextResponse> {
   try {
     const supabase = await createServerClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -20,53 +18,28 @@ export async function GET(
 
     const { data: detail, error: detailError } = await supabase
       .from("visa_booking_details")
-      .select(`
-        *,
-        booking:bookings (
-          reference,
-          total_amount,
-          contact,
-          customer_id,
-          created_at
-        ),
-        visa:visas (
-          destination_country,
-          visa_type,
-          processing_days,
-          price,
-          service_fee,
-          currency,
-          validity_months,
-          max_stay_days
-        )
-      `)
+      .select("*, travel_request:travel_requests(*)")
       .eq("id", id)
       .single();
 
     if (detailError || !detail) {
-      return NextResponse.json(
-        { error: "Application not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "Application not found" }, { status: 404 });
     }
 
-    if (detail.booking?.customer_id !== user.id) {
+    const travelRequest = (detail as Record<string, unknown>).travel_request as Record<string, unknown> | null;
+    if (travelRequest?.client_user_id !== user.id) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     return NextResponse.json({
       id: detail.id,
-      booking_id: detail.booking_id,
-      reference: detail.booking?.reference,
-      status: detail.review_status || "pending",
-      destination_country: detail.visa?.destination_country,
-      visa_type: detail.visa?.visa_type,
-      applicant: detail.applicant,
-      submitted_at: detail.submitted_at,
-      reviewed_at: detail.reviewed_at,
-      notes: detail.staff_notes,
-      created_at: detail.booking?.created_at,
-      total_amount: detail.booking?.total_amount,
+      booking_id: detail.travel_request_id,
+      reference: travelRequest?.booking_reference,
+      status: detail.visa_application_id ? "submitted" : "pending",
+      destination_country: detail.destination_country,
+      visa_type: detail.visa_type,
+      created_at: travelRequest?.created_at,
+      total_amount: detail.total_price,
     });
   } catch (err) {
     return NextResponse.json({ error: String(err) }, { status: 500 });

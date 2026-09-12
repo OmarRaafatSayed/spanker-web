@@ -34,7 +34,7 @@ export function useNotifications(unread_only = false) {
       if (fetchError) throw fetchError
 
       const allNotifications = data || []
-      setNotifications(allNotifications)
+      setNotifications(allNotifications as unknown as NotificationResponse[])
       setTotal(allNotifications.length)
       setUnreadCount(allNotifications.filter(n => !n.is_read).length)
     } catch (err: any) {

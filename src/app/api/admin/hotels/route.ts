@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import type { Database } from "@/types/database";
+import type { Database, Json } from "@/types/database";
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -31,12 +31,12 @@ export async function GET(req: NextRequest) {
 
   let query = supabase
     .from("hotel_offers")
-    .select("*, hotel_rooms(id, room_type, board_type, price_per_night, currency, is_available)")
-    .order("name", { ascending: true });
+    .select("*")
+    .order("hotel_name", { ascending: true });
 
-  if (country) query = query.ilike("country", `%${country}%`);
-  if (city) query = query.ilike("city", `%${city}%`);
-  if (stars) query = query.eq("stars", Number(stars));
+  if (country) query = query.ilike("hotel_country", `%${country}%`);
+  if (city) query = query.ilike("hotel_city", `%${city}%`);
+  if (stars) query = query.eq("hotel_rating", Number(stars));
   if (activeParam !== null) query = query.eq("is_active", activeParam === "true");
 
   const { data, error } = await query;
@@ -66,37 +66,40 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { name, country, city } = body;
+  const { hotel_name, hotel_country, hotel_city, available_from, available_to, price_per_night, room_type } = body;
 
-  if (!name || !country || !city) {
+  if (!hotel_name || !hotel_country || !hotel_city || !available_from || !available_to || !price_per_night || !room_type) {
     return NextResponse.json(
-      { success: false, error: "Missing required fields: name, country, city" },
+      { success: false, error: "Missing required fields: hotel_name, hotel_country, hotel_city, available_from, available_to, price_per_night, room_type" },
       { status: 400 }
     );
   }
 
   const supabase = getServiceClient();
 
+  const insertData: Database['public']['Tables']['hotel_offers']['Insert'] = {
+    hotel_name: hotel_name as string,
+    hotel_rating: body.hotel_rating != null ? Number(body.hotel_rating) : null,
+    hotel_country: hotel_country as string,
+    hotel_city: hotel_city as string,
+    hotel_location: (body.hotel_location as string) || '',
+    room_type: room_type as string,
+    board_basis: (body.board_basis as string | null) ?? null,
+    price_per_night: Number(price_per_night),
+    price_currency: (body.price_currency as string) || 'EGP',
+    available_from: available_from as string,
+    available_to: available_to as string,
+    amenities: (body.amenities as Json | null) ?? null,
+    cancellation_policy: (body.cancellation_policy as string | null) ?? null,
+    is_active: body.is_active !== undefined ? Boolean(body.is_active) : true,
+    description: (body.description as string | null) ?? null,
+    source: 'admin',
+    created_by: auth.userId,
+  };
+
   const { data, error } = await supabase
     .from("hotel_offers")
-    .insert({
-      name: name as string,
-      stars: body.stars != null ? Number(body.stars) : null,
-      country: country as string,
-      city: city as string,
-      address: (body.address as string | undefined) ?? null,
-      google_maps_url: (body.google_maps_url as string | undefined) ?? null,
-      amenities: (body.amenities as unknown[]) ?? [],
-      check_in_time: (body.check_in_time as string | undefined) ?? null,
-      check_out_time: (body.check_out_time as string | undefined) ?? null,
-      cancellation_policy: (body.cancellation_policy as string | undefined) ?? null,
-      booking_conditions: (body.booking_conditions as string | undefined) ?? null,
-      is_active: body.is_active !== undefined ? Boolean(body.is_active) : true,
-      cover_image: (body.cover_image as string | undefined) ?? null,
-      images: (body.images as unknown[]) ?? [],
-      description: (body.description as string | undefined) ?? null,
-      created_by: auth.userId,
-    })
+    .insert(insertData)
     .select()
     .single();
 

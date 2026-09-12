@@ -1,24 +1,10 @@
-/**
- * POST /api/v1/bookings/:id/confirm
- * 
- * Confirm a booking (staff only)
- * Clears expires_at and updates status to confirmed
- */
-
 import { NextRequest } from 'next/server';
-import {
-  createSupabaseServerClient,
-  requireStaff,
-  successResponse,
-  errorResponse,
-  notFoundResponse,
-  handleRPCError,
-  ValidationError,
-} from '@/lib/api';
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// POST /api/v1/bookings/:id/confirm
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import { createServerClient } from '@/lib/supabase/server';
+import { requireStaff } from '@/lib/api/server-utils';
+import { successResponse, errorResponse, notFoundResponse } from '@/lib/api/response';
+import { handleRPCError, ValidationError, AppError } from '@/lib/api/errors';
+import { TABLES } from '@/lib/db/schema';
+import type { Json } from '@/types/database';
 
 export async function POST(
   request: NextRequest,
@@ -26,68 +12,38 @@ export async function POST(
 ) {
   try {
     const bookingId = params.id;
+    if (!bookingId) throw new ValidationError('Booking ID is required');
 
-    if (!bookingId) {
-      throw new ValidationError('Booking ID is required');
-    }
-
-    // 1. Require staff access (admin or agent)
     const staff = await requireStaff(['admin', 'agent']);
+    const supabase = await createServerClient();
 
-    const supabase = createSupabaseServerClient();
-
-    // 2. Check if booking exists
     const { data: booking, error: fetchError } = await supabase
-      .from('bookings')
-      .select('id, status, reference')
+      .from(TABLES.travelRequests)
+      .select('id, booking_status, booking_reference')
       .eq('id', bookingId)
       .maybeSingle();
 
-    if (fetchError) {
-      console.error('[POST /api/v1/bookings/:id/confirm] Fetch error:', fetchError);
-      throw new Error(`Failed to fetch booking: ${fetchError.message}`);
-    }
+    if (fetchError) throw new AppError(`Failed to fetch booking: ${fetchError.message}`, 500);
+    if (!booking) return notFoundResponse('Booking');
 
-    if (!booking) {
-      return notFoundResponse('Booking');
-    }
+    const status = booking.booking_status ?? '';
+    if (status === 'confirmed') throw new ValidationError('Booking is already confirmed');
+    if (status === 'cancelled') throw new ValidationError('Cannot confirm cancelled booking');
+    if (status === 'refunded') throw new ValidationError('Cannot confirm refunded booking');
+    if (status === 'expired') throw new ValidationError('Cannot confirm expired booking');
 
-    // 3. Validate booking status
-    if (booking.status === 'confirmed') {
-      throw new ValidationError('Booking is already confirmed');
-    }
-
-    if (booking.status === 'cancelled') {
-      throw new ValidationError('Cannot confirm cancelled booking');
-    }
-
-    if (booking.status === 'refunded') {
-      throw new ValidationError('Cannot confirm refunded booking');
-    }
-
-    if (booking.status === 'expired') {
-      throw new ValidationError('Cannot confirm expired booking');
-    }
-
-    // 4. Parse request body for notes
     const body = await request.json().catch(() => ({}));
-    const notes = body.notes || null;
+    const notes: string | null = (body as Record<string, string>).notes ?? null;
 
-    // 5. Call confirm_booking RPC function
     const { data: result, error: rpcError } = await supabase.rpc('confirm_booking', {
-      p_booking_id: bookingId,
-      p_notes: notes,
+      p_request_id: bookingId,
+      p_staff_uid: staff.id,
     });
 
-    if (rpcError) {
-      console.error('[POST /api/v1/bookings/:id/confirm] RPC error:', rpcError);
-      throw new Error(`Confirmation failed: ${rpcError.message}`);
-    }
+    if (rpcError) throw new AppError(`Confirmation failed: ${rpcError.message}`, 500);
 
-    // 6. Check RPC function response
-    if (!result.ok) {
-      handleRPCError(result);
-    }
+    const rpcResult = result as { ok: boolean; code?: string; message?: string; data?: Json };
+    if (!rpcResult?.ok) handleRPCError(rpcResult);
 
     return successResponse(
       {
@@ -95,12 +51,12 @@ export async function POST(
         status: 'confirmed',
         confirmed_by: staff.id,
         confirmed_at: new Date().toISOString(),
-        reference: booking.reference,
+        reference: booking.booking_reference,
+        notes,
       },
       'Booking confirmed successfully'
     );
   } catch (error) {
-    console.error('[POST /api/v1/bookings/:id/confirm] Error:', error);
     return errorResponse(error as Error);
   }
 }

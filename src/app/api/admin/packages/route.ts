@@ -13,6 +13,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
+import { TABLES } from '@/lib/db/schema';
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest) {
   const supabase = getServiceClient();
 
   let query = supabase
-    .from("trip_packages")
+    .from(TABLES.trips)
     .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
@@ -109,18 +110,18 @@ export async function POST(req: NextRequest) {
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("trip_packages")
+    .from(TABLES.trips)
     .insert({
-      title:       title as string,
-      description: description as string,
-      destination: destination as string,
-      price:       Number(price),
-      currency:    (body.currency as string | undefined) ?? "EGP",
-      duration:    Number(duration),
-      images:      (body.images as unknown[]) ?? [],
-      features:    (body.features as unknown[]) ?? [],
-      is_active:   body.is_active !== undefined ? Boolean(body.is_active) : true,
-      created_by:  auth.userId,
+      name:          title as string,
+      description:   description as string,
+      destination:   destination as string,
+      price_per_person: Number(price),
+      currency:      (body.currency as string | undefined) ?? "EGP",
+      duration_days: Number(duration),
+      is_active:     body.is_active !== undefined ? Boolean(body.is_active) : true,
+      created_by:    auth.userId,
+      start_date:    (body.start_date as string | undefined) ?? new Date().toISOString().split("T")[0],
+      end_date:      (body.end_date as string | undefined) ?? new Date().toISOString().split("T")[0],
     })
     .select()
     .single();

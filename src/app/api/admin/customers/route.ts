@@ -1,17 +1,10 @@
-/**
- * GET /api/admin/customers
- * Fetch all customers with their stats
- * 
- * IMPORTANT: This endpoint is part of the Admin Dashboard
- * which has FULL ACCESS to customer data.
- */
-
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { createServerClient } from "@/lib/supabase/server";
 
 export async function GET(req: NextRequest) {
   try {
-    // Fetch all profiles (customers, staff, admins)
+    const supabase = await createServerClient();
+
     const { data: profiles, error: profilesError } = await supabase
       .from("profiles")
       .select("*")
@@ -25,16 +18,13 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // Enhance each profile with additional stats
     const customersWithStats = await Promise.all(
-      (profiles || []).map(async (profile: Record<string, unknown>) => {
-        // Get travel requests count
+      (profiles || []).map(async (profile) => {
         const { count: requestsCount } = await supabase
           .from("travel_requests")
           .select("*", { count: "exact", head: true })
           .eq("client_user_id", profile.user_id);
 
-        // Get documents count
         const { count: documentsCount } = await supabase
           .from("customer_documents")
           .select("*", { count: "exact", head: true })

@@ -46,7 +46,6 @@ export async function GET(
     travelRequestsResult,
     documentsResult,
     communicationsResult,
-    userResult,
   ] = await Promise.all([
     supabase
       .from("travel_requests")
@@ -65,58 +64,23 @@ export async function GET(
       .select("*")
       .eq("client_user_id", userId)
       .order("sent_at", { ascending: false }),
-
-    // CRM users table (for quotations/bookings foreign key)
-    supabase
-      .from("users")
-      .select("id")
-      .eq("auth_user_id", userId)
-      .single(),
   ]);
 
-  const crmUserId = userResult.data?.id ?? null;
-
-  // If there's a CRM user record, also fetch quotations and bookings
-  let quotations: unknown[] = [];
-  let bookings: unknown[] = [];
-  let transactions: unknown[] = [];
-
-  if (crmUserId) {
-    const [quotationsResult, bookingsResult] = await Promise.all([
-      supabase
-        .from("quotations")
-        .select("*")
-        .eq("user_id", crmUserId)
-        .order("created_at", { ascending: false }),
-
-      supabase
-        .from("bookings")
-        .select("*, financial_transactions(*)")
-        .eq("user_id", crmUserId)
-        .order("created_at", { ascending: false }),
-    ]);
-
-    quotations = quotationsResult.data ?? [];
-    bookings   = bookingsResult.data ?? [];
-
-    // Flatten transactions from bookings
-    transactions = (bookingsResult.data ?? []).flatMap(
-      (b: Record<string, unknown>) =>
-        (b.financial_transactions as unknown[]) ?? []
-    );
-  }
+  // Get payment records for this user's bookings
+  const { data: paymentsData } = await supabase
+    .from("payment_records")
+    .select("*")
+    .eq("client_user_id", userId)
+    .order("created_at", { ascending: false });
 
   return NextResponse.json({
     success: true,
     data: {
       profile,
-      crm_user_id:     crmUserId,
       travel_requests: travelRequestsResult.data ?? [],
       documents:       documentsResult.data ?? [],
       communications:  communicationsResult.data ?? [],
-      quotations,
-      bookings,
-      transactions,
+      payments:        paymentsData ?? [],
     },
   });
 }
@@ -140,11 +104,16 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const ALLOWED_FIELDS = ["full_name", "phone"];
+  const ALLOWED_FIELDS = ["full_name", "phone"] as const;
 
-  const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  const updates: Partial<Database['public']['Tables']['profiles']['Update']> = { 
+    updated_at: new Date().toISOString() 
+  };
+  
   for (const field of ALLOWED_FIELDS) {
-    if (field in body) updates[field] = body[field];
+    if (field in body) {
+      updates[field] = body[field] as string;
+    }
   }
 
   if (Object.keys(updates).length === 1) {

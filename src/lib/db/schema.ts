@@ -44,6 +44,11 @@ export const TABLES = {
   bookingPolicies: 'booking_policies',
   visaStatusMapping: 'visa_status_mapping',
   
+  // Content & Events
+  contentBanners: 'content_banners',
+  stateMachineEvents: 'state_machine_events',
+  hotelRoomAvailability: 'hotel_room_availability',
+  
   // Internal
   syncQueue: 'sync_queue',
   systemLogs: 'system_logs',

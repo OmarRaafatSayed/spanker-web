@@ -1,51 +1,38 @@
-/**
- * POST /api/admin/setup
- * 
- * Initial setup endpoint to create first admin user
- * This should be secured in production (e.g., only run once, require secret token)
- */
-
 import { NextRequest } from 'next/server';
-import { createSupabaseServerClient, successResponse, errorResponse } from '@/lib/api';
+import { createServerClient } from '@/lib/supabase/server';
+import { successResponse, errorResponse } from '@/lib/api/response';
+import { AppError } from '@/lib/api/errors';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createServerClient();
     const body = await request.json();
 
     const { email, password, full_name } = body;
 
     if (!email || !password || !full_name) {
-      return errorResponse(new Error('email, password, and full_name are required'));
+      throw new AppError('email, password, and full_name are required', 400, 'VALIDATION_ERROR');
     }
 
-    // 1. Create Supabase auth user
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
-      email_confirm: true, // Auto-confirm email
-      user_metadata: {
-        full_name,
-      },
+      email_confirm: true,
+      user_metadata: { full_name },
     });
 
-    if (authError) throw authError;
-    if (!authData.user) throw new Error('Failed to create user');
+    if (authError) throw new AppError(authError.message, 500);
+    if (!authData.user) throw new AppError('Failed to create user', 500);
 
-    // 2. Update profile to admin role (profiles created automatically by trigger)
-    const { error: profileError } = await supabase.from('profiles').update({
-      role: 'admin',
-      full_name,
-    }).eq('user_id', authData.user.id);
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({ role: 'admin', full_name })
+      .eq('user_id', authData.user.id);
 
-    if (profileError) throw profileError;
+    if (profileError) throw new AppError(profileError.message, 500);
 
-    return successResponse(
-      { user_id: authData.user.id, email, role: 'admin' },
-      'Admin user created successfully'
-    );
-  } catch (error: any) {
-    console.error('[POST /api/admin/setup] Error:', error);
-    return errorResponse(error);
+    return successResponse({ user_id: authData.user.id, email, role: 'admin' });
+  } catch (error) {
+    return errorResponse(error as Error);
   }
 }

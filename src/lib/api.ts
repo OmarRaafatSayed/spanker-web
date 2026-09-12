@@ -2,11 +2,10 @@
 export { getProfile, updateProfile } from "./api/profile-endpoints";
 export { getMyVisaApplications } from "@/modules/visa";
 export {
-  travelRequestsApi,
-  documentRequirementsApi,
-  documentsApi,
-  realtimeApi,
-  crmApi,
+  travelRequestsService as travelRequestsApi,
+  documentRequirementsService as documentRequirementsApi,
+  customerDocumentsService as documentsApi,
+  toApiResponse,
 } from "@/modules/travel";
 export { saveSession, clearSession, getToken, ValidationError } from "./api/api-utils";
 export {

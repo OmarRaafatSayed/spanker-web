@@ -70,7 +70,7 @@ export default function AdminFlightsPage() {
   }
 
   async function toggleEnabled(id: string, current: boolean) {
-    await supabase.from("flights").update({ enabled: !current }).eq("id", id);
+    await supabase.from("flights").update({ is_active: !current }).eq("id", id);
     fetchFlights();
   }
 

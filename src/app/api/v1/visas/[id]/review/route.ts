@@ -1,26 +1,15 @@
-/**
- * POST /api/v1/visas/:id/review
- * 
- * Review a visa application (staff only - reviewer role)
- * Approve, reject, or request more information
- */
-
 import { NextRequest } from 'next/server';
+import { createServerClient } from '@/lib/supabase/server';
+import { requireStaff } from '@/lib/api/server-utils';
 import {
-  createSupabaseServerClient,
-  requireStaff,
   successResponse,
   errorResponse,
   notFoundResponse,
   validationErrorResponse,
-  handleRPCError,
-  ValidationError,
-} from '@/lib/api';
+} from '@/lib/api/response';
+import { handleRPCError, ValidationError, AppError } from '@/lib/api/errors';
 import type { ReviewVisaApplicationRequest, ReviewVisaApplicationResponse } from '@/types/api';
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// POST /api/v1/visas/:id/review
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import type { Json } from '@/types/database';
 
 export async function POST(
   request: NextRequest,
@@ -28,96 +17,46 @@ export async function POST(
 ) {
   try {
     const visaBookingDetailId = params.id;
+    if (!visaBookingDetailId) throw new ValidationError('Visa booking detail ID is required');
 
-    if (!visaBookingDetailId) {
-      throw new ValidationError('Visa booking detail ID is required');
-    }
-
-    // 1. Require staff access with reviewer role
     const staff = await requireStaff(['admin', 'reviewer']);
+    const supabase = await createServerClient();
 
-    const supabase = createSupabaseServerClient();
+    const body = (await request.json()) as Omit<ReviewVisaApplicationRequest, 'visa_booking_detail_id'>;
 
-    // 2. Parse request body
-    const body = (await request.json()) as Omit<
-      ReviewVisaApplicationRequest,
-      'visa_booking_detail_id'
-    >;
+    if (!body.decision) return validationErrorResponse('decision is required');
 
-    if (!body.decision) {
-      return validationErrorResponse('decision is required');
-    }
-
-    // Validate decision
     const validDecisions = ['approve', 'reject', 'needs_more_info'];
     if (!validDecisions.includes(body.decision)) {
-      return validationErrorResponse(
-        `decision must be one of: ${validDecisions.join(', ')}`
-      );
+      return validationErrorResponse(`decision must be one of: ${validDecisions.join(', ')}`);
+    }
+    if (body.decision === 'needs_more_info' && (!body.required_documents || body.required_documents.length === 0)) {
+      return validationErrorResponse('required_documents is required when decision is "needs_more_info"');
     }
 
-    // Validate required_documents for 'needs_more_info'
-    if (
-      body.decision === 'needs_more_info' &&
-      (!body.required_documents || body.required_documents.length === 0)
-    ) {
-      return validationErrorResponse(
-        'required_documents is required when decision is "needs_more_info"'
-      );
-    }
-
-    // 3. Check if visa booking detail exists
     const { data: visaBookingDetail, error: fetchError } = await supabase
       .from('visa_booking_details')
-      .select('id, booking_id, review_status')
+      .select('id, travel_request_id')
       .eq('id', visaBookingDetailId)
       .maybeSingle();
 
-    if (fetchError) {
-      console.error('[POST /api/v1/visas/:id/review] Fetch error:', fetchError);
-      throw new Error(`Failed to fetch visa application: ${fetchError.message}`);
-    }
+    if (fetchError) throw new AppError(`Failed to fetch visa application: ${fetchError.message}`, 500);
+    if (!visaBookingDetail) return notFoundResponse('Visa application');
 
-    if (!visaBookingDetail) {
-      return notFoundResponse('Visa application');
-    }
+    const { data: result, error: rpcError } = await supabase.rpc('review_visa_application', {
+      p_visa_booking_detail_id: visaBookingDetailId,
+      p_decision: body.decision,
+      p_notes: body.notes ?? undefined,
+      p_required_documents: body.decision === 'needs_more_info'
+        ? (body.required_documents as unknown as Json)
+        : undefined,
+    });
 
-    // 4. Validate review status
-    if (visaBookingDetail.review_status === 'approved') {
-      throw new ValidationError('Application is already approved');
-    }
+    if (rpcError) throw new AppError(`Review failed: ${rpcError.message}`, 500);
 
-    if (visaBookingDetail.review_status === 'rejected') {
-      throw new ValidationError('Application is already rejected');
-    }
+    const rpcResult = result as { ok: boolean; code?: string; message?: string; data?: Json };
+    if (!rpcResult?.ok) handleRPCError(rpcResult);
 
-    if (visaBookingDetail.review_status === 'pending') {
-      throw new ValidationError('Application has not been submitted yet');
-    }
-
-    // 5. Call review_visa_application RPC function
-    const { data: result, error: rpcError } = await supabase.rpc(
-      'review_visa_application',
-      {
-        p_visa_booking_detail_id: visaBookingDetailId,
-        p_decision: body.decision,
-        p_notes: body.notes || null,
-        p_required_documents:
-          body.decision === 'needs_more_info' ? body.required_documents : null,
-      }
-    );
-
-    if (rpcError) {
-      console.error('[POST /api/v1/visas/:id/review] RPC error:', rpcError);
-      throw new Error(`Review failed: ${rpcError.message}`);
-    }
-
-    // 6. Check RPC function response
-    if (!result.ok) {
-      handleRPCError(result);
-    }
-
-    // Map decision to review_status
     const statusMap: Record<string, string> = {
       approve: 'approved',
       reject: 'rejected',
@@ -126,7 +65,7 @@ export async function POST(
 
     const response: ReviewVisaApplicationResponse = {
       visa_booking_detail_id: visaBookingDetailId,
-      review_status: statusMap[body.decision] as any,
+      review_status: statusMap[body.decision] as ReviewVisaApplicationResponse['review_status'],
       reviewed_at: new Date().toISOString(),
       reviewed_by: staff.id,
       notes: body.notes,
@@ -134,7 +73,6 @@ export async function POST(
 
     return successResponse(response, 'Visa application reviewed successfully');
   } catch (error) {
-    console.error('[POST /api/v1/visas/:id/review] Error:', error);
     return errorResponse(error as Error);
   }
 }

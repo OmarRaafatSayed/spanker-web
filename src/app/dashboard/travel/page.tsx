@@ -14,7 +14,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n/context";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import {
   PORTAL_STATUS_LABELS,
   PORTAL_STATUS_VARIANT,
@@ -83,7 +83,7 @@ export default function TravelRequestsPage() {
     try {
       const { data, error: rpcErr } = await supabase.rpc("get_my_travel_requests");
       if (rpcErr) throw rpcErr;
-      setRequests((data as TravelRequest[]) ?? []);
+      setRequests((data as unknown as TravelRequest[]) ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load travel requests");
     } finally {

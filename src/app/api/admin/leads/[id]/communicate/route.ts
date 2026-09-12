@@ -66,7 +66,7 @@ export async function POST(
     .from("customer_communications")
     .insert({
       travel_request_id: leadId,
-      client_user_id: lead.client_user_id,
+      client_user_id: lead.client_user_id ?? leadId,
       staff_user_id: auth.userId,
       communication_type: type as CommunicationType,
       subject: (subject as string | undefined) ?? null,

@@ -1,8 +1,3 @@
-/**
- * GET    /api/admin/visa-documents  — list document requirements (filters: country, visa_type_id)
- * POST   /api/admin/visa-documents  — create document requirement
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
@@ -14,9 +9,6 @@ function getServiceClient() {
   return createClient<Database>(url, key, { auth: { persistSession: false } });
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/admin/visa-documents
-// ---------------------------------------------------------------------------
 export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
@@ -29,7 +21,7 @@ export async function GET(req: NextRequest) {
 
   let query = supabase
     .from("visa_document_requirements")
-    .select("*, visa_types(id, visa_name, country_name)")
+    .select("*")
     .order("country_code", { ascending: true })
     .order("sort_order", { ascending: true });
 
@@ -49,9 +41,6 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ success: true, data, total: data?.length ?? 0 });
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/admin/visa-documents
-// ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
@@ -74,7 +63,6 @@ export async function POST(req: NextRequest) {
 
   const supabase = getServiceClient();
 
-  // Validate visa_type_id if provided
   if (body.visa_type_id) {
     const { data: visaType } = await supabase
       .from("visa_types")
@@ -100,7 +88,7 @@ export async function POST(req: NextRequest) {
       is_required: body.is_required !== undefined ? Boolean(body.is_required) : true,
       conditions: (body.conditions as Record<string, unknown> | undefined) ?? {},
       sort_order: body.sort_order != null ? Number(body.sort_order) : 0,
-    })
+    } as unknown as Record<string, unknown>)
     .select()
     .single();
 

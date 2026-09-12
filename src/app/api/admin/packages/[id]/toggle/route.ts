@@ -1,9 +1,3 @@
-/**
- * PATCH /api/admin/packages/[id]/toggle
- * Toggle is_active without a full update.
- * Body: { is_active: boolean }
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
@@ -43,11 +37,11 @@ export async function PATCH(
   const { data, error } = await supabase
     .from("trip_packages")
     .update({
-      is_active:  body.is_active,
+      is_active: body.is_active,
       updated_at: new Date().toISOString(),
-    })
+    } as unknown as Record<string, unknown>)
     .eq("id", id)
-    .select("id, title, is_active, updated_at")
+    .select()
     .single();
 
   if (error) {

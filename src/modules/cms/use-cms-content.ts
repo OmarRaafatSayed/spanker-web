@@ -1,21 +1,8 @@
-/**
- * use-cms-content.ts
- * ==================
- * Module: /src/modules/cms
- *
- * Hook for fetching public CMS content (banners, trip packages).
- * Uses Supabase directly for public content (no auth required).
- *
- * DEGRADATION STRATEGY:
- *   - If Supabase is unreachable → return empty arrays, set isDown=true
- *   - Component renders fallback/skeleton UI — no crash
- *   - Results are never cached to localStorage (fresh on every render)
- */
-
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { supabase } from "@/lib/supabase";
+import { TABLES } from "@/lib/db/schema";
+import { supabase } from "@/lib/supabase/client";
 import type { TripPackage, ContentBanner } from "@/types";
 
 interface CmsContent {
@@ -57,7 +44,7 @@ export function useCmsContent(position?: ContentBanner["position"]): CmsContent 
 
         if (!cancelled) {
           if (error) throw error;
-          setBanners((data as ContentBanner[]) ?? []);
+          setBanners((data as unknown as ContentBanner[]) ?? []);
           setIsDown(false);
         }
       } catch (err) {
@@ -75,14 +62,14 @@ export function useCmsContent(position?: ContentBanner["position"]): CmsContent 
       setIsLoadingPackages(true);
       try {
         const { data, error } = await supabase
-          .from("trip_packages")
+          .from(TABLES.trips)
           .select("*")
           .eq("is_active", true)
           .order("created_at", { ascending: false });
 
         if (!cancelled) {
           if (error) throw error;
-          setPackages((data as TripPackage[]) ?? []);
+          setPackages((data as unknown as TripPackage[]) ?? []);
         }
       } catch (err) {
         if (!cancelled) {

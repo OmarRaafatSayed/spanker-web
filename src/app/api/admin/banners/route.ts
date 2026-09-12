@@ -135,7 +135,6 @@ export async function POST(req: NextRequest) {
       is_active:     body.is_active !== undefined ? Boolean(body.is_active) : true,
       start_date:    (body.start_date as string | undefined) ?? null,
       end_date:      (body.end_date as string | undefined) ?? null,
-      created_by:    auth.userId,
     })
     .select()
     .single();

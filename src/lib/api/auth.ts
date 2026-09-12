@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Authentication & Authorization Middleware
  * 
  * Helper functions to enforce auth requirements in API routes
@@ -7,9 +7,9 @@
 import { createServerClient as createSupabaseServerClient } from '@/lib/supabase/server';
 import { AuthenticationError, AuthorizationError } from './errors';
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Types
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 export interface AuthUser {
   id: string;
@@ -23,9 +23,9 @@ export interface StaffUser extends AuthUser {
   staffRole: 'admin' | 'agent' | 'reviewer';
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Core Auth Functions
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Get current authenticated user (nullable)
@@ -50,7 +50,7 @@ export async function getCurrentUser(): Promise<AuthUser | null> {
     .eq('user_id', user.id)
     .maybeSingle();
 
-  const isStaff = profileRecord?.role && ['staff', 'admin', 'super_admin'].includes(profileRecord.role);
+  const isStaff = !!(profileRecord?.role && ['staff', 'admin', 'super_admin'].includes(profileRecord.role));
   const staffRole = isStaff 
     ? (profileRecord.role === 'admin' || profileRecord.role === 'super_admin' ? 'admin' : 'agent') as 'admin' | 'agent' | 'reviewer'
     : undefined;
@@ -131,9 +131,9 @@ export async function requireOwnerOrStaff(resourceOwnerId: string): Promise<Auth
   return user;
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Profile Completeness Check
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 /**
  * Check if user has complete profile (required for bookings)
@@ -144,20 +144,20 @@ export async function requireCompleteProfile(userId: string): Promise<void> {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('is_profile_complete')
+    .select('first_name, last_name, phone')
     .eq('id', userId)
     .single();
 
-  if (!profile?.is_profile_complete) {
+  if (!profile?.first_name || !profile?.last_name || !profile?.phone) {
     throw new AuthorizationError(
       'Complete your profile before making a booking'
     );
   }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 // Type Guards
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”
 
 export function isStaffUser(user: AuthUser): user is StaffUser {
   return user.isStaff && !!user.staffRole;
@@ -174,3 +174,4 @@ export function isReviewer(user: AuthUser): boolean {
 export function isAgent(user: AuthUser): boolean {
   return isStaffUser(user) && user.staffRole === 'agent';
 }
+

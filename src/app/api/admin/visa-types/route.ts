@@ -1,8 +1,3 @@
-/**
- * GET  /api/admin/visa-types  — list visa types (filters: country, active)
- * POST /api/admin/visa-types  — create a new visa type
- */
-
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
@@ -14,9 +9,6 @@ function getServiceClient() {
   return createClient<Database>(url, key, { auth: { persistSession: false } });
 }
 
-// ---------------------------------------------------------------------------
-// GET /api/admin/visa-types
-// ---------------------------------------------------------------------------
 export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
@@ -49,9 +41,6 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({ success: true, data, total: data?.length ?? 0 });
 }
 
-// ---------------------------------------------------------------------------
-// POST /api/admin/visa-types
-// ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
@@ -80,7 +69,6 @@ export async function POST(req: NextRequest) {
     notes,
   } = body;
 
-  // Required field validation
   if (!country_code || !country_name || !visa_name || !duration_days || !category || price == null) {
     return NextResponse.json(
       { success: false, error: "Missing required fields: country_code, country_name, visa_name, duration_days, category, price" },
@@ -116,7 +104,7 @@ export async function POST(req: NextRequest) {
       is_active: is_active !== undefined ? Boolean(is_active) : true,
       notes: (notes as string | undefined) ?? null,
       created_by: auth.userId,
-    })
+    } as unknown as Record<string, unknown>)
     .select()
     .single();
 

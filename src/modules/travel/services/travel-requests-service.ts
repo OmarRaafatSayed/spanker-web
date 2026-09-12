@@ -32,8 +32,8 @@ function ok<T>(data: T): ServiceResult<T> {
   return { ok: true, data };
 }
 
-function fail<T>(error: string, status?: number): ServiceResult<T> {
-  return { ok: false, error, status };
+function fail<T>(error: string, _status?: number): ServiceResult<T> {
+  return { ok: false, error };
 }
 
 // =============================================================================
@@ -91,7 +91,7 @@ export const travelRequestsService = {
 
       if (error) return fail(error.message);
       if (!request) return fail("Insert succeeded but row was not returned — check RLS policies");
-      return ok(request as TravelRequest);
+      return ok(request as unknown as TravelRequest);
     } catch (err) {
       return fail(err instanceof Error ? err.message : "Unknown error");
     }
@@ -103,7 +103,7 @@ export const travelRequestsService = {
       const { data, error } = await supabase.rpc("get_my_travel_requests");
       if (error) return fail(error.message);
       // Normalise status on every record (guards against raw integer from old rows)
-      const normalised = ((data as TravelRequest[]) ?? []).map(req => ({
+      const normalised = ((data as unknown as TravelRequest[]) ?? []).map(req => ({
         ...req,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         status: normalizeToPortalStatus(req.status) as any,
@@ -124,7 +124,7 @@ export const travelRequestsService = {
         .maybeSingle();
       if (error) return fail(error.message, error.code === "PGRST116" ? 404 : undefined);
       if (!data) return fail("Request not found", 404);
-      const req = data as TravelRequest;
+      const req = data as unknown as TravelRequest;
       return ok({ ...req, status: normalizeToPortalStatus(req.status) as typeof req.status });
     } catch (err) {
       return fail(err instanceof Error ? err.message : "Unknown error");
@@ -136,12 +136,12 @@ export const travelRequestsService = {
     try {
       const { data, error } = await supabase
         .from("travel_requests")
-        .update({ ...updates, updated_at: new Date().toISOString() })
+        .update({ ...(updates as unknown as Record<string, unknown>), updated_at: new Date().toISOString() })
         .eq("id", id)
         .select()
         .single();
       if (error) return fail(error.message);
-      return ok(data as TravelRequest);
+      return ok(data as unknown as TravelRequest);
     } catch (err) {
       return fail(err instanceof Error ? err.message : "Unknown error");
     }
@@ -153,10 +153,10 @@ export const travelRequestsService = {
       const { error } = await supabase
         .from("travel_requests")
         .update({
-          status:      "cancelled",
+          status:      "cancelled" as string,
           staff_notes: reason ? `Cancelled: ${reason}` : "Cancelled by customer",
           updated_at:  new Date().toISOString(),
-        })
+        } as unknown as Record<string, unknown>)
         .eq("id", id);
       if (error) return fail(error.message);
       return ok(undefined);

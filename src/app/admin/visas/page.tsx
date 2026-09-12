@@ -55,9 +55,12 @@ export default function AdminVisasPage() {
     setAppsLoading(true);
     let query = supabase
       .from("visa_booking_details")
-      .select(`*, booking:bookings(reference, total_amount, contact, customer_id), visa:visas(destination_country, visa_type)`)
-      .order("submitted_at", { ascending: false });
-    if (filterStatus) query = query.eq("review_status", filterStatus);
+      .select(`
+        *,
+        travel_request:travel_requests(booking_reference, booking_status, client_user_id)
+      `)
+      .order("created_at", { ascending: false });
+    // Note: review_status filtering moved to visa_applications table
     const { data } = await query;
     setApplications(data || []);
     setAppsLoading(false);
@@ -65,7 +68,7 @@ export default function AdminVisasPage() {
 
   async function fetchPrograms() {
     setProgsLoading(true);
-    const { data } = await supabase.from("visas").select("*").order("destination_country");
+    const { data } = await supabase.from("visa_applications").select("*").order("destination_country");
     setPrograms(data || []);
     setProgsLoading(false);
   }
@@ -105,9 +108,9 @@ export default function AdminVisasPage() {
       };
       let err;
       if (editingProg) {
-        ({ error: err } = await supabase.from("visas").update(payload).eq("id", editingProg.id));
+        ({ error: err } = await supabase.from("visa_applications").update(payload).eq("id", editingProg.id));
       } else {
-        ({ error: err } = await supabase.from("visas").insert(payload));
+        ({ error: err } = await supabase.from("visa_applications").insert(payload));
       }
       if (err) throw err;
       setShowProgForm(false); fetchPrograms();
@@ -276,18 +279,21 @@ export default function AdminVisasPage() {
                   <td className="px-4 py-3 text-text-muted">{p.processing_days} يوم</td>
                   <td className="px-4 py-3 font-bold text-brand-green">{(parseFloat(p.price) + parseFloat(p.service_fee)).toLocaleString()} ج.م</td>
                   <td className="px-4 py-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${p.enabled ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
-                      {p.enabled ? "مفعّل" : "معطّل"}
+                    {/* enabled field not available in visa_applications */}
+                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+                      N/A
                     </span>
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1.5">
                       <button onClick={() => { setProgForm({ ...p, required_documents: JSON.stringify(p.required_documents), optional_documents: JSON.stringify(p.optional_documents) }); setEditingProg(p); setProgError(null); setShowProgForm(true); }}
                         className="px-2.5 py-1 rounded-lg bg-muted text-text-secondary text-xs hover:bg-border-default transition-all">تعديل</button>
-                      <button onClick={async () => { await supabase.from("visas").update({ enabled: !p.enabled }).eq("id", p.id); fetchPrograms(); }}
+                      {/* Toggle disabled - enabled field not in schema
+                      <button onClick={async () => { await supabase.from("visa_applications").update({ enabled: !p.enabled }).eq("id", p.id); fetchPrograms(); }}
                         className={`px-2.5 py-1 rounded-lg text-xs transition-all ${p.enabled ? "bg-red-50 text-red-600" : "bg-green-50 text-green-700"}`}>
                         {p.enabled ? "تعطيل" : "تفعيل"}
                       </button>
+                      */}
                     </div>
                   </td>
                 </tr>

@@ -26,12 +26,12 @@ export default function AdminLoginPage() {
       if (!user) return;
 
       const { data: staffRecord } = await supabase
-        .from("staff")
-        .select("role, is_active")
+        .from("profiles")
+        .select("role")
         .eq("user_id", user.id)
         .maybeSingle();
 
-      if (staffRecord && staffRecord.is_active) {
+      if (staffRecord && ['admin', 'agent', 'reviewer'].includes(staffRecord.role)) {
         router.push("/admin/visas");
       }
     } catch (err) {
@@ -56,21 +56,16 @@ export default function AdminLoginPage() {
 
       // 2. Check if user is staff
       const { data: staffRecord, error: staffError } = await supabase
-        .from("staff")
-        .select("role, is_active, full_name")
+        .from("profiles")
+        .select("role, full_name")
         .eq("user_id", authData.user.id)
         .maybeSingle();
 
       if (staffError) throw staffError;
 
-      if (!staffRecord) {
+      if (!staffRecord || !['admin', 'agent', 'reviewer'].includes(staffRecord.role)) {
         await supabase.auth.signOut();
         throw new Error("هذا الحساب غير مسجل كموظف");
-      }
-
-      if (!staffRecord.is_active) {
-        await supabase.auth.signOut();
-        throw new Error("حسابك كموظف معطّل، تواصل مع الإدارة");
       }
 
       // 3. Redirect to admin panel

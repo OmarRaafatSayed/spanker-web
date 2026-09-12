@@ -63,11 +63,16 @@ export async function PATCH(
   const ALLOWED_FIELDS = [
     "title", "subtitle", "image_url", "link_url", "position",
     "display_order", "is_active", "start_date", "end_date",
-  ];
+  ] as const;
 
-  const updates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+  const updates: Partial<Database['public']['Tables']['content_banners']['Update']> = { 
+    updated_at: new Date().toISOString() 
+  };
+  
   for (const field of ALLOWED_FIELDS) {
-    if (field in body) updates[field] = body[field];
+    if (field in body) {
+      (updates as Record<string, unknown>)[field] = body[field];
+    }
   }
 
   if ("position" in updates) {

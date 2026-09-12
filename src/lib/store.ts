@@ -1,5 +1,5 @@
-/**
- * lib/store.ts — COMPATIBILITY SHIM
+﻿/**
+ * lib/store.ts â€” COMPATIBILITY SHIM
  * ===================================
  * All stores have been moved to their feature modules.
  * This file re-exports everything for backward compatibility.
@@ -14,12 +14,12 @@
  * @deprecated Use feature-module imports above instead.
  */
 
-export { useAuthStore }              from "@/modules/auth";
+
 export { useAdminStore, useAnalyticsStore } from "@/modules/admin";
 export { useTravelRequestsStore }    from "@/modules/travel";
 export { useNotificationsStore }     from "@/modules/notifications";
 
-// UIStore — kept inline here (no dedicated module for UI-only state)
+// UIStore â€” kept inline here (no dedicated module for UI-only state)
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -43,3 +43,4 @@ export const useUIStore = create<UIState>()(
     { name: "ui-store" }
   )
 );
+

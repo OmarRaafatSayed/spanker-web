@@ -7,6 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
 import type { Database } from "@/types/database";
+import { TABLES } from '@/lib/db/schema';
 
 function getServiceClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -56,16 +57,16 @@ export async function GET(req: NextRequest) {
 
     // active_packages
     supabase
-      .from("trip_packages")
+      .from(TABLES.trips)
       .select("*", { count: "exact", head: true })
       .eq("is_active", true),
 
     // active_offers — active + not expired
     supabase
-      .from("offers")
+      .from(TABLES.hotelOffers)
       .select("*", { count: "exact", head: true })
       .eq("is_active", true)
-      .or(`end_date.is.null,end_date.gte.${now.toISOString()}`),
+      .or(`available_to.is.null,available_to.gte.${now.toISOString()}`),
 
     // completed_requests — all-time
     supabase
@@ -73,10 +74,10 @@ export async function GET(req: NextRequest) {
       .select("*", { count: "exact", head: true })
       .eq("status", "completed"),
 
-    // total_revenue_month — sum of financial_transactions.amount_paid this month
+    // total_revenue_month — sum of payment_records.amount this month
     supabase
-      .from("financial_transactions")
-      .select("amount_paid")
+      .from(TABLES.paymentRecords)
+      .select("amount")
       .gte("created_at", monthStart)
       .lte("created_at", monthEnd),
 
@@ -98,9 +99,9 @@ export async function GET(req: NextRequest) {
   ]);
 
   // Calculate revenue sum from rows
-  const revenueRows = (revenueMonthResult.data ?? []) as Array<{ amount_paid: number | null }>;
+  const revenueRows = (revenueMonthResult.data ?? []) as Array<{ amount: number | null }>;
   const totalRevenueMonth = revenueRows.reduce(
-    (sum, row) => sum + (row.amount_paid ?? 0),
+    (sum, row) => sum + (row.amount ?? 0),
     0
   );
 
