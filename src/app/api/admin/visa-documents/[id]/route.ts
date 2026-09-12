@@ -70,7 +70,7 @@ export async function PATCH(
 
   const { data, error } = await supabase
     .from("visa_document_requirements")
-    .update(updates as unknown as Record<string, unknown>)
+    .update(updates as never)
     .eq("id", id)
     .select()
     .single();

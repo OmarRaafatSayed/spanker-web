@@ -150,6 +150,8 @@ export const translations = {
       roundTrip: "ذهاب وإياب",
       startingFrom: "يبدأ من",
       bookNow: "احجز الآن",
+      closeMenu: "إغلاق القائمة",
+      openMenu: "فتح القائمة",
     },
     // Footer
     footer: {
@@ -329,6 +331,8 @@ export const translations = {
       roundTrip: "Round Trip",
       startingFrom: "Starting from",
       bookNow: "Book Now",
+      closeMenu: "Close menu",
+      openMenu: "Open menu",
     },
     footer: {
       bookManage: "Book & Manage",

@@ -39,7 +39,7 @@ export async function PATCH(
     .update({
       is_active: body.is_active,
       updated_at: new Date().toISOString(),
-    } as unknown as Record<string, unknown>)
+    } as never)
     .eq("id", id)
     .select()
     .single();

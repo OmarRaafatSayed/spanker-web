@@ -246,12 +246,12 @@ export default function TripBookingPage() {
                   <div key={field}>
                     <label className="block text-xs font-medium text-text-muted mb-1">{label}</label>
                     {type === "select" ? (
-                      <select value={t[field]} onChange={e => { const arr = [...data.travelers]; arr[i][field] = e.target.value; updateData({ travelers: arr }); }}
+                      <select value={(t as Record<string, string>)[field]} onChange={e => { const arr = [...data.travelers]; (arr[i] as Record<string, string>)[field] = e.target.value; updateData({ travelers: arr }); }}
                         className="w-full h-10 px-3 rounded-xl border border-border-default text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green">
                         {opts?.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
                       </select>
                     ) : (
-                      <input type={type} value={t[field]} onChange={e => { const arr = [...data.travelers]; arr[i][field] = e.target.value; updateData({ travelers: arr }); }}
+                      <input type={type} value={(t as Record<string, string>)[field]} onChange={e => { const arr = [...data.travelers]; (arr[i] as Record<string, string>)[field] = e.target.value; updateData({ travelers: arr }); }}
                         className="w-full h-10 px-3 rounded-xl border border-border-default text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green" />
                     )}
                   </div>

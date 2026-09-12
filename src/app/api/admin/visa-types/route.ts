@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       is_active: is_active !== undefined ? Boolean(is_active) : true,
       notes: (notes as string | undefined) ?? null,
       created_by: auth.userId,
-    } as unknown as Record<string, unknown>)
+    } as never)
     .select()
     .single();
 

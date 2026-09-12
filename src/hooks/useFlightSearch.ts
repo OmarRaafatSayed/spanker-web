@@ -1,14 +1,5 @@
 "use client";
 
-/**
- * useFlightSearch.ts
- * ==================
- * REFACTORED (Task 2):
- *   - Replaced direct searchFlights() import from @/lib/api
- *   - Now routes through crmAdapter.searchFlights()
- *   - Returns ServiceResult internally, surfaces clean error string to UI
- */
-
 import { useState } from "react";
 import type { FlightOffer, FlightSearchRequest, TravelClass } from "@/types/flights";
 
@@ -35,31 +26,37 @@ export function useFlightSearch(): UseFlightSearchReturn {
   async function search(params: FlightSearchRequest): Promise<void> {
     setState({ results: [], loading: true, error: null, searched: false });
 
-    const result = await crmAdapter.searchFlights(params);
+    try {
+      const query = new URLSearchParams();
+      if (params.origin)       query.set("origin",        params.origin);
+      if (params.destination)  query.set("destination",   params.destination);
+      if (params.departure_date) query.set("departure_date", params.departure_date);
+      if (params.return_date)   query.set("return_date",   params.return_date);
+      if (params.passenger_count)   query.set("passengers",String(params.passenger_count));
+      if (params.travel_class)  query.set("travel_class",  params.travel_class);
 
-    if (!result.ok) {
-      // Only set error if it's not a graceful degradation message
-      // For 503/502/504 errors, we show a friendly message instead of the raw error
-      const isNetworkError = result.status === 503 || result.status === 502 || result.status === 504;
-      setState({ 
-        results: [], 
-        loading: false, 
-        error: isNetworkError ? null : result.error, 
-        searched: true 
-      });
-      
-      // Log network errors for debugging but don't show to user
-      if (isNetworkError) {
-        console.warn("[useFlightSearch] Service temporarily unavailable - showing friendly message");
+      const res = await fetch(`/api/v1/flights/search?${query}`);
+
+      if (res.status === 503 || res.status === 502 || res.status === 504) {
+        console.warn("[useFlightSearch] Service temporarily unavailable");
+        setState({ results: [], loading: false, error: null, searched: true });
+        return;
       }
-      return;
-    }
 
-    const { success, flights, error, detail } = result.data;
-    if (success) {
-      setState({ results: flights ?? [], loading: false, error: null, searched: true });
-    } else {
-      setState({ results: [], loading: false, error: error ?? detail ?? "Search failed", searched: true });
+      const json = await res.json();
+
+      if (!res.ok) {
+        setState({ results: [], loading: false, error: json.error?.message ?? "Search failed", searched: true });
+        return;
+      }
+
+      if (json.success) {
+        setState({ results: json.data?.flights ?? json.flights ?? [], loading: false, error: null, searched: true });
+      } else {
+        setState({ results: [], loading: false, error: json.error ?? "Search failed", searched: true });
+      }
+    } catch (err: unknown) {
+      setState({ results: [], loading: false, error: (err as Error)?.message ?? "Search failed", searched: true });
     }
   }
 

@@ -156,7 +156,7 @@ export const travelRequestsService = {
           status:      "cancelled" as string,
           staff_notes: reason ? `Cancelled: ${reason}` : "Cancelled by customer",
           updated_at:  new Date().toISOString(),
-        } as unknown as Record<string, unknown>)
+        } as never)
         .eq("id", id);
       if (error) return fail(error.message);
       return ok(undefined);

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { PageShell } from "@/components/layout/PageShell"
@@ -106,7 +106,7 @@ const SAMPLE_HOTELS: Hotel[] = [
   }
 ]
 
-export default function HotelsPage() {
+function HotelsContent() {
   const { t, isRTL } = useI18n()
   const searchParams = useSearchParams()
   
@@ -145,7 +145,7 @@ export default function HotelsPage() {
       pageId="hotels"
       title="الفنادق"
       subtitle="احجز أفضل الفنادق بأسعار مميزة"
-      maxWidth="7xl"
+      maxWidth="full"
     >
       <div className="space-y-6">
         {/* Search Form */}
@@ -290,4 +290,12 @@ export default function HotelsPage() {
       </div>
     </PageShell>
   )
+}
+
+export default function HotelsPage() {
+  return (
+    <Suspense fallback={null}>
+      <HotelsContent />
+    </Suspense>
+  );
 }

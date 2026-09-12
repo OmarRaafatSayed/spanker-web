@@ -15,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth }            from "@/modules/auth"
 import { supabase }          from "@/lib/supabase/client"
 import type { DocumentResponse, RequestResponse } from "@/modules/portal/types/portal.types"
+import type { Database } from "@/types/database"
 
 interface PageProps { params: Promise<{ id: string }> }
 
@@ -63,7 +64,7 @@ export default function RequestDetailPage({ params }: PageProps) {
       // Direct API call instead of non-existent supabase method
       const { error } = await supabase
         .from('travel_requests')
-        .update(body as Partial<Database['public']['Tables']['travel_requests']['Update']>)
+        .update(body as Database['public']['Tables']['travel_requests']['Update'])
         .eq('id', id);
       
       if (error) throw error;

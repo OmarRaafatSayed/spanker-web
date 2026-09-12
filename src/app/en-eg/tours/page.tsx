@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { PageShell } from "@/components/layout/PageShell"
@@ -131,7 +131,7 @@ const CATEGORIES = [
   { id: "مغامرات", label: "مغامرات", labelEn: "Adventure" }
 ]
 
-export default function ToursPage() {
+function ToursContent() {
   const { t, isRTL } = useI18n()
   const searchParams = useSearchParams()
   
@@ -184,7 +184,7 @@ export default function ToursPage() {
       pageId="tours"
       title="الرحلات السياحية"
       subtitle="اكتشف أجمل الوجهات مع رحلاتنا المنظمة"
-      maxWidth="7xl"
+      maxWidth="full"
     >
       <div className="space-y-6">
         {/* Category Filter */}
@@ -410,4 +410,12 @@ export default function ToursPage() {
       )}
     </PageShell>
   )
+}
+
+export default function ToursPage() {
+  return (
+    <Suspense fallback={null}>
+      <ToursContent />
+    </Suspense>
+  );
 }

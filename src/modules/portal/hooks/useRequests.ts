@@ -56,7 +56,7 @@ export function useRequests(options: UseRequestsOptions = {}) {
     if (!user) throw new Error("Not authenticated")
     const { data, error } = await supabase
       .from("travel_requests")
-      .insert({ ...(body as unknown as Record<string, unknown>), client_user_id: user.id })
+      .insert({ ...(body as unknown as Record<string, unknown>), client_user_id: user.id } as never)
       .select()
       .single()
     if (error) throw error
@@ -69,7 +69,7 @@ export function useRequests(options: UseRequestsOptions = {}) {
   const updateRequest = useCallback(async (id: string, body: Partial<CreateRequestBody>) => {
     const { data, error } = await supabase
       .from("travel_requests")
-      .update(body as unknown as Record<string, unknown>)
+      .update(body as never)
       .eq("id", id)
       .select()
       .single()

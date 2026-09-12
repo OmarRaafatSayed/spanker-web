@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
       is_required: body.is_required !== undefined ? Boolean(body.is_required) : true,
       conditions: (body.conditions as Record<string, unknown> | undefined) ?? {},
       sort_order: body.sort_order != null ? Number(body.sort_order) : 0,
-    } as unknown as Record<string, unknown>)
+    } as never)
     .select()
     .single();
 
