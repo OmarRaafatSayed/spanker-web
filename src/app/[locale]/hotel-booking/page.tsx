@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import {
   BookingWizardShell,
@@ -139,6 +139,10 @@ export default function HotelBookingPage() {
   const [searching, setSearching] = useState(false);
   const [expandedHotel, setExpandedHotel] = useState<string | null>(null);
 
+  useEffect(() => {
+    fetch("/api/v1/hotels/search").then(r => r.json()).then(j => { if (j.success) setHotels(j.data || []); }).catch(() => {});
+  }, []);
+
   const nights =
     data.checkin && data.checkout
       ? Math.max(
@@ -250,40 +254,24 @@ export default function HotelBookingPage() {
     >
       <WizardError message={error} />
 
-      {/* ── STEP 0: SEARCH ── */}
+      {/* ── STEP 0: SEARCH + LIVE RESULTS ── */}
       {currentStep === 0 && (
         <div className="space-y-4">
           <WizardCard>
-            <WizardSectionTitle ar="وجهتك" en="Your Destination" />
-
-            {/* Popular cities */}
-            <div className="mb-4">
-              <p className="text-xs text-text-muted mb-2">وجهات شائعة</p>
-              <div className="flex flex-wrap gap-2">
-                {POPULAR_CITIES.map((city) => (
-                  <button
-                    key={city}
-                    onClick={() => updateData({ city })}
-                    className={`text-xs px-3 py-1.5 rounded-lg border transition-all font-medium ${
-                      data.city === city
-                        ? "border-brand-green bg-brand-green/10 text-brand-green"
-                        : "border-border-light hover:border-brand-green/40 text-text-secondary"
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <WizardSectionTitle ar="البحث عن فندق" en="Find a Hotel" />
 
             <div className="mb-4">
-              <label className="block text-xs font-medium text-text-muted mb-1">📍 أو اكتب مدينة أخرى</label>
-              <input
+              <label className="block text-xs font-medium text-text-muted mb-1">📍 الوجهة</label>
+              <select
                 value={data.city}
                 onChange={(e) => updateData({ city: e.target.value })}
-                placeholder="ادخل اسم المدينة..."
                 className="w-full h-11 px-3 rounded-xl border border-border-default text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green"
-              />
+              >
+                <option value="">الكل (جميع المدن)</option>
+                {POPULAR_CITIES.map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-4">
@@ -393,6 +381,51 @@ export default function HotelBookingPage() {
               nextLabel={searching ? "جاري البحث..." : "🔍 بحث عن فنادق"}
             />
           </WizardCard>
+
+          {/* ── LIVE HOTEL CARDS ── */}
+          {hotels.length > 0 && (
+            <div>
+              <p className="text-sm font-semibold text-text-secondary px-1 mb-3">
+                الفنادق المتاحة ({hotels.length})
+              </p>
+              <div className="space-y-3">
+                {hotels.map((h: any) => (
+                  <div key={h.id}
+                    onClick={() => { updateData({ selectedHotel: h }); next(); }}
+                    className={`bg-white rounded-2xl border-2 p-4 cursor-pointer transition-all hover:border-brand-green/60 hover:shadow-md ${
+                      data.selectedHotel?.id === h.id ? "border-brand-green bg-brand-green/5" : "border-border-light"
+                    }`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-bold text-text-primary">{h.name}</p>
+                        <p className="text-xs text-text-muted">{h.city}</p>
+                        <StarRating stars={h.star_rating} />
+                      </div>
+                      <div className="text-left">
+                        <p className="text-lg font-bold text-brand-green">{h.price_per_night?.toLocaleString()} ج.م</p>
+                        <p className="text-xs text-text-muted">/ ليلة</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {(h.amenities || []).slice(0, 4).map((a: string) => (
+                        <AmenityTag key={a} label={a} />
+                      ))}
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p className="text-xs text-text-muted">🔄 إلغاء مجاني قبل {h.cancellation_hours}س</p>
+                      <span className="text-xs font-semibold text-brand-green">احجز الآن ←</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {hotels.length === 0 && (
+            <div className="text-center py-8 text-text-muted text-sm">
+              <div className="text-4xl mb-2">🏨</div>
+              <p>جاري تحميل الفنادق...</p>
+            </div>
+          )}
         </div>
       )}
 

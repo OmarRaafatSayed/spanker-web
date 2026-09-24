@@ -1,8 +1,16 @@
 ﻿"use client"
 
-import { useEffect } from "react"
-import { supabase }  from "@/lib/supabase/client"
-import type { NotificationResponse, RequestResponse, DocumentResponse } from "@/modules/portal/types/portal.types"
+/**
+ * MOCK — no-op realtime hook.
+ * Supabase realtime channels are disabled in frontend-only mode.
+ * The interface is identical so all call sites compile without changes.
+ */
+
+import type {
+  NotificationResponse,
+  RequestResponse,
+  DocumentResponse,
+} from "@/modules/portal/types/portal.types"
 
 interface RealtimeCallbacks {
   onNotification?:   (notif: NotificationResponse) => void
@@ -10,53 +18,7 @@ interface RealtimeCallbacks {
   onDocumentUpdate?: (doc:   Partial<DocumentResponse>) => void
 }
 
-export function usePortalRealtime(userId: string, callbacks: RealtimeCallbacks) {
-  useEffect(() => {
-    if (!userId) return
-
-    const channelName = `portal-live-${userId}`
-    
-    const existingChannel = supabase.getChannels().find(ch => ch.topic === `realtime:${channelName}`)
-    if (existingChannel) {
-      return () => {}
-    }
-
-    const channel = supabase
-      .channel(channelName)
-      .on(
-        "postgres_changes",
-        {
-          event:  "INSERT",
-          schema: "public",
-          table:  "portal_notifications",
-          filter: `customer_id=eq.${userId}`,
-        },
-        (payload) => callbacks.onNotification?.(payload.new as NotificationResponse)
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:  "UPDATE",
-          schema: "public",
-          table:  "customer_requests",
-          filter: `customer_id=eq.${userId}`,
-        },
-        (payload) => callbacks.onRequestUpdate?.(payload.new as Partial<RequestResponse>)
-      )
-      .on(
-        "postgres_changes",
-        {
-          event:  "UPDATE",
-          schema: "public",
-          table:  "portal_documents",
-          filter: `customer_id=eq.${userId}`,
-        },
-        (payload) => callbacks.onDocumentUpdate?.(payload.new as Partial<DocumentResponse>)
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [userId, callbacks])
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function usePortalRealtime(_userId: string, _callbacks: RealtimeCallbacks) {
+  // No-op: realtime disabled in mock mode
 }

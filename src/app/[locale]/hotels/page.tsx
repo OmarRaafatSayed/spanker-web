@@ -1,0 +1,1 @@
+﻿export { default } from "../hotel-booking/page";

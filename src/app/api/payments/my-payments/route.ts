@@ -1,39 +1,18 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
-import { TABLES } from "@/lib/db/schema";
+﻿import { NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
-  try {
-    const supabase = await createServerClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const { searchParams } = new URL(req.url);
-    const limit = parseInt(searchParams.get("limit") || "50");
-    const offset = parseInt(searchParams.get("offset") || "0");
-
-    const { data: payments, error: paymentsError, count } = await supabase
-      .from(TABLES.paymentRecords)
-      .select("*", { count: "exact" })
-      .eq("client_user_id", user.id)
-      .order("created_at", { ascending: false })
-      .range(offset, offset + limit - 1);
-
-    if (paymentsError) {
-      return NextResponse.json({ error: paymentsError.message }, { status: 400 });
-    }
-
-    const totalAmount = (payments ?? []).reduce((sum, p) => sum + (p.amount || 0), 0);
-
-    return NextResponse.json({
-      results: payments || [],
-      count: count || 0,
-      total_amount: totalAmount,
-    });
-  } catch (err) {
-    return NextResponse.json({ error: String(err) }, { status: 500 });
-  }
+export async function GET() {
+  return NextResponse.json({
+    success: true,
+    data: [
+      {
+        id: "pay-001",
+        booking_id: "booking-001",
+        amount: 10800,
+        currency: "EGP",
+        status: "paid",
+        method: "bank_transfer",
+        created_at: "2026-09-12T14:00:00Z",
+      },
+    ],
+  });
 }

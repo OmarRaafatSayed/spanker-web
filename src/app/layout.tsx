@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+﻿import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
 import "./globals.css";

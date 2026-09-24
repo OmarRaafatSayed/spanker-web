@@ -1,54 +1,56 @@
-import { NextRequest } from 'next/server';
-import { createServerClient } from '@/lib/supabase/server';
-import { successResponse, errorResponse, validationErrorResponse } from '@/lib/api/response';
-import { AppError } from '@/lib/api/errors';
-import type { Hotel, HotelSearchParams } from '@/types/api';
+import { NextRequest, NextResponse } from 'next/server';
+import { MOCK_HOTELS } from '@/lib/mock/data';
+import type { HotelSearchParams } from '@/types/api';
 
 export async function GET(request: NextRequest) {
-  try {
-    const supabase = await createServerClient();
-    const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
 
-    const params: HotelSearchParams = {
-      city: searchParams.get('city') || undefined,
-      checkin: searchParams.get('checkin') || undefined,
-      checkout: searchParams.get('checkout') || undefined,
-      guests: searchParams.get('guests') ? parseInt(searchParams.get('guests')!) : undefined,
-      rooms: searchParams.get('rooms') ? parseInt(searchParams.get('rooms')!) : undefined,
-      room_type: (searchParams.get('room_type') as 'standard' | 'deluxe' | 'suite') || undefined,
-      min_stars: searchParams.get('min_stars') ? parseInt(searchParams.get('min_stars')!) : undefined,
-      max_price: searchParams.get('max_price') ? parseFloat(searchParams.get('max_price')!) : undefined,
-    };
+  const params: HotelSearchParams = {
+    city:      searchParams.get('city')      || undefined,
+    checkin:   searchParams.get('checkin')   || undefined,
+    checkout:  searchParams.get('checkout')  || undefined,
+    guests:    searchParams.get('guests')    ? parseInt(searchParams.get('guests')!)    : undefined,
+    rooms:     searchParams.get('rooms')     ? parseInt(searchParams.get('rooms')!)     : undefined,
+    room_type: (searchParams.get('room_type') as HotelSearchParams['room_type']) || undefined,
+    min_stars: searchParams.get('min_stars') ? parseInt(searchParams.get('min_stars')!) : undefined,
+    max_price: searchParams.get('max_price') ? parseInt(searchParams.get('max_price')!) : undefined,
+  };
 
-    if (params.checkin && params.checkout) {
-      const ci = new Date(params.checkin);
-      const co = new Date(params.checkout);
-      if (isNaN(ci.getTime()) || isNaN(co.getTime())) return validationErrorResponse('Invalid date format');
-      if (ci >= co) return validationErrorResponse('Checkout date must be after checkin date');
-      if (ci < new Date()) return validationErrorResponse('Checkin date cannot be in the past');
+  // First: filter by city only
+  const cityMatch = params.city
+    ? MOCK_HOTELS.filter(h =>
+        h.city.toLowerCase().includes(params.city!.toLowerCase())
+      )
+    : [...MOCK_HOTELS];
+
+  // If city filter returned nothing, fall back to all hotels
+  const cityPool = cityMatch.length > 0 ? cityMatch : [...MOCK_HOTELS];
+
+  // Apply additional filters (stars, price, room_type)
+  const filtered = cityPool.filter(h => {
+    if (params.min_stars && h.star_rating < params.min_stars) return false;
+    if (params.max_price && h.price_per_night > params.max_price) return false;
+    if (params.room_type) {
+      const hasRoom = h.availability?.some(
+        a => a.room_type === params.room_type && a.rooms_left > 0
+      );
+      if (!hasRoom) return false;
     }
-    if (params.guests && (params.guests < 1 || params.guests > 20)) return validationErrorResponse('Guests must be between 1 and 20');
-    if (params.rooms && (params.rooms < 1 || params.rooms > 10)) return validationErrorResponse('Rooms must be between 1 and 10');
-    if (params.min_stars && (params.min_stars < 1 || params.min_stars > 5)) return validationErrorResponse('Star rating must be between 1 and 5');
+    return true;
+  });
 
-    const { data: hotels, error } = await supabase.rpc('search_hotels', {
-      p_city: params.city ?? undefined,
-      p_checkin: params.checkin ?? undefined,
-      p_checkout: params.checkout ?? undefined,
-      p_room_type: params.room_type ?? undefined,
-      p_rooms_needed: params.rooms ?? undefined,
-      p_min_stars: params.min_stars ?? undefined,
-      p_max_price: params.max_price ?? undefined,
-    });
+  // If strict filters return nothing, fall back to city pool only
+  const results = filtered.length > 0 ? filtered : cityPool;
 
-    if (error) throw new AppError(`Hotel search failed: ${error.message}`, 500);
+  // Sort: star_rating DESC, then price_per_night ASC
+  const sorted = [...results].sort((a, b) => {
+    if (b.star_rating !== a.star_rating) return b.star_rating - a.star_rating;
+    return a.price_per_night - b.price_per_night;
+  });
 
-    return successResponse(
-      (hotels as unknown as Hotel[]) || [],
-      undefined,
-      { count: (hotels as unknown[])?.length || 0 }
-    );
-  } catch (error) {
-    return errorResponse(error as Error);
-  }
+  return NextResponse.json({
+    success: true,
+    data: sorted,
+    meta: { count: sorted.length },
+  });
 }
