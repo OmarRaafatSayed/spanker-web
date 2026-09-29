@@ -3,6 +3,9 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -383,12 +386,14 @@ export default function MyBookingPage() {
   ];
 
   return (
-    <div
-      className="min-h-screen bg-gradient-to-br from-brand-green/5 to-brand-yellow/5"
-      dir="rtl"
-    >
+    <>
+      <Navbar />
+      <div
+        className="min-h-screen bg-gradient-to-br from-brand-green/5 to-brand-yellow/5 pt-16 pb-20 lg:pb-0"
+        dir="rtl"
+      >
       {/* ── Sticky header ── */}
-      <div className="bg-white border-b border-border-light sticky top-0 z-20 shadow-sm">
+      <div className="bg-white border-b border-border-light sticky top-16 z-20 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-3">
             <h1 className="text-xl font-bold text-text-primary">حجوزاتي</h1>
@@ -661,5 +666,8 @@ export default function MyBookingPage() {
         )}
       </div>
     </div>
+      <Footer />
+      <BottomNav />
+    </>
   );
 }
