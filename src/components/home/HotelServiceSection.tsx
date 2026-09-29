@@ -300,7 +300,7 @@ export function HotelServiceSection() {
               transition={{ duration: 0.5, delay: 0.5 }}
             >
               <Link
-                href="/hotel-booking"
+                href={`/${locale}/hotel-booking`}
                 className="group inline-flex items-center gap-3 bg-brand-green text-white font-bold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-brand-green/25 hover:bg-brand-green-light hover:-translate-y-px transition-all duration-200"
               >
                 <svg viewBox="0 0 20 20" fill="none" className="w-4 h-4" aria-hidden="true">

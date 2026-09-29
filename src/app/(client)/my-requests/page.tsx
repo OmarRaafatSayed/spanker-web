@@ -226,7 +226,7 @@ export default function MyRequestsPage() {
         {/* Quick links */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           {[
-            { href: "/hotel-booking",    icon: "🏨", labelAr: "احجز فندق",    labelEn: "Book Hotel" },
+            { href: `/${locale}/hotel-booking`, icon: "🏨", labelAr: "احجز فندق",    labelEn: "Book Hotel" },
             { href: "/visa-application", icon: "🛂", labelAr: "طلب فيزا",     labelEn: "Visa" },
             { href: "/dashboard",        icon: "📊", labelAr: "لوحة التحكم",  labelEn: "Dashboard" },
           ].map(item => (
@@ -280,7 +280,7 @@ export default function MyRequestsPage() {
               {isAr ? "ابدأ بحجز فندق أو تقديم طلب فيزا" : "Start by booking a hotel or submitting a visa application"}
             </p>
             <Link
-              href="/hotel-booking"
+              href={`/${locale}/hotel-booking`}
               className="inline-flex items-center gap-2 bg-brand-green text-white text-sm font-bold px-5 py-2.5 rounded-xl hover:bg-brand-green-dark transition"
             >
               🏨 {isAr ? "احجز فندق" : "Book Hotel"}

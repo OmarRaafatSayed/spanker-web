@@ -59,7 +59,7 @@ function ProfileIcon({ filled }: { filled?: boolean }) {
 /* ─── Main BottomNav ──────────────────────────────────────────── */
 
 export function BottomNav() {
-  const { isRTL } = useI18n();
+  const { isRTL, locale } = useI18n();
   const { user } = useAuth();
   const pathname = usePathname();
 
@@ -74,19 +74,19 @@ export function BottomNav() {
       labelEn: "Home",
     },
     {
-      href: "/en-eg/book-flight",
+      href: `/${locale}/book-flight`,
       icon: (active: boolean) => <PlaneIcon filled={active} />,
       labelAr: "طيران",
       labelEn: "Flights",
     },
     {
-      href: "/en-eg/hotels",
+      href: `/${locale}/hotel-booking`,
       icon: (active: boolean) => <HotelIcon filled={active} />,
       labelAr: "فنادق",
       labelEn: "Hotels",
     },
     {
-      href: "/en-eg/tours",
+      href: `/${locale}/tours`,
       icon: (active: boolean) => <TourIcon filled={active} />,
       labelAr: "رحلات",
       labelEn: "Tours",
