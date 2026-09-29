@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 const DIFFICULTY_META: Record<string, { label: string; color: string; icon: string }> = {
   easy:        { label: "سهل",   color: "bg-green-100 text-green-700 border-green-200",   icon: "🟢" },
@@ -82,7 +85,9 @@ export default function TourDetailPage() {
   const priceInfant = Math.round(trip.price_per_person * 0.15);
 
   return (
-    <div className="min-h-screen bg-bg-alt pb-28" dir={isRTL ? "rtl" : "ltr"}>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-bg-alt pt-16 pb-28" dir={isRTL ? "rtl" : "ltr"}>
       {/* Back button + hero */}
       <div className="bg-brand-dark px-4 pt-12 pb-6">
         <Link
@@ -148,7 +153,7 @@ export default function TourDetailPage() {
       )}
 
       {/* Tabs */}
-      <div className="bg-white border-b border-border-light mt-4 sticky top-0 z-10">
+      <div className="bg-white border-b border-border-light mt-4 sticky top-16 z-10">
         <div className="max-w-2xl mx-auto px-4 flex gap-1 overflow-x-auto py-2 no-scrollbar">
           {TABS.map((tab) => (
             <button
@@ -293,5 +298,8 @@ export default function TourDetailPage() {
         </div>
       </div>
     </div>
+      <Footer />
+      <BottomNav />
+    </>
   );
 }

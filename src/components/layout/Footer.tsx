@@ -4,7 +4,7 @@ import { useI18n } from "@/lib/i18n/context";
 import { FacebookIcon, InstagramIcon, TwitterIcon, YoutubeIcon } from "@/components/icons";
 
 export function Footer() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const f = t.footer;
   const l = f.links;
 
@@ -12,52 +12,52 @@ export function Footer() {
     {
       title: f.bookManage,
       links: [
-        { label: l.bookFlight,    href: "/en-eg/book-flight"         },
-        { label: l.myBooking,     href: "/en-eg/my-booking"          },
-        { label: l.onlineCheckin, href: "/en-eg/check-in-online"     },
-        { label: l.seatSelection, href: "/en-eg/seat-selection"      },
-        { label: l.flightStatus,  href: "/en-eg/flight-status"       },
+        { label: l.bookFlight,    href: `/${locale}/book-flight`         },
+        { label: l.myBooking,     href: `/${locale}/my-booking`          },
+        { label: l.onlineCheckin, href: `/${locale}/check-in-online`     },
+        { label: l.seatSelection, href: `/${locale}/seat-selection`      },
+        { label: l.flightStatus,  href: `/${locale}/flight-status`       },
       ],
     },
     {
       title: f.travelInfo,
       links: [
-        { label: l.baggage,            href: "/en-eg/baggage"                    },
-        { label: l.specialAssistance,  href: "/en-eg/special-assistance"         },
-        { label: l.travelingPets,      href: "/en-eg/pets"                       },
-        { label: l.travelingChildren,  href: "/en-eg/traveling-with-children"    },
-        { label: l.visaHealth,         href: "/en-eg/visa-and-health"            },
+        { label: l.baggage,            href: `/${locale}/baggage`                    },
+        { label: l.specialAssistance,  href: `/${locale}/special-assistance`         },
+        { label: l.travelingPets,      href: `/${locale}/pets`                       },
+        { label: l.travelingChildren,  href: `/${locale}/traveling-with-children`    },
+        { label: l.visaHealth,         href: `/${locale}/visa-and-health`            },
       ],
     },
     {
       title: f.airCairo,
       links: [
-        { label: l.aboutAirCairo,  href: "/en-eg/about-air-cairo"  },
-        { label: l.missionVision,  href: "/en-eg/mission-vision"   },
-        { label: l.ourFleet,       href: "/en-eg/our-fleet"        },
-        { label: l.routeMap,       href: "/en-eg/route-map"        },
-        { label: l.charterFlights, href: "/en-eg/charter-flights"  },
-        { label: l.pressRelease,   href: "/en-eg/press-release"    },
+        { label: l.aboutAirCairo,  href: `/${locale}/about-air-cairo`  },
+        { label: l.missionVision,  href: `/${locale}/mission-vision`   },
+        { label: l.ourFleet,       href: `/${locale}/our-fleet`        },
+        { label: l.routeMap,       href: `/${locale}/route-map`        },
+        { label: l.charterFlights, href: `/${locale}/charter-flights`  },
+        { label: l.pressRelease,   href: `/${locale}/press-release`    },
       ],
     },
     {
       title: f.helpContact,
       links: [
-        { label: l.faqs,             href: "/en-eg/faqs"              },
-        { label: l.officeContacts,   href: "/en-eg/office-contacts"   },
-        { label: l.customerFeedback, href: "/en-eg/customer-feedback" },
-        { label: l.claims,           href: "/en-eg/claims"            },
-        { label: l.refund,           href: "/en-eg/refund"            },
+        { label: l.faqs,             href: `/${locale}/faqs`              },
+        { label: l.officeContacts,   href: `/${locale}/office-contacts`   },
+        { label: l.customerFeedback, href: `/${locale}/customer-feedback` },
+        { label: l.claims,           href: `/${locale}/claims`            },
+        { label: l.refund,           href: `/${locale}/refund`            },
       ],
     },
   ];
 
   const POLICY_LINKS = [
-    { label: l.privacyPolicy,      href: "/en-eg/privacy-policy"          },
-    { label: l.cookies,            href: "/en-eg/cookies"                 },
-    { label: l.conditionCarriage,  href: "/en-eg/condition-of-carriage"   },
-    { label: l.terms,              href: "/en-eg/termsandconditions"      },
-    { label: l.ticketNotices,      href: "/en-eg/ticket-notices"          },
+    { label: l.privacyPolicy,      href: `/${locale}/privacy-policy`          },
+    { label: l.cookies,            href: `/${locale}/cookies`                 },
+    { label: l.conditionCarriage,  href: `/${locale}/condition-of-carriage`   },
+    { label: l.terms,              href: `/${locale}/termsandconditions`      },
+    { label: l.ticketNotices,      href: `/${locale}/ticket-notices`          },
   ];
 
   return (

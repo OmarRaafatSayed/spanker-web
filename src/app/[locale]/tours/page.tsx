@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useI18n } from "@/lib/i18n/context";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 const COUNTRY_FLAG: Record<string, string> = {
   "فرنسا": "🇫🇷",
@@ -54,7 +57,9 @@ export default function ToursPage() {
   });
 
   return (
-    <div className="min-h-screen bg-bg-alt" dir={isRTL ? "rtl" : "ltr"}>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-bg-alt pt-16 pb-20 lg:pb-0" dir={isRTL ? "rtl" : "ltr"}>
       {/* Hero header */}
       <div className="bg-brand-dark px-4 pt-12 pb-8">
         <div className="max-w-2xl mx-auto">
@@ -77,7 +82,7 @@ export default function ToursPage() {
       </div>
 
       {/* Category tabs */}
-      <div className="bg-white border-b border-border-light sticky top-0 z-10">
+      <div className="bg-white border-b border-border-light sticky top-16 z-10">
         <div className="max-w-2xl mx-auto px-4 flex gap-1 overflow-x-auto py-3 no-scrollbar">
           {CATEGORY_FILTERS.map((cat) => (
             <button
@@ -208,5 +213,8 @@ export default function ToursPage() {
         )}
       </div>
     </div>
+      <Footer />
+      <BottomNav />
+    </>
   );
 }

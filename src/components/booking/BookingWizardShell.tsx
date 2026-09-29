@@ -2,6 +2,9 @@
 
 import { cn } from "@/lib/utils";
 import type { WizardStep } from "@/hooks/useBookingWizard";
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 interface BookingWizardShellProps {
   steps: WizardStep[];
@@ -25,69 +28,74 @@ export function BookingWizardShell({
   const displayTitle = locale === "ar" ? titleAr : title;
 
   return (
-    <div
-      className={cn(
-        "min-h-screen bg-gradient-to-br from-brand-green/5 to-brand-yellow/5",
-        isRTL ? "rtl" : "ltr"
-      )}
-      dir={isRTL ? "rtl" : "ltr"}
-    >
-      {/* Header */}
-      <div className="bg-white border-b border-border-light sticky top-0 z-20 shadow-sm">
-        <div className="max-w-3xl mx-auto px-4 py-4">
-          <h1 className="text-xl font-bold text-text-primary">{displayTitle}</h1>
-          {/* Stepper */}
-          <div className="mt-4 flex items-center gap-0">
-            {steps.map((step, i) => {
-              const isDone = i < currentStep;
-              const isCurrent = i === currentStep;
-              const isUpcoming = i > currentStep;
-              return (
-                <div key={step.id} className="flex items-center flex-1 last:flex-none">
-                  {/* Circle */}
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={cn(
-                        "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all",
-                        isDone && "bg-brand-green border-brand-green text-white",
-                        isCurrent && "bg-white border-brand-green text-brand-green",
-                        isUpcoming && "bg-white border-border-default text-text-muted"
-                      )}
-                    >
-                      {isDone ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
-                      ) : (
-                        i + 1
-                      )}
+    <>
+      <Navbar />
+      <div
+        className={cn(
+          "min-h-screen bg-gradient-to-br from-brand-green/5 to-brand-yellow/5 pt-16 pb-20 lg:pb-0",
+          isRTL ? "rtl" : "ltr"
+        )}
+        dir={isRTL ? "rtl" : "ltr"}
+      >
+        {/* Stepper header */}
+        <div className="bg-white border-b border-border-light sticky top-16 z-20 shadow-sm">
+          <div className="max-w-3xl mx-auto px-4 py-4">
+            <h1 className="text-xl font-bold text-text-primary">{displayTitle}</h1>
+            {/* Stepper */}
+            <div className="mt-4 flex items-center gap-0">
+              {steps.map((step, i) => {
+                const isDone = i < currentStep;
+                const isCurrent = i === currentStep;
+                const isUpcoming = i > currentStep;
+                return (
+                  <div key={step.id} className="flex items-center flex-1 last:flex-none">
+                    {/* Circle */}
+                    <div className="flex flex-col items-center">
+                      <div
+                        className={cn(
+                          "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all",
+                          isDone && "bg-brand-green border-brand-green text-white",
+                          isCurrent && "bg-white border-brand-green text-brand-green",
+                          isUpcoming && "bg-white border-border-default text-text-muted"
+                        )}
+                      >
+                        {isDone ? (
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        ) : (
+                          i + 1
+                        )}
+                      </div>
+                      <span
+                        className={cn(
+                          "text-[10px] mt-1 font-medium max-w-[60px] text-center leading-tight hidden sm:block",
+                          isCurrent ? "text-brand-green" : "text-text-muted"
+                        )}
+                      >
+                        {locale === "ar" ? step.labelAr : step.label}
+                      </span>
                     </div>
-                    <span
-                      className={cn(
-                        "text-[10px] mt-1 font-medium max-w-[60px] text-center leading-tight hidden sm:block",
-                        isCurrent ? "text-brand-green" : "text-text-muted"
-                      )}
-                    >
-                      {locale === "ar" ? step.labelAr : step.label}
-                    </span>
+                    {/* Connector */}
+                    {i < steps.length - 1 && (
+                      <div
+                        className={cn(
+                          "flex-1 h-0.5 mx-1 mt-[-16px] sm:mt-[-18px] transition-all",
+                          i < currentStep ? "bg-brand-green" : "bg-border-light"
+                        )}
+                      />
+                    )}
                   </div>
-                  {/* Connector */}
-                  {i < steps.length - 1 && (
-                    <div
-                      className={cn(
-                        "flex-1 h-0.5 mx-1 mt-[-16px] sm:mt-[-18px] transition-all",
-                        i < currentStep ? "bg-brand-green" : "bg-border-light"
-                      )}
-                    />
-                  )}
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="max-w-3xl mx-auto px-4 py-6">{children}</div>
-    </div>
+        {/* Content */}
+        <div className="max-w-3xl mx-auto px-4 py-6">{children}</div>
+      </div>
+      <Footer />
+      <BottomNav />
+    </>
   );
 }
 
