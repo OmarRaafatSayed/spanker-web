@@ -5,6 +5,8 @@ import type { TripSearchParams } from '@/types/api';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
 
+  const slug = searchParams.get('slug') || undefined;
+
   const params: TripSearchParams = {
     destination:   searchParams.get('destination')   || undefined,
     duration_days: searchParams.get('duration_days') ? parseInt(searchParams.get('duration_days')!) : undefined,
@@ -14,6 +16,7 @@ export async function GET(request: NextRequest) {
   };
 
   let trips = MOCK_TRIPS.filter(t => {
+    if (slug && t.slug !== slug) return false;
     if (params.destination &&
         !t.destination.toLowerCase().includes(params.destination.toLowerCase())) return false;
     if (params.duration_days && t.duration_days !== params.duration_days) return false;
@@ -23,7 +26,7 @@ export async function GET(request: NextRequest) {
     return true;
   });
 
-  if (trips.length === 0) trips = MOCK_TRIPS;
+  if (trips.length === 0 && !slug) trips = MOCK_TRIPS;
 
   return NextResponse.json({
     success: true,
