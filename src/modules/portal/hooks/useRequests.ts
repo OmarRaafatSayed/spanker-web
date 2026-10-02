@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { MOCK_REQUESTS, MOCK_DOCUMENTS } from "@/lib/mock/data"
+import { useState, useCallback, useEffect } from "react"
 import type {
   RequestResponse,
   RequestDetailResponse,
@@ -11,37 +10,55 @@ import type {
 interface UseRequestsOptions {
   status_filter?: string
   limit?: number
-  offset?: number
+  page?: number
 }
 
-let _requests = [...MOCK_REQUESTS]
-
 export function useRequests(options: UseRequestsOptions = {}) {
-  const filtered = _requests.filter(r =>
-    options.status_filter ? r.status === options.status_filter : true
-  )
+  const { status_filter, page = 1, limit = 10 } = options
 
-  const offset = options.offset ?? 0
-  const limit  = options.limit  ?? 50
-  const page   = filtered.slice(offset, offset + limit)
+  const [requests,  setRequests]  = useState<RequestResponse[]>([])
+  const [total,     setTotal]     = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error,     setError]     = useState<string | null>(null)
 
-  const [requests,  setRequests]  = useState<RequestResponse[]>(page)
-  const [total,     setTotal]     = useState(filtered.length)
-  const [isLoading]               = useState(false)
-  const [error]                   = useState<string | null>(null)
+  const fetchRequests = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const params = new URLSearchParams()
+      if (status_filter) params.set("status_filter", status_filter)
+      params.set("page",  String(page))
+      params.set("limit", String(limit))
+
+      const res = await fetch(`/api/v1/travel-requests?${params.toString()}`)
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json?.error ?? `Request failed with status ${res.status}`)
+      }
+      const json = await res.json()
+      setRequests(json.data ?? [])
+      setTotal(json.meta?.total ?? json.data?.length ?? 0)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load requests")
+    } finally {
+      setIsLoading(false)
+    }
+  }, [status_filter, page, limit])
+
+  useEffect(() => {
+    fetchRequests()
+  }, [fetchRequests])
 
   const refresh = useCallback(async () => {
-    const f = _requests.filter(r =>
-      options.status_filter ? r.status === options.status_filter : true
-    )
-    setRequests(f.slice(offset, offset + limit))
-    setTotal(f.length)
-  }, [options.status_filter, offset, limit])
+    await fetchRequests()
+  }, [fetchRequests])
 
   const createRequest = useCallback(async (body: CreateRequestBody): Promise<RequestResponse> => {
-    const newReq: RequestResponse = {
-      id: `req-${Date.now()}`,
-      customer_id: "mock-user-001",
+    // Build optimistic record
+    const optimisticId = `optimistic-${Date.now()}`
+    const optimistic: RequestResponse = {
+      id: optimisticId,
+      customer_id: "",
       full_name: body.full_name,
       phone: body.phone,
       email: undefined,
@@ -55,66 +72,118 @@ export function useRequests(options: UseRequestsOptions = {}) {
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     }
-    _requests = [newReq, ..._requests]
-    setRequests(prev => [newReq, ...prev])
+
+    // Optimistic prepend
+    setRequests(prev => [optimistic, ...prev])
     setTotal(prev => prev + 1)
-    return newReq
+
+    try {
+      const res = await fetch("/api/v1/travel-requests", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      })
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json?.error ?? `Create failed with status ${res.status}`)
+      }
+
+      const json = await res.json()
+      const created: RequestResponse = json.data
+
+      // Replace optimistic record with real record
+      setRequests(prev => prev.map(r => r.id === optimisticId ? created : r))
+      return created
+    } catch (err) {
+      // Revert optimistic update
+      setRequests(prev => prev.filter(r => r.id !== optimisticId))
+      setTotal(prev => prev - 1)
+      const message = err instanceof Error ? err.message : "Failed to create request"
+      setError(message)
+      throw err
+    }
   }, [])
 
   const updateRequest = useCallback(async (
     id: string,
     body: Partial<CreateRequestBody>
   ): Promise<RequestResponse> => {
-    _requests = _requests.map(r =>
-      r.id === id ? { ...r, ...body, updated_at: new Date().toISOString() } : r
-    )
-    const updated = _requests.find(r => r.id === id)!
-    setRequests(prev => prev.map(r => r.id === id ? updated : r))
-    return updated
+    // Capture current state for revert
+    let previousRecord: RequestResponse | undefined
+
+    // Optimistic update
+    setRequests(prev => prev.map(r => {
+      if (r.id === id) {
+        previousRecord = r
+        return { ...r, ...body, updated_at: new Date().toISOString() }
+      }
+      return r
+    }))
+
+    try {
+      const res = await fetch(`/api/v1/travel-requests/${id}`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      })
+
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json?.error ?? `Update failed with status ${res.status}`)
+      }
+
+      const json = await res.json()
+      const updated: RequestResponse = json.data
+
+      // Replace with server-confirmed record
+      setRequests(prev => prev.map(r => r.id === id ? updated : r))
+      return updated
+    } catch (err) {
+      // Revert to previous record if we captured it
+      if (previousRecord) {
+        const snapshot = previousRecord
+        setRequests(prev => prev.map(r => r.id === id ? snapshot : r))
+      }
+      const message = err instanceof Error ? err.message : "Failed to update request"
+      setError(message)
+      throw err
+    }
   }, [])
 
   return { requests, total, isLoading, error, refresh, createRequest, updateRequest }
 }
 
 export function useRequest(id: string) {
-  const found = _requests.find(r => r.id === id) ?? null
+  const [request,   setRequest]   = useState<RequestDetailResponse | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error,     setError]     = useState<string | null>(null)
 
-  const [request, setRequest] = useState<RequestDetailResponse | null>(
-    found
-      ? {
-          ...found,
-          documents: MOCK_DOCUMENTS.filter(d => d.request_id === id),
-          status_log: [
-            {
-              id: `log-${id}-1`,
-              request_id: id,
-              customer_id: "mock-user-001",
-              from_status: undefined,
-              to_status: "new",
-              note: "تم إنشاء الطلب",
-              created_at: found.created_at,
-            },
-            ...(found.status !== "new"
-              ? [
-                  {
-                    id: `log-${id}-2`,
-                    request_id: id,
-                    customer_id: "mock-user-001",
-                    from_status: "new",
-                    to_status: found.status,
-                    note: "تم تحديث الحالة",
-                    created_at: found.updated_at,
-                  },
-                ]
-              : []),
-          ],
-        }
-      : null
-  )
-  const [isLoading] = useState(false)
-  const [error]     = useState<string | null>(null)
+  const fetchRequest = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      const res = await fetch(`/api/v1/travel-requests/${id}`)
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json?.error ?? `Request failed with status ${res.status}`)
+      }
+      const json = await res.json()
+      setRequest(json.data ?? null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load request")
+    } finally {
+      setIsLoading(false)
+    }
+  }, [id])
 
-  const refresh = useCallback(async () => {}, [])
+  useEffect(() => {
+    fetchRequest()
+  }, [fetchRequest])
+
+  const refresh = useCallback(async () => {
+    await fetchRequest()
+  }, [fetchRequest])
 
   const applyRealtimeUpdate = useCallback((partial: Partial<RequestResponse>) => {
     setRequest(prev => prev ? { ...prev, ...partial } : prev)

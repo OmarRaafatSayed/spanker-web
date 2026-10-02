@@ -1,0 +1,545 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Write bug condition exploration test": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957754501
+      },
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957770676
+      },
+      {
+        "executionId": "ebc27d6a-f2aa-41d3-bc67-ba0db4b918fe",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790958138191
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958155921
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958168154
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790959171876
+      }
+    ],
+    "2. Write preservation property tests (BEFORE implementing fix)": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957754770
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156061
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958172211
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790959172994
+      }
+    ],
+    "3. Implement `portalService` — server-side data access layer": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957754934
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156194
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790959177460
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790959326029
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960225733
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960234570
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960376763
+      }
+    ],
+    "4.1 Create `src/app/api/v1/portal/dashboard/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957755269
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156385
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960386448
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960480824
+      }
+    ],
+    "4.2 Create `src/app/api/v1/portal/notifications/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957755439
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156506
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960485455
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960569902
+      }
+    ],
+    "4.3 Create `src/app/api/v1/portal/notifications/[id]/read/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957755595
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156630
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960573814
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960976905
+      }
+    ],
+    "4.4 Create `src/app/api/v1/portal/notifications/read-all/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957755744
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156811
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790960980754
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961129959
+      }
+    ],
+    "5.1 Create `src/app/api/v1/travel-requests/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957755881
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958156922
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961135656
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961339282
+      }
+    ],
+    "5.2 Create `src/app/api/v1/travel-requests/[id]/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957756039
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157044
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961346741
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961492035
+      }
+    ],
+    "6.1 Verify `customer-documents` Supabase Storage bucket exists": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957756179
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157242
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961497164
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961733036
+      }
+    ],
+    "6.2 Create `src/app/api/v1/documents/upload/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957756407
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157359
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961739870
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790962270070
+      }
+    ],
+    "6.3 Create `src/app/api/v1/documents/[id]/route.ts`": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957756586
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157481
+      },
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790962274460
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790964997810
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965099401
+      }
+    ],
+    "7. Fix `GET /api/v1/bookings/my` — add auth guard and Supabase query": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957756867
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157652
+      }
+    ],
+    "8. Fix `POST /api/travel-requests` — proxy to v1 route": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957757024
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157778
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963870854
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963877941
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963900651
+      }
+    ],
+    "9. Fix `usePortalDashboard` hook — replace mock with fetch": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957757152
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958157913
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871010
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963910722
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965408962
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965530772
+      }
+    ],
+    "10.1 Fix the `useRequests` hook": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957757382
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158092
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871150
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790964215496
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965535026
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965644243
+      }
+    ],
+    "10.2 Fix the `useRequest(id)` single-request hook": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957757621
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158212
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871291
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790964218284
+      },
+      {
+        "executionId": "62e90f99-335d-4a4a-b884-7cf80025838a",
+        "chatSessionId": "sess_8bc741ea-0692-4465-aa4e-5a74378fad62",
+        "timestamp": 1790965648153
+      }
+    ],
+    "11. Fix `useDocuments` hook — replace mock with real API calls": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957757924
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158328
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871415
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790964221189
+      }
+    ],
+    "12. Fix `useNotifications` hook — add Realtime subscription and real API calls": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957758233
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158513
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871583
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790964224059
+      }
+    ],
+    "13. Verify bug condition exploration test now passes": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957758371
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158628
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871721
+      }
+    ],
+    "14. Verify preservation tests still pass": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957758504
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158757
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963871851
+      }
+    ],
+    "15. Checkpoint — ensure all tests pass and integration is verified": [
+      {
+        "executionId": "a7fc8723-9e81-4396-9576-27127561726b",
+        "chatSessionId": "sess_da47c54f-4af7-4620-b480-e056577ead7a",
+        "timestamp": 1790957758651
+      },
+      {
+        "executionId": "56534375-db86-4bf0-8cfc-88252e878eab",
+        "chatSessionId": "sess_e3fa1c81-d2a5-42be-9656-bc2506f4e9bf",
+        "timestamp": 1790958158890
+      },
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963872084
+      }
+    ],
+    "4. Create portal dashboard and notifications API routes": [
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961130284
+      }
+    ],
+    "5. Create travel requests CRUD API routes": [
+      {
+        "executionId": "fdf3a040-84cf-4add-b7f6-fc58431171c5",
+        "chatSessionId": "sess_7b9a5c4a-d037-4295-87fb-79a0e279ce61",
+        "timestamp": 1790961492262
+      }
+    ],
+    "6. Create document upload and delete API routes": [
+      {
+        "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
+        "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
+        "timestamp": 1790963868234
+      }
+    ]
+  }
+}

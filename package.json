@@ -69,15 +69,19 @@
   "devDependencies": {
     "@t3-oss/env-nextjs": "^0.13.11",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^24",
+    "@types/node": "^24.19.1",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "fast-check": "^4.10.2",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "shadcn": "^4.1.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^5.0.3"
   }
 }
