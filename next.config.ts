@@ -38,7 +38,14 @@ const nextConfig: NextConfig = {
   // Note: eslint configuration moved to eslint.config.mjs
   images: {
     formats: ["image/webp", "image/avif"],
-    remotePatterns: [],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'dnzvcvlebltbfcbcslkt.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/**',
+      },
+    ],
   },
   async headers() {
     return [

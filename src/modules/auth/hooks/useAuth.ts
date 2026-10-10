@@ -2,31 +2,23 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import {
-  getMockUser,
-  mockSignIn,
-  mockSignUp,
-  mockSignOut,
-  mockOnAuthStateChange,
-  type MockUser,
-} from "@/lib/mock/auth"
-
-const MOCK_SESSION = {
-  access_token: "mock-access-token",
-  refresh_token: "mock-refresh-token",
-  expires_at: Math.floor(Date.now() / 1000) + 3600,
-}
+import { supabase } from "../lib/client"
+import type { User } from "@supabase/supabase-js"
 
 export function useAuth() {
-  const [user, setUser]       = useState<MockUser | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
-  const router                = useRouter()
+  const router = useRouter()
 
   useEffect(() => {
-    setUser(getMockUser())
-    setLoading(false)
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null)
+      setLoading(false)
+    })
 
-    const { data: { subscription } } = mockOnAuthStateChange((_event, session) => {
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
     })
 
@@ -34,20 +26,34 @@ export function useAuth() {
   }, [])
 
   const signIn = async (email: string, password: string) => {
-    const { data } = await mockSignIn(email, password)
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    
+    if (error) throw error
+    
     setUser(data.user)
-    return { user: data.user, session: MOCK_SESSION }
+    return { user: data.user, session: data.session }
   }
 
-  const signUp = async (email: string, password: string, _metadata?: Record<string, string>) => {
-    const { data } = await mockSignUp(email, password)
+  const signUp = async (email: string, password: string, metadata?: Record<string, string>) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: metadata
+      }
+    })
+    
+    if (error) throw error
+    
     setUser(data.user)
-    // Return session so callers that destructure { session } work without errors
-    return { user: data.user, session: MOCK_SESSION }
+    return { user: data.user, session: data.session }
   }
 
   const signOut = async () => {
-    await mockSignOut()
+    await supabase.auth.signOut()
     setUser(null)
     router.push("/login")
   }
