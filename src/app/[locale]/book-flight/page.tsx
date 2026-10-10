@@ -666,7 +666,7 @@ export default function BookFlightPage() {
             messageAr="🎉 تم حجز رحلتك بنجاح!"
             expiresAt={data.booking.expires_at}
             locale={locale as "ar" | "en"}
-            onDone={() => router.push(`/${locale}/my-booking`)}
+            onDone={() => router.push("/profile/bookings")}
           />
         </WizardCard>
       )}

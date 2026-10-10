@@ -63,8 +63,8 @@ export function BottomNav() {
   const { user } = useAuth();
   const pathname = usePathname();
 
-  // Profile tab: authenticated → dashboard profile, guest → login
-  const profileHref = user ? "/dashboard/profile" : "/login";
+  // Profile tab: authenticated → profile, guest → login
+  const profileHref = user ? "/profile" : "/login";
 
   const tabs = [
     {

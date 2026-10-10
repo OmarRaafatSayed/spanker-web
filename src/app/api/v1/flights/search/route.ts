@@ -1,51 +1,62 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { MOCK_FLIGHTS } from '@/lib/mock/data';
-import type { FlightSearchParams } from '@/types/api';
+import { NextRequest } from "next/server";
+import {
+  successResponse,
+  errorResponse,
+  validationErrorResponse,
+} from "@/lib/api/response";
+import { searchFlights } from "@/lib/flight-search/gfly";
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
+export async function POST(request: NextRequest) {
+  try {
+    // TODO: Re-enable authentication after testing
+    // const supabase = await createServerClient();
+    // const user = await requireUser(supabase);
 
-  const params: FlightSearchParams = {
-    origin:        searchParams.get('origin')        || undefined,
-    destination:   searchParams.get('destination')   || undefined,
-    departureDate: searchParams.get('departureDate') || undefined,
-    returnDate:    searchParams.get('returnDate')    || undefined,
-    class:         (searchParams.get('class') as FlightSearchParams['class']) || undefined,
-    passengers:    searchParams.get('passengers') ? parseInt(searchParams.get('passengers')!) : undefined,
-    tripType:      (searchParams.get('tripType') as FlightSearchParams['tripType']) || undefined,
-  };
+    const body = await request.json();
+    const {
+      origin,
+      destination,
+      departureDate,
+      returnDate,
+      passengers = 1,
+      cabinClass = "economy",
+      stops = "any",
+    } = body;
 
-  // Filter mock flights by origin/destination if provided
-  let outbound = MOCK_FLIGHTS.filter(f => {
-    if (params.origin && !f.origin_iata.toLowerCase().includes(params.origin.toLowerCase()) &&
-        !f.origin_city.toLowerCase().includes(params.origin.toLowerCase())) return false;
-    if (params.destination && !f.destination_iata.toLowerCase().includes(params.destination.toLowerCase()) &&
-        !f.destination_city.toLowerCase().includes(params.destination.toLowerCase())) return false;
-    if (params.class && f.class !== params.class) return false;
-    return true;
-  });
+    // Validation
+    if (!origin || !destination || !departureDate) {
+      return validationErrorResponse(
+        "Missing required fields: origin, destination, departureDate"
+      );
+    }
 
-  // If no filter matches, return all flights (demo UX)
-  if (outbound.length === 0) outbound = MOCK_FLIGHTS;
+    // Search real flights using gfly
+    const results = await searchFlights({
+      origin,
+      destination,
+      departDate: departureDate,
+      returnDate,
+      passengers,
+      cabin: cabinClass,
+      stops,
+    });
 
-  const returnFlights = params.tripType === 'round-trip' ? outbound.map(f => ({
-    ...f,
-    id: `${f.id}-return`,
-    origin_iata: f.destination_iata,
-    origin_city: f.destination_city,
-    destination_iata: f.origin_iata,
-    destination_city: f.origin_city,
-  })) : [];
-
-  return NextResponse.json({
-    success: true,
-    data: {
-      outbound,
-      ...(params.tripType === 'round-trip' && { return: returnFlights }),
-    },
-    meta: {
-      count: outbound.length,
-      ...(params.tripType === 'round-trip' && { return_count: returnFlights.length }),
-    },
-  });
+    return successResponse({
+      flights: results.flights,
+      count: results.count,
+      currency: results.currency,
+      searchParams: {
+        origin,
+        destination,
+        departureDate,
+        returnDate,
+        passengers,
+        cabinClass,
+        stops,
+      },
+    });
+  } catch (err: any) {
+    console.error("Flight search error:", err);
+    return errorResponse(err as Error);
+  }
 }

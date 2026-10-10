@@ -64,8 +64,8 @@ const notifTypeArb = fc.constantFrom<NotifType>(
 );
 
 const isoDateArb = fc
-  .date({ min: new Date('2020-01-01'), max: new Date('2030-12-31') })
-  .map(d => d.toISOString());
+  .integer({ min: 1577836800000, max: 1924992000000 }) // 2020-01-01 to 2030-12-31 in ms
+  .map(timestamp => new Date(timestamp).toISOString());
 
 const requestResponseArb: fc.Arbitrary<RequestResponse> = fc.record({
   id: fc.uuid(),

@@ -729,7 +729,7 @@ export default function VisaApplicationPage() {
             messageAr="🎉 تم تقديم طلب التأشيرة بنجاح!"
             expiresAt={data.booking.expires_at}
             locale={locale as "ar" | "en"}
-            onDone={() => router.push(`/${locale}/my-booking`)}
+            onDone={() => router.push("/profile/bookings")}
           />
         </WizardCard>
       )}

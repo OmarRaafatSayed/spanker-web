@@ -51,8 +51,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth">
-      <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full">
+    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full" suppressHydrationWarning>
         <I18nProvider>
           {children}
         </I18nProvider>

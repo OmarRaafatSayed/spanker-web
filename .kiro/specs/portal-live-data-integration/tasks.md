@@ -293,7 +293,7 @@ Tasks 1, 2 (test setup) have NO dependencies -- run first, before any fix code.
   - _Preservation: all return fields unchanged; `updateRequest()` and `refresh()` remain callable_
   - _Requirements: 2.7, 2.8, 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 11. Fix `useDocuments` hook — replace mock with real API calls
+- [x] 11. Fix `useDocuments` hook — replace mock with real API calls
   - Remove `import { MOCK_DOCUMENTS }` and `let _documents = [...MOCK_DOCUMENTS]`
   - Rewrite `uploadDocument(requestId, userId, file, docType)`:
     - Build `FormData`: append `file`, `request_id = requestId`, `doc_type = docType`
@@ -313,7 +313,7 @@ Tasks 1, 2 (test setup) have NO dependencies -- run first, before any fix code.
   - _Preservation: `isUploading`, `error`, `clearError` present; `uploadDocument` and `deleteDocument` signatures unchanged_
   - _Requirements: 4.5, 4.6, 8.1, 8.2, 8.3_
 
-- [ ] 12. Fix `useNotifications` hook — add Realtime subscription and real API calls
+- [x] 12. Fix `useNotifications` hook — add Realtime subscription and real API calls
   - Remove `import { MOCK_NOTIFICATIONS }` and `let _notifications = [...MOCK_NOTIFICATIONS]`
   - Add `import { createClient } from '@/lib/supabase/client'` (browser singleton — NOT server client)
   - Add `useState` for `notifications`, `total`, `unreadCount`, `isLoading` (initial: true), `error`
@@ -352,7 +352,7 @@ Tasks 1, 2 (test setup) have NO dependencies -- run first, before any fix code.
   - _Preservation: `pushNotification()` remains callable; all return fields unchanged_
   - _Requirements: 3.5, 3.6, 3.7, 3.8, 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 13. Verify bug condition exploration test now passes
+- [x] 13. Verify bug condition exploration test now passes
   - **Property 1: Expected Behavior** - Mock Data & Missing Auth Guard
   - **IMPORTANT**: Re-run the SAME tests written in task 1 — do NOT write new tests
   - The tests from task 1 encode the expected behavior inversely: they pass when the unfixed behavior is observed
@@ -365,7 +365,7 @@ Tasks 1, 2 (test setup) have NO dependencies -- run first, before any fix code.
   - **EXPECTED OUTCOME**: Tests PASS (confirms bugs are resolved)
   - _Requirements: Expected Behavior Properties from design (Property 1)_
 
-- [ ] 14. Verify preservation tests still pass
+- [x] 14. Verify preservation tests still pass
   - **Property 2: Preservation** - Hook Return Shape & API Response Shape Unchanged
   - **IMPORTANT**: Re-run the SAME tests written in task 2 — do NOT write new tests
   - Run all preservation tests from task 2 on **FIXED** code
@@ -374,7 +374,7 @@ Tasks 1, 2 (test setup) have NO dependencies -- run first, before any fix code.
   - Confirm: `meta` pagination shape `{ page, limit, total, total_pages }` is intact across all list endpoints
   - Confirm: no components that consume these hooks require changes to compile
 
-- [ ] 15. Checkpoint — ensure all tests pass and integration is verified
+- [x] 15. Checkpoint — ensure all tests pass and integration is verified
   - Run full test suite; ensure all tests pass
   - Manually verify end-to-end flow:
     1. Log in as a real test user

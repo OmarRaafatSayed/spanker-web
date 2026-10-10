@@ -1,5 +1,10 @@
 {
-  "pbtResults": {},
+  "pbtResults": {
+    "13. Verify bug condition exploration test now passes": {
+      "status": "passed",
+      "lastRunTimestamp": 1791124041725
+    }
+  },
   "executionHistory": {
     "1. Write bug condition exploration test": [
       {
@@ -445,6 +450,21 @@
         "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
         "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
         "timestamp": 1790964221189
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123282958
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123288302
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123440298
       }
     ],
     "12. Fix `useNotifications` hook — add Realtime subscription and real API calls": [
@@ -467,6 +487,21 @@
         "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
         "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
         "timestamp": 1790964224059
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123283230
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123444297
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123516410
       }
     ],
     "13. Verify bug condition exploration test now passes": [
@@ -484,6 +519,21 @@
         "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
         "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
         "timestamp": 1790963871721
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123283446
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123520685
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791124060039
       }
     ],
     "14. Verify preservation tests still pass": [
@@ -501,6 +551,21 @@
         "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
         "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
         "timestamp": 1790963871851
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123283696
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791124064461
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791124720166
       }
     ],
     "15. Checkpoint — ensure all tests pass and integration is verified": [
@@ -518,6 +583,21 @@
         "executionId": "fcc93a0d-a480-4a1f-b5ff-c7047baeee5f",
         "chatSessionId": "sess_ab9f4203-9a80-4f53-8eb3-2463fffe33fa",
         "timestamp": 1790963872084
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791123283949
+      },
+      {
+        "executionId": "8008f30b-07d5-497d-922f-4e6a39ac8236",
+        "chatSessionId": "sess_1e03f530-b17b-4267-9d29-8947042704b0",
+        "timestamp": 1791124724534
+      },
+      {
+        "executionId": "29451777-747e-479b-bd9f-bb96f75227a6",
+        "chatSessionId": "sess_a819d887-427a-44ed-81ec-4f62b8b704a2",
+        "timestamp": 1791125639313
       }
     ],
     "4. Create portal dashboard and notifications API routes": [

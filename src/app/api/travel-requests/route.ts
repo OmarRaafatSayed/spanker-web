@@ -20,6 +20,9 @@ export async function POST(request: NextRequest) {
   const origin =
     request.headers.get("origin") ?? "http://localhost:3000";
 
+  // Read the body to avoid "expected non-null body source" error
+  const body = await request.text();
+
   const response = await fetch(`${origin}/api/v1/travel-requests`, {
     method: "POST",
     headers: {
@@ -27,9 +30,7 @@ export async function POST(request: NextRequest) {
         request.headers.get("content-type") ?? "application/json",
       cookie: request.headers.get("cookie") ?? "",
     },
-    body: request.body,
-    // @ts-expect-error — duplex is required by Node fetch when streaming body
-    duplex: "half",
+    body: body,
   });
 
   return new Response(response.body, {
