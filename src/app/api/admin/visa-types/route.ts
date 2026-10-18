@@ -1,44 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { requireAdminAuth } from "@/modules/admin/services/admin-auth";
-import type { Database } from "@/types/database";
 
-function getServiceClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return createClient<Database>(url, key, { auth: { persistSession: false } });
-}
+/**
+ * NOTE: The visa_types table is defined in the database types but has not been
+ * deployed to the live Supabase project yet. These handlers return graceful
+ * stubs with auth enforcement until the migration runs.
+ */
 
 export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
 
-  const { searchParams } = new URL(req.url);
-  const country = searchParams.get("country");
-  const activeParam = searchParams.get("active");
-
-  const supabase = getServiceClient();
-
-  let query = supabase
-    .from("visa_types")
-    .select("*")
-    .order("country_name", { ascending: true })
-    .order("price", { ascending: true });
-
-  if (country) query = query.eq("country_code", country.toUpperCase());
-  if (activeParam !== null) query = query.eq("is_active", activeParam === "true");
-
-  const { data, error } = await query;
-
-  if (error) {
-    console.error("[admin/visa-types GET]", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch visa types", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data, total: data?.length ?? 0 });
+  // visa_types table not yet deployed — return empty list
+  return NextResponse.json({
+    success: true,
+    data: [],
+    total: 0,
+    notice: "visa_types table is pending migration to the live database",
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -52,69 +31,21 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const {
-    country_code,
-    country_name,
-    visa_name,
-    duration_days,
-    category,
-    profession_tier,
-    price,
-    deposit_amount,
-    child_price,
-    processing_days,
-    is_urgent_available,
-    urgent_price,
-    is_active,
-    notes,
-  } = body;
+  const { country_code, country_name, visa_name, duration_days, category, price } = body;
 
   if (!country_code || !country_name || !visa_name || !duration_days || !category || price == null) {
     return NextResponse.json(
-      { success: false, error: "Missing required fields: country_code, country_name, visa_name, duration_days, category, price" },
+      {
+        success: false,
+        error: "Missing required fields: country_code, country_name, visa_name, duration_days, category, price",
+      },
       { status: 400 }
     );
   }
 
-  const VALID_CATEGORIES = ["vip", "standard", "urgent", "multi_entry", "extension"];
-  if (!VALID_CATEGORIES.includes(category as string)) {
-    return NextResponse.json(
-      { success: false, error: `Invalid category. Must be one of: ${VALID_CATEGORIES.join(", ")}` },
-      { status: 400 }
-    );
-  }
-
-  const supabase = getServiceClient();
-
-  const { data, error } = await supabase
-    .from("visa_types")
-    .insert({
-      country_code: (country_code as string).toUpperCase(),
-      country_name: country_name as string,
-      visa_name: visa_name as string,
-      duration_days: Number(duration_days),
-      category: category as string,
-      profession_tier: (profession_tier as string | undefined) ?? null,
-      price: Number(price),
-      deposit_amount: deposit_amount != null ? Number(deposit_amount) : 0,
-      child_price: child_price != null ? Number(child_price) : null,
-      processing_days: processing_days != null ? Number(processing_days) : 3,
-      is_urgent_available: Boolean(is_urgent_available ?? false),
-      urgent_price: urgent_price != null ? Number(urgent_price) : null,
-      is_active: is_active !== undefined ? Boolean(is_active) : true,
-      notes: (notes as string | undefined) ?? null,
-      created_by: auth.userId,
-    } as never)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("[admin/visa-types POST]", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to create visa type", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data }, { status: 201 });
+  // visa_types table not yet deployed
+  return NextResponse.json(
+    { success: false, error: "visa_types table is pending migration to the live database" },
+    { status: 503 }
+  );
 }

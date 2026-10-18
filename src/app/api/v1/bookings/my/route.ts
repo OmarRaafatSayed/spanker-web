@@ -26,16 +26,35 @@ export async function GET(request: NextRequest) {
 
     // Parse query params
     const { searchParams } = new URL(request.url);
-    const status   = searchParams.get('status')   as BookingStatus | null;
-    const vertical = searchParams.get('vertical') as BookingVertical | null;
-    const page     = parseInt(searchParams.get('page')  ?? '1', 10);
-    const limit    = parseInt(searchParams.get('limit') ?? '10', 10);
+    const status      = searchParams.get('status')      as BookingStatus | null;
+    const vertical    = searchParams.get('vertical')    as BookingVertical | null;
+    const dateFrom    = searchParams.get('date_from');
+    const dateTo      = searchParams.get('date_to');
+    const amountMin   = searchParams.get('amount_min');
+    const amountMax   = searchParams.get('amount_max');
+    const assignedTo  = searchParams.get('assigned_to');
+    const search      = searchParams.get('search');
+    const page        = parseInt(searchParams.get('page')  ?? '1', 10);
+    const limit       = parseInt(searchParams.get('limit') ?? '10', 10);
 
-    // Build base query: travel_requests where client_user_id = user.id
+    // Check if user is staff/admin (staff can view all bookings)
+    const { data: profile } = await supabase
+      .from(TABLES.profiles)
+      .select('role')
+      .eq('user_id', user.id)
+      .single();
+
+    const isStaff = profile?.role === 'staff' || profile?.role === 'admin';
+
+    // Build base query: travel_requests
+    // If customer, only show their bookings; if staff, show all
     let query = supabase
       .from(TABLES.travelRequests)
-      .select('*', { count: 'exact' })
-      .eq('client_user_id', user.id);
+      .select('*', { count: 'exact' });
+
+    if (!isStaff) {
+      query = query.eq('client_user_id', user.id);
+    }
 
     // Apply filters at DB level before executing
     if (status) {
@@ -44,6 +63,34 @@ export async function GET(request: NextRequest) {
     if (vertical) {
       query = query.eq('vertical', vertical);
     }
+    if (dateFrom) {
+      query = query.gte('created_at', dateFrom);
+    }
+    if (dateTo) {
+      // Add one day to include the entire end date
+      const endDate = new Date(dateTo);
+      endDate.setDate(endDate.getDate() + 1);
+      query = query.lt('created_at', endDate.toISOString());
+    }
+    if (amountMin) {
+      query = query.gte('total_amount', parseFloat(amountMin));
+    }
+    if (amountMax) {
+      query = query.lte('total_amount', parseFloat(amountMax));
+    }
+    if (assignedTo) {
+      if (assignedTo === '_unassigned') {
+        query = query.is('assigned_staff_id', null);
+      } else {
+        query = query.eq('assigned_staff_id', assignedTo);
+      }
+    }
+    if (search) {
+      query = query.ilike('booking_reference', `%${search}%`);
+    }
+
+    // Order by created_at descending
+    query = query.order('created_at', { ascending: false });
 
     // Apply pagination range
     query = query.range((page - 1) * limit, page * limit - 1);

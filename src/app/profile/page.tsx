@@ -193,10 +193,10 @@ export default function ProfileAccountPage() {
   const colors = getCompletionColor(completion)
 
   const quickActions = [
-    { label: "حجز رحلة", href: "/book-flight", icon: Plane, color: "from-blue-500 to-blue-600" },
-    { label: "حجز فندق", href: "/hotel-booking", icon: Hotel, color: "from-purple-500 to-purple-600" },
-    { label: "طلب تأشيرة", href: "/visa-application", icon: FileCheck, color: "from-emerald-500 to-emerald-600" },
-    { label: "رحلة سياحية", href: "/tours", icon: Map, color: "from-amber-500 to-amber-600" },
+    { label: "حجز رحلة", href: "/ar-eg/book-flight", icon: Plane, color: "from-blue-500 to-blue-600" },
+    { label: "حجز فندق", href: "/ar-eg/hotel-booking", icon: Hotel, color: "from-purple-500 to-purple-600" },
+    { label: "طلب تأشيرة", href: "/ar-eg/visa-application", icon: FileCheck, color: "from-emerald-500 to-emerald-600" },
+    { label: "رحلة سياحية", href: "/ar-eg/tours", icon: Map, color: "from-amber-500 to-amber-600" },
   ]
 
   const countries = [

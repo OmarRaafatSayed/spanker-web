@@ -57,7 +57,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {(variant === "luxury" || variant === "glow" || withShimmer) && (
           <div className="absolute inset-0 bg-shimmer opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-shimmer" />
         )}
-        <span className="relative z-10">{children}</span>
+        <span className="relative z-10 flex items-center gap-2">{children}</span>
       </button>
     )
   }

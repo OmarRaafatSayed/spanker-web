@@ -1,0 +1,828 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/v1/bookings",
+    "desc": "v1 bookings create",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/bookings/my",
+    "desc": "v1 bookings my",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/bookings/test-id",
+    "desc": "v1 booking detail",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/bookings/test-id/cancel",
+    "desc": "v1 booking cancel",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/bookings/test-id/confirm",
+    "desc": "v1 booking confirm",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/documents/upload",
+    "desc": "v1 document upload",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/v1/documents/test-id",
+    "desc": "v1 document delete",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/flights",
+    "desc": "v1 flights list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/flights/search",
+    "desc": "v1 flights search",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/v1/flights/test-id",
+    "desc": "v1 flight update",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/hotels/search",
+    "desc": "v1 hotels search",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/notifications",
+    "desc": "v1 notifications list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/notifications/mark-read",
+    "desc": "v1 notifications mark-read",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/payments/confirm",
+    "desc": "v1 payment confirm",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/portal/dashboard",
+    "desc": "v1 portal dashboard",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/portal/notifications",
+    "desc": "v1 portal notifications",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/portal/notifications/read-all",
+    "desc": "v1 portal notifications read-all",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/v1/portal/notifications/test-id/read",
+    "desc": "v1 portal notification read",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/travel-requests",
+    "desc": "v1 travel-requests list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/travel-requests",
+    "desc": "v1 travel-requests create",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/travel-requests/test-id",
+    "desc": "v1 travel-request detail",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/v1/travel-requests/test-id",
+    "desc": "v1 travel-request update",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/trips/search",
+    "desc": "v1 trips search",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/visas/search",
+    "desc": "v1 visas search",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/v1/visas/test-id",
+    "desc": "v1 visa detail",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/v1/visas/test-id/review",
+    "desc": "v1 visa review",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/analytics/staff-performance",
+    "desc": "admin analytics staff-performance",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/banners",
+    "desc": "admin banners list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/banners",
+    "desc": "admin banners create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/banners/reorder",
+    "desc": "admin banners reorder",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/banners/test-id",
+    "desc": "admin banner update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/bookings",
+    "desc": "admin bookings list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/bookings/bulk",
+    "desc": "admin bookings bulk",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/bookings/export",
+    "desc": "admin bookings export",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/bookings/test-id",
+    "desc": "admin booking detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/bookings/test-id/assign",
+    "desc": "admin booking assign",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/bookings/test-id/audit-log",
+    "desc": "admin booking audit-log",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/bookings/test-id/notes",
+    "desc": "admin booking notes list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/bookings/test-id/notes",
+    "desc": "admin booking notes create",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/bookings/test-id/notes/note-id",
+    "desc": "admin booking note delete",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/bookings/test-id/payment",
+    "desc": "admin booking payment",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/bookings/test-id/status",
+    "desc": "admin booking status",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/customers",
+    "desc": "admin customers list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/customers/test-id",
+    "desc": "admin customer detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/customers/test-id",
+    "desc": "admin customer update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/customers/test-id/documents",
+    "desc": "admin customer documents",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/customers/test-id/role",
+    "desc": "admin customer role",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/customers/test-id/travel-requests",
+    "desc": "admin customer travel-requests",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/dashboard",
+    "desc": "admin dashboard",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/dashboard/export",
+    "desc": "admin dashboard export",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/documents",
+    "desc": "admin documents list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/documents/test-id/download",
+    "desc": "admin document download",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/documents/test-id/verify",
+    "desc": "admin document verify",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/hotels",
+    "desc": "admin hotels list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/hotels",
+    "desc": "admin hotels create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/hotels/test-id",
+    "desc": "admin hotel detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/hotels/test-id",
+    "desc": "admin hotel update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/hotels/test-id/rooms",
+    "desc": "admin hotel rooms list",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/hotels/test-id/rooms",
+    "desc": "admin hotel rooms create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/hotels/test-id/rooms/room-id",
+    "desc": "admin hotel room detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/hotels/test-id/rooms/room-id",
+    "desc": "admin hotel room update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/leads",
+    "desc": "admin leads list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/leads/test-id",
+    "desc": "admin lead detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/leads/test-id/assign",
+    "desc": "admin lead assign",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/leads/test-id/communicate",
+    "desc": "admin lead communicate",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/leads/test-id/documents",
+    "desc": "admin lead documents",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/leads/test-id/documents/doc-id",
+    "desc": "admin lead document update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/leads/test-id/note",
+    "desc": "admin lead note",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/leads/test-id/status",
+    "desc": "admin lead status",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/leads/test-id/sync-crm",
+    "desc": "admin lead sync-crm",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/logs",
+    "desc": "admin logs list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/admin/logs",
+    "desc": "admin logs delete",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/my-assignments",
+    "desc": "admin my-assignments",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/notifications",
+    "desc": "admin notifications list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/notifications/test-id/read",
+    "desc": "admin notification read",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/offers",
+    "desc": "admin offers list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/offers",
+    "desc": "admin offers create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/offers/test-id",
+    "desc": "admin offer detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/offers/test-id",
+    "desc": "admin offer update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/packages",
+    "desc": "admin packages list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/packages",
+    "desc": "admin packages create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/packages/test-id",
+    "desc": "admin package detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/packages/test-id",
+    "desc": "admin package update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/packages/test-id/toggle",
+    "desc": "admin package toggle",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/quotations",
+    "desc": "admin quotations list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/quotations",
+    "desc": "admin quotations create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/quotations/test-id",
+    "desc": "admin quotation detail",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/quotations/test-id",
+    "desc": "admin quotation update",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/quotations/test-id/convert",
+    "desc": "admin quotation convert",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/quotations/test-id/send",
+    "desc": "admin quotation send",
+    "status": 404,
+    "category": "NOT_FOUND"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/setup",
+    "desc": "admin setup",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/staff",
+    "desc": "admin staff list",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/stats",
+    "desc": "admin stats",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/upload/image",
+    "desc": "admin image upload",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/visa-documents",
+    "desc": "admin visa-documents list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/visa-documents",
+    "desc": "admin visa-documents create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/visa-documents/test-id",
+    "desc": "admin visa-document detail",
+    "status": 503,
+    "category": "PENDING"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/visa-documents/test-id",
+    "desc": "admin visa-document update",
+    "status": 503,
+    "category": "PENDING"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/visa-types",
+    "desc": "admin visa-types list",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/visa-types",
+    "desc": "admin visa-types create",
+    "status": 400,
+    "category": "BAD_REQUEST"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/visa-types/test-id",
+    "desc": "admin visa-type detail",
+    "status": 503,
+    "category": "PENDING"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/visa-types/test-id",
+    "desc": "admin visa-type update",
+    "status": 503,
+    "category": "PENDING"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/workflow-settings",
+    "desc": "admin workflow-settings",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/workflow-settings",
+    "desc": "admin workflow-settings update",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/login",
+    "desc": "auth login",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/signup",
+    "desc": "auth signup",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/cron/escalate-unassigned",
+    "desc": "cron escalate-unassigned",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/cron/expire-bookings",
+    "desc": "cron expire-bookings",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/cron/send-reminders",
+    "desc": "cron send-reminders",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/design-tokens",
+    "desc": "design-tokens",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/payments/my-payments",
+    "desc": "payments my-payments",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/profile",
+    "desc": "profile GET",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/profile",
+    "desc": "profile PATCH",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/travel-requests",
+    "desc": "travel-requests create",
+    "status": 401,
+    "category": "AUTH_GATED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/travel-requests/my-requests",
+    "desc": "travel-requests my-requests",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "POST",
+    "path": "/api/travel-requests/upload-document",
+    "desc": "travel-requests upload-document",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/visa/my-applications",
+    "desc": "visa my-applications",
+    "status": 200,
+    "category": "CONNECTED"
+  },
+  {
+    "method": "GET",
+    "path": "/api/visa/my-applications/test-id",
+    "desc": "visa application detail",
+    "status": 401,
+    "category": "AUTH_GATED"
+  }
+]

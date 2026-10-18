@@ -46,18 +46,7 @@ export async function GET(req: NextRequest) {
   // Build query — join profiles for client name + email
   let query = supabase
     .from("travel_requests")
-    .select(
-      `
-      *,
-      profiles!travel_requests_client_user_id_fkey (
-        id, full_name, phone, role
-      ),
-      assigned_staff:profiles!travel_requests_assigned_staff_id_fkey (
-        id, full_name
-      )
-      `,
-      { count: "exact" }
-    )
+    .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 

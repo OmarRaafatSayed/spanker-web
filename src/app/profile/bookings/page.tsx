@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Plane, Hotel, FileCheck, Map, ClipboardList, CheckCircle, Clock, CreditCard, MessageCircle, ChevronUp, ChevronDown } from "lucide-react"
+import { Plane, Hotel, FileCheck, Map, ClipboardList, CheckCircle, Clock, CreditCard, MessageCircle, ChevronUp, ChevronDown, X } from "lucide-react"
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -272,10 +272,10 @@ function StatsBar({ bookings }: { bookings: Booking[] }) {
 
 function EmptyState() {
   const quickLinks = [
-    { label: "حجز طيران", href: "/book-flight", icon: Plane },
-    { label: "حجز فندق", href: "/hotel-booking", icon: Hotel },
-    { label: "تأشيرة", href: "/visa-application", icon: FileCheck },
-    { label: "رحلة سياحية", href: "/tours", icon: Map },
+    { label: "حجز طيران", href: "/ar-eg/book-flight", icon: Plane },
+    { label: "حجز فندق", href: "/ar-eg/hotel-booking", icon: Hotel },
+    { label: "تأشيرة", href: "/ar-eg/visa-application", icon: FileCheck },
+    { label: "رحلة سياحية", href: "/ar-eg/tours", icon: Map },
   ]
 
   return (
@@ -331,10 +331,28 @@ export default function ProfileBookingsPage() {
       }
       const json = await res.json()
       if (!json.success) throw new Error(json.error?.message)
-      setBookings(json.data || [])
+
+      // Normalize travel_requests rows → Booking shape
+      // The API returns travel_requests with: id, booking_reference, booking_status, etc.
+      const normalized: Booking[] = (json.data || []).map((row: Record<string, unknown>) => ({
+        booking_id:     (row.id as string),
+        reference:      (row.booking_reference as string) ?? (row.id as string).slice(0, 8).toUpperCase(),
+        vertical:       (row.vertical as BookingVertical) ?? "flight",
+        booking_status: (row.booking_status as BookingStatus) ?? (row.status as BookingStatus) ?? "pending_payment",
+        total_amount:   (row.total_amount as number) ?? 0,
+        expires_at:     row.expires_at as string | undefined,
+        created_at:     (row.created_at as string),
+        // Detail sub-objects come from the row's contact/data fields if present
+        flight_details:  row.flight_details as Booking["flight_details"] | undefined,
+        hotel_details:   row.hotel_details  as Booking["hotel_details"]  | undefined,
+        visa_details:    row.visa_details   as Booking["visa_details"]   | undefined,
+        trip_details:    row.trip_details   as Booking["trip_details"]   | undefined,
+      }))
+
+      setBookings(normalized)
       setMeta(json.meta ?? { total: 0, total_pages: 1 })
-    } catch (e: any) {
-      setError(e.message || "فشل تحميل الحجوزات")
+    } catch (e: unknown) {
+      setError((e as Error).message || "فشل تحميل الحجوزات")
     } finally {
       setLoading(false)
     }
@@ -357,8 +375,8 @@ export default function ProfileBookingsPage() {
       if (!json.success) throw new Error(json.error?.message)
       setExpandedId(null)
       fetchBookings()
-    } catch (e: any) {
-      setError(e.message || "فشل إلغاء الحجز")
+    } catch (e: unknown) {
+      setError((e as Error).message || "فشل إلغاء الحجز")
     } finally {
       setCancellingId(null)
     }

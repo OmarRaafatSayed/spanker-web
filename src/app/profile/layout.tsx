@@ -276,25 +276,30 @@ export default function ProfileLayout({ children }: ProfileLayoutProps) {
 
       {/* Mobile Bottom Navigation */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50 safe-area-inset-bottom">
-        <div className="grid grid-cols-5 gap-0.5 px-2 py-2">
+        <div className="grid grid-cols-5 gap-0.5 px-1 py-1.5">
           {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href
+            // Use startsWith so nested routes stay highlighted
+            const isActive = item.href === "/profile"
+              ? pathname === "/profile"
+              : pathname.startsWith(item.href)
             const Icon = item.icon
             return (
               <Link
                 key={item.id}
                 href={item.href}
                 className={cn(
-                  "flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all",
+                  "flex flex-col items-center justify-center py-1.5 px-0.5 rounded-xl transition-all gap-0.5",
                   isActive
-                    ? "text-brand-green bg-brand-green/5"
-                    : "text-gray-600 active:bg-gray-100"
+                    ? "text-brand-green bg-green-50"
+                    : "text-gray-500 active:bg-gray-100"
                 )}
               >
-                <Icon className={cn("w-5 h-5 mb-1", isActive && "scale-110")} />
-                <span className="text-[10px] font-medium leading-tight text-center">{item.label}</span>
+                <Icon className={cn("w-5 h-5 shrink-0", isActive && "scale-110")} />
+                <span className="text-[9px] font-semibold leading-tight text-center line-clamp-1 w-full">
+                  {item.label === "الأمان والخصوصية" ? "الأمان" : item.label}
+                </span>
                 {isActive && (
-                  <div className="w-1 h-1 rounded-full bg-brand-green mt-0.5" />
+                  <div className="w-1 h-1 rounded-full bg-brand-green" />
                 )}
               </Link>
             )

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerClient } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/api/server-utils';
+import { errorResponse } from '@/lib/api/response';
 import { TABLES } from '@/lib/db/schema';
 import type { BookingRequest, BookingResponse } from '@/types/api';
 
@@ -90,9 +91,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (err) {
     console.error('[Booking API Error]:', err);
-    return NextResponse.json(
-      { success: false, error: String(err) },
-      { status: 500 }
-    );
+    return errorResponse(err as Error);
   }
 }

@@ -47,6 +47,19 @@ function TourIcon({ filled }: { filled?: boolean }) {
   );
 }
 
+function BookingsIcon({ filled }: { filled?: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+      <line x1="16" y1="2" x2="16" y2="6"/>
+      <line x1="8" y1="2" x2="8" y2="6"/>
+      <line x1="3" y1="10" x2="21" y2="10"/>
+      <line x1="8" y1="15" x2="10" y2="15"/>
+      <line x1="12" y1="15" x2="16" y2="15"/>
+    </svg>
+  );
+}
+
 function ProfileIcon({ filled }: { filled?: boolean }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -86,10 +99,10 @@ export function BottomNav() {
       labelEn: "Hotels",
     },
     {
-      href: `/${locale}/tours`,
-      icon: (active: boolean) => <TourIcon filled={active} />,
-      labelAr: "رحلات",
-      labelEn: "Tours",
+      href: user ? "/profile/bookings" : "/login?redirect=/profile/bookings",
+      icon: (active: boolean) => <BookingsIcon filled={active} />,
+      labelAr: "حجوزاتي",
+      labelEn: "Bookings",
     },
     {
       href: profileHref,

@@ -35,7 +35,7 @@ export async function PATCH(
   const supabase = getServiceClient();
 
   const { data, error } = await supabase
-    .from("trip_packages")
+    .from("trips")
     .update({
       is_active: body.is_active,
       updated_at: new Date().toISOString(),

@@ -1,28 +1,64 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
+import { Toaster } from "sonner";
+import { CommandPalette } from "@/components/admin/CommandPalette";
+import { KeyboardShortcutsHelp } from "@/components/admin/KeyboardShortcutsHelp";
+import { AdminOnboarding } from "@/components/admin/AdminOnboarding";
+import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
+import { Command, Menu, X, LogOut } from "lucide-react";
+
+const NAV_LINKS = [
+  { href: "/admin",           label: "لوحة التحكم" },
+  { href: "/admin/bookings",  label: "الحجوزات" },
+  { href: "/admin/documents", label: "المستندات" },
+  { href: "/admin/analytics", label: "التحليلات" },
+  { href: "/admin/workflows", label: "سير العمل" },
+  { href: "/admin/visas",     label: "التأشيرات" },
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
+  const router   = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
-  const [checking, setChecking] = useState(true);
-  const [staffInfo, setStaffInfo] = useState<any>(null);
 
-  useEffect(() => {
-    checkAccess();
-  }, []);
+  const [checking,     setChecking]     = useState(true);
+  const [staffInfo,    setStaffInfo]    = useState<any>(null);
+  const [commandOpen,  setCommandOpen]  = useState(false);
+  const [mobileOpen,   setMobileOpen]   = useState(false);
+
+  function isActive(href: string) {
+    return href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
+  }
+
+  function navClass(href: string) {
+    return `text-sm font-medium transition-colors whitespace-nowrap ${
+      isActive(href)
+        ? "text-brand-green border-b-2 border-brand-green pb-0.5"
+        : "text-text-secondary hover:text-brand-green"
+    }`;
+  }
+
+  function mobileNavClass(href: string) {
+    return `flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-colors ${
+      isActive(href)
+        ? "bg-brand-green/10 text-brand-green"
+        : "text-text-secondary hover:bg-muted hover:text-brand-green"
+    }`;
+  }
+
+  useEffect(() => { checkAccess(); }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   async function checkAccess() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      
-      if (!user) {
-        router.push("/admin/login");
-        return;
-      }
+      if (!user) { router.push("/admin/login"); return; }
 
       const { data: staffRecord } = await supabase
         .from("profiles")
@@ -30,16 +66,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         .eq("user_id", user.id)
         .maybeSingle();
 
-      // Check if user has staff role
-      if (!staffRecord || !['admin', 'agent', 'reviewer'].includes(staffRecord.role)) {
+      if (!staffRecord || !["admin", "agent", "reviewer"].includes(staffRecord.role)) {
         router.push("/admin/login");
         return;
       }
 
       setStaffInfo(staffRecord);
       setChecking(false);
-    } catch (err) {
-      console.error("Access check error:", err);
+    } catch {
       router.push("/admin/login");
     }
   }
@@ -49,11 +83,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.push("/admin/login");
   }
 
+  const roleLabel: Record<string, string> = {
+    admin: "مدير", reviewer: "مراجع", agent: "وكيل",
+  };
+
   if (checking) {
     return (
       <div className="min-h-screen bg-bg-alt flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block w-8 h-8 border-4 border-brand-green/30 border-t-brand-green rounded-full animate-spin mb-4"></div>
+          <div className="inline-block w-8 h-8 border-4 border-brand-green/30 border-t-brand-green rounded-full animate-spin mb-4" />
           <p className="text-sm text-text-muted">جاري التحقق من الصلاحيات...</p>
         </div>
       </div>
@@ -62,66 +100,130 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-bg-alt">
-      {/* Admin Header */}
+      <Toaster position="top-center" richColors />
+      <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
+      <KeyboardShortcutsHelp />
+
+      {/* ── Header ─────────────────────────────────────────────── */}
       <header className="bg-white border-b border-border-light sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Link href="/admin/visas" className="flex items-center gap-2">
-                <img 
-                  src="/assets/brand/icone-LOGO.png" 
-                  alt="Spanker Logo" 
-                  className="w-8 h-8 object-contain"
-                />
-                <span className="text-brand-dark font-bold">سبانكر</span>
-              </Link>
-              <span className="text-xs px-2 py-1 rounded-full bg-brand-green/10 text-brand-green font-medium">
+          <div className="flex items-center justify-between h-16 gap-4">
+
+            {/* Logo */}
+            <Link href="/admin" className="flex items-center gap-2 shrink-0">
+              <img
+                src="/assets/brand/icone-LOGO.png"
+                alt="Spanker"
+                className="w-8 h-8 object-contain"
+              />
+              <span className="text-brand-dark font-bold hidden sm:inline">سبانكر</span>
+              <span className="text-xs px-2 py-1 rounded-full bg-brand-green/10 text-brand-green font-medium hidden sm:inline">
                 لوحة الإدارة
               </span>
-            </div>
+            </Link>
 
-            <nav className="flex items-center gap-6">
-              <Link 
-                href="/admin/visas" 
-                className="text-sm text-text-secondary hover:text-brand-green transition-colors font-medium"
-              >
-                إدارة التأشيرات
-              </Link>
-              <Link 
-                href="/admin/bookings/visas" 
-                className="text-sm text-text-secondary hover:text-brand-green transition-colors font-medium"
-              >
-                الحجوزات
-              </Link>
+            {/* Desktop nav — hidden on small screens */}
+            <nav className="hidden lg:flex items-center gap-5 flex-1 justify-center">
+              {NAV_LINKS.map(({ href, label }) => (
+                <Link key={href} href={href} className={navClass(href)}>
+                  {label}
+                </Link>
+              ))}
             </nav>
 
-            <div className="flex items-center gap-3">
-              <div className="text-sm text-right">
-                <p className="font-medium text-text-primary">{staffInfo?.full_name || "موظف"}</p>
+            {/* Right controls */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Command palette trigger — desktop only */}
+              <button
+                onClick={() => setCommandOpen(true)}
+                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border-default hover:bg-muted transition-colors text-sm"
+                title="Ctrl+K"
+              >
+                <Command className="h-4 w-4" />
+                <span className="hidden lg:inline">أوامر سريعة</span>
+                <kbd className="hidden lg:inline-flex h-5 select-none items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium">
+                  Ctrl+K
+                </kbd>
+              </button>
+
+              {/* User info */}
+              <div className="hidden sm:block text-sm text-right leading-tight">
+                <p className="font-medium text-text-primary truncate max-w-[100px]">
+                  {staffInfo?.full_name || "موظف"}
+                </p>
                 <p className="text-xs text-text-muted">
-                  {staffInfo?.role === "admin" ? "مدير" : staffInfo?.role === "reviewer" ? "مراجع" : "وكيل"}
+                  {roleLabel[staffInfo?.role] ?? staffInfo?.role}
                 </p>
               </div>
+
+              {/* Logout */}
               <button
                 onClick={handleLogout}
-                className="px-3 py-2 rounded-lg text-sm text-text-secondary hover:bg-muted transition-colors"
+                className="p-2 rounded-lg text-text-secondary hover:bg-muted hover:text-red-500 transition-colors"
                 title="تسجيل الخروج"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
-                </svg>
+                <LogOut className="h-4 w-4" />
+              </button>
+
+              {/* Hamburger — mobile only */}
+              <button
+                onClick={() => setMobileOpen((v) => !v)}
+                className="lg:hidden p-2 rounded-lg text-text-secondary hover:bg-muted transition-colors"
+                aria-label="فتح القائمة"
+              >
+                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
             </div>
           </div>
         </div>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div className="lg:hidden border-t border-border-light bg-white px-4 pb-4 pt-2 shadow-lg">
+            <nav className="flex flex-col gap-1">
+              {NAV_LINKS.map(({ href, label }) => (
+                <Link key={href} href={href} className={mobileNavClass(href)}>
+                  {label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Command palette trigger inside mobile drawer */}
+            <button
+              onClick={() => { setCommandOpen(true); setMobileOpen(false); }}
+              className="mt-3 flex items-center gap-2 w-full px-4 py-3 rounded-xl border border-border-default text-sm text-text-secondary hover:bg-muted transition-colors"
+            >
+              <Command className="h-4 w-4" />
+              أوامر سريعة
+            </button>
+
+            {/* Mobile user info */}
+            <div className="mt-3 flex items-center justify-between px-4 py-3 bg-muted/50 rounded-xl">
+              <div>
+                <p className="font-medium text-sm">{staffInfo?.full_name || "موظف"}</p>
+                <p className="text-xs text-text-muted">{roleLabel[staffInfo?.role] ?? staffInfo?.role}</p>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                خروج
+              </button>
+            </div>
+          </div>
+        )}
       </header>
 
-      {/* Admin Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* ── Main ───────────────────────────────────────────────── */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Onboarding — shown once on first visit */}
+        <AdminOnboarding />
         {children}
       </main>
+
+      {/* Mobile bottom nav — rendered once here, available on all admin pages */}
+      <MobileBottomNav />
     </div>
   );
 }

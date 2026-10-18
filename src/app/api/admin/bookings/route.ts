@@ -35,21 +35,7 @@ export async function GET(req: NextRequest) {
 
   let query = supabase
     .from("travel_requests")
-    .select(
-      `
-      *,
-      users!bookings_user_id_fkey (
-        id, email, first_name, last_name, phone
-      ),
-      quotations!bookings_quotation_id_fkey (
-        id, total_amount, currency, status
-      ),
-      financial_transactions (
-        id, amount_paid, remaining_balance, payment_method, paid_at
-      )
-      `,
-      { count: "exact" }
-    )
+    .select("*", { count: "exact" })
     .order("created_at", { ascending: false })
     .range(offset, offset + limit - 1);
 

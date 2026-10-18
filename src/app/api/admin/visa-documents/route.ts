@@ -13,32 +13,14 @@ export async function GET(req: NextRequest) {
   const auth = await requireAdminAuth(req);
   if (!auth.ok) return auth.response;
 
-  const { searchParams } = new URL(req.url);
-  const country = searchParams.get("country");
-  const visaTypeId = searchParams.get("visa_type_id");
-
-  const supabase = getServiceClient();
-
-  let query = supabase
-    .from("visa_document_requirements")
-    .select("*")
-    .order("country_code", { ascending: true })
-    .order("sort_order", { ascending: true });
-
-  if (country) query = query.eq("country_code", country.toUpperCase());
-  if (visaTypeId) query = query.eq("visa_type_id", visaTypeId);
-
-  const { data, error } = await query;
-
-  if (error) {
-    console.error("[admin/visa-documents GET]", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to fetch visa document requirements", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data, total: data?.length ?? 0 });
+  // visa_document_requirements table is not yet deployed in the live database.
+  // Return an empty list with a migration notice rather than crashing.
+  return NextResponse.json({
+    success: true,
+    data: [],
+    total: 0,
+    notice: "visa_document_requirements table is pending migration",
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -61,44 +43,9 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const supabase = getServiceClient();
-
-  if (body.visa_type_id) {
-    const { data: visaType } = await supabase
-      .from("visa_types")
-      .select("id")
-      .eq("id", body.visa_type_id as string)
-      .single();
-
-    if (!visaType) {
-      return NextResponse.json(
-        { success: false, error: "visa_type_id does not reference a valid visa type" },
-        { status: 400 }
-      );
-    }
-  }
-
-  const { data, error } = await supabase
-    .from("visa_document_requirements")
-    .insert({
-      country_code: (country_code as string).toUpperCase(),
-      visa_type_id: (body.visa_type_id as string | undefined) ?? null,
-      document_key: document_key as string,
-      document_label: document_label as string,
-      is_required: body.is_required !== undefined ? Boolean(body.is_required) : true,
-      conditions: (body.conditions as Record<string, unknown> | undefined) ?? {},
-      sort_order: body.sort_order != null ? Number(body.sort_order) : 0,
-    } as never)
-    .select()
-    .single();
-
-  if (error) {
-    console.error("[admin/visa-documents POST]", error);
-    return NextResponse.json(
-      { success: false, error: "Failed to create document requirement", details: error.message },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ success: true, data }, { status: 201 });
+  // visa_document_requirements table is not yet deployed.
+  return NextResponse.json(
+    { success: false, error: "visa_document_requirements table is pending migration" },
+    { status: 503 }
+  );
 }

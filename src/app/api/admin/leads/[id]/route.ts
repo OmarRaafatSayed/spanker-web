@@ -25,20 +25,10 @@ export async function GET(
   const { id } = await params;
   const supabase = getServiceClient();
 
-  // Core travel request
+  // Core travel request — no FK to profiles in live schema, fetch plain
   const { data: lead, error: leadError } = await supabase
     .from("travel_requests")
-    .select(
-      `
-      *,
-      profiles!travel_requests_client_user_id_fkey (
-        id, full_name, phone, role, user_id
-      ),
-      assigned_staff:profiles!travel_requests_assigned_staff_id_fkey (
-        id, full_name, phone
-      )
-      `
-    )
+    .select("*")
     .eq("id", id)
     .single();
 
