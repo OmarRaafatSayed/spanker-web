@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     is_active: body.is_active !== undefined ? Boolean(body.is_active) : true,
     description: (body.description as string | null) ?? null,
     source: 'admin',
-    created_by: auth.userId,
+    created_by: auth.userId && auth.userId !== "dev-user" ? auth.userId : null,
   };
 
   const { data, error } = await supabase

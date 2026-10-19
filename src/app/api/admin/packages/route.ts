@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       inclusions:       (body.inclusions as string[] | null | undefined) ?? null,
       exclusions:       (body.exclusions as string[] | null | undefined) ?? null,
       itinerary:        (body.itinerary as unknown[] | null | undefined) ?? null,
-      created_by:       auth.userId,
+      created_by:       auth.userId && auth.userId !== "dev-user" ? auth.userId : null,
       start_date:       (body.start_date as string | undefined) ?? new Date().toISOString().split("T")[0],
       end_date:         (body.end_date as string | undefined) ?? new Date().toISOString().split("T")[0],
     } as never)
