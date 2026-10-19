@@ -14,6 +14,7 @@ import {
   Edit, Power, Wifi, Coffee, Dumbbell, Waves, Car, Utensils,
   ChevronDown, ChevronUp, X, Check, Image, Globe, Calendar, Users,
 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -605,15 +606,12 @@ export default function AdminHotelsPage() {
                       ))}
                     </div>
                   </Field>
-                  <Field label="رابط الصورة الرئيسية">
-                    <div className="flex gap-2">
-                      <input value={form.image_url} onChange={e => setF("image_url", e.target.value)}
-                        placeholder="https://..." className={cn(fieldCls, "flex-1")} />
-                      {form.image_url && (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={form.image_url} alt="" className="w-10 h-10 rounded-lg object-cover border" />
-                      )}
-                    </div>
+                  <Field label="صورة الغلاف">
+                    <ImageUploader
+                      value={form.image_url ?? ""}
+                      onChange={url => setF("image_url", url)}
+                      bucket="hotels"
+                    />
                   </Field>
                 </div>
               </FormSection>

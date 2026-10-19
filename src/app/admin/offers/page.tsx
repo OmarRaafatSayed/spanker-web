@@ -12,6 +12,7 @@ import {
   Tag, Plus, Search, RefreshCw, Edit, Power, Trash2,
   X, AlertTriangle, Loader2, Eye, EyeOff,
 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -492,14 +493,15 @@ export default function AdminOffersPage() {
                 <input type="date" value={form.end_date ?? ""} onChange={e => setF("end_date", e.target.value || null)} className={iCls} />
               </div>
 
-              {/* Image URL */}
+              {/* Image upload */}
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-text-secondary mb-1.5">رابط صورة الغلاف</label>
-                <div className="flex gap-2">
-                  <input value={form.image_url ?? ""} onChange={e => setF("image_url", e.target.value)}
-                    placeholder="https://... (اتركه فارغاً لاستخدام الإيموجي)" className={cn(iCls, "flex-1")} />
-                  {form.image_url && <img src={form.image_url as string} alt="" className="w-10 h-10 rounded-lg object-cover border shrink-0" />}
-                </div>
+                <ImageUploader
+                  value={form.image_url ?? ""}
+                  onChange={url => setF("image_url", url)}
+                  bucket="offers"
+                  label="صورة الغلاف"
+                  hint="اتركها فارغة لاستخدام الإيموجي"
+                />
               </div>
 
               {/* Includes */}

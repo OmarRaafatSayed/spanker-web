@@ -14,6 +14,7 @@ import {
   Users, ChevronDown, ChevronUp, Plane, Flag, FileSpreadsheet,
   Info, CheckCircle2, XCircle, Loader2, Eye, Star,
 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 // ─── Meta pack/unpack ─────────────────────────────────────────────────────────
 
@@ -620,11 +621,12 @@ export default function AdminPackagesPage() {
                     <F label="نقطة التجمع">
                       <input value={form.meeting_point} onChange={e => setF("meeting_point", e.target.value)} placeholder="مطار القاهرة — صالة 2" className={iCls} />
                     </F>
-                    <F label="رابط صورة الغلاف">
-                      <div className="flex gap-2">
-                        <input value={form.image_url} onChange={e => setF("image_url", e.target.value)} placeholder="https://..." className={cn(iCls, "flex-1")} />
-                        {form.image_url && <img src={form.image_url} alt="" className="w-10 h-10 rounded-lg object-cover border shrink-0" />}
-                      </div>
+                    <F label="صورة الغلاف" className="sm:col-span-2">
+                      <ImageUploader
+                        value={form.image_url ?? ""}
+                        onChange={url => setF("image_url", url)}
+                        bucket="packages"
+                      />
                     </F>
                     <F label="الكلمات الدلالية" className="sm:col-span-2">
                       <input value={form.tags} onChange={e => setF("tags", e.target.value)} placeholder="ثقافية, عائلية (مفصولة بفاصلة)" className={iCls} />
