@@ -23,6 +23,7 @@ const PRIMARY_LINKS = [
 const MORE_LINKS = [
   { href: '/admin/hotels',        label: 'الفنادق' },
   { href: '/admin/leads',         label: 'العملاء' },
+  { href: '/admin/offers',        label: 'العروض' },
   { href: '/admin/workflows',     label: 'سير العمل' },
   { href: '/admin/visas',         label: 'التأشيرات' },
   { href: '/admin/my-assignments',label: 'حجوزاتي' },

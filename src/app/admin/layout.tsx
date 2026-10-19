@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { href: "/admin/leads",        label: "العملاء المحتملون" },
   { href: "/admin/hotels",       label: "الفنادق" },
   { href: "/admin/packages",     label: "الرحلات" },
+  { href: "/admin/offers",       label: "العروض الخاصة" },
   { href: "/admin/documents",    label: "المستندات" },
   { href: "/admin/analytics",    label: "التحليلات" },
   { href: "/admin/workflows",    label: "سير العمل" },
