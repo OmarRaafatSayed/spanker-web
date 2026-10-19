@@ -9,77 +9,60 @@ import { CommandPalette } from "@/components/admin/CommandPalette";
 import { KeyboardShortcutsHelp } from "@/components/admin/KeyboardShortcutsHelp";
 import { AdminOnboarding } from "@/components/admin/AdminOnboarding";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
-import { Command, Menu, X, LogOut } from "lucide-react";
+import {
+  Command, Menu, X, LogOut,
+  LayoutDashboard, BookOpen, Users, Hotel,
+  Map, Tag, FileText, BarChart3, Settings2,
+  ShieldCheck, ChevronLeft,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
-  { href: "/admin",              label: "لوحة التحكم" },
-  { href: "/admin/bookings",     label: "الحجوزات" },
-  { href: "/admin/leads",        label: "العملاء المحتملون" },
-  { href: "/admin/hotels",       label: "الفنادق" },
-  { href: "/admin/packages",     label: "الرحلات" },
-  { href: "/admin/offers",       label: "العروض الخاصة" },
-  { href: "/admin/documents",    label: "المستندات" },
-  { href: "/admin/analytics",    label: "التحليلات" },
-  { href: "/admin/workflows",    label: "سير العمل" },
-  { href: "/admin/visas",        label: "التأشيرات" },
+  { href: "/admin",              label: "لوحة التحكم",       icon: LayoutDashboard },
+  { href: "/admin/bookings",     label: "الحجوزات",          icon: BookOpen },
+  { href: "/admin/leads",        label: "العملاء المحتملون", icon: Users },
+  { href: "/admin/hotels",       label: "الفنادق",           icon: Hotel },
+  { href: "/admin/packages",     label: "الرحلات",           icon: Map },
+  { href: "/admin/offers",       label: "العروض الخاصة",     icon: Tag },
+  { href: "/admin/documents",    label: "المستندات",         icon: FileText },
+  { href: "/admin/analytics",    label: "التحليلات",         icon: BarChart3 },
+  { href: "/admin/workflows",    label: "سير العمل",         icon: Settings2 },
+  { href: "/admin/visas",        label: "التأشيرات",         icon: ShieldCheck },
 ];
+
+const SIDEBAR_W = "w-60";  // expanded width
+const SIDEBAR_W_COL = "w-16"; // collapsed width
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router   = useRouter();
   const pathname = usePathname();
   const supabase = createClient();
 
-  const [checking,     setChecking]     = useState(true);
-  const [staffInfo,    setStaffInfo]    = useState<any>(null);
-  const [commandOpen,  setCommandOpen]  = useState(false);
-  const [mobileOpen,   setMobileOpen]   = useState(false);
+  const [checking,    setChecking]    = useState(true);
+  const [staffInfo,   setStaffInfo]   = useState<{ full_name?: string; role?: string } | null>(null);
+  const [commandOpen, setCommandOpen] = useState(false);
+  const [mobileOpen,  setMobileOpen]  = useState(false);
+  const [collapsed,   setCollapsed]   = useState(false);
 
   function isActive(href: string) {
     return href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
   }
 
-  function navClass(href: string) {
-    return `text-sm font-medium transition-colors whitespace-nowrap ${
-      isActive(href)
-        ? "text-brand-green border-b-2 border-brand-green pb-0.5"
-        : "text-text-secondary hover:text-brand-green"
-    }`;
-  }
-
-  function mobileNavClass(href: string) {
-    return `flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-colors ${
-      isActive(href)
-        ? "bg-brand-green/10 text-brand-green"
-        : "text-text-secondary hover:bg-muted hover:text-brand-green"
-    }`;
-  }
-
   useEffect(() => { checkAccess(); }, []);
-
-  // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
   async function checkAccess() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) { router.push("/admin/login"); return; }
-
       const { data: staffRecord } = await supabase
-        .from("profiles")
-        .select("role, full_name")
-        .eq("user_id", user.id)
-        .maybeSingle();
-
+        .from("profiles").select("role, full_name").eq("user_id", user.id).maybeSingle();
       if (!staffRecord || !["admin", "agent", "reviewer"].includes(staffRecord.role)) {
-        router.push("/admin/login");
-        return;
+        router.push("/admin/login"); return;
       }
-
       setStaffInfo(staffRecord);
       setChecking(false);
-    } catch {
-      router.push("/admin/login");
-    }
+    } catch { router.push("/admin/login"); }
   }
 
   async function handleLogout() {
@@ -103,130 +86,188 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-bg-alt">
+    <div className="min-h-screen bg-bg-alt" dir="rtl">
       <Toaster position="top-center" richColors />
       <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
       <KeyboardShortcutsHelp />
 
-      {/* ── Header ─────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-border-light sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 gap-4">
+      {/* ─────────────────────────────────────────────────────────────────
+          DESKTOP SIDEBAR  (hidden on mobile — lg:flex)
+          ───────────────────────────────────────────────────────────────── */}
+      <aside className={cn(
+        "hidden lg:flex flex-col fixed top-0 right-0 bottom-0 z-40",
+        "bg-white border-l border-border-light shadow-sm",
+        "transition-all duration-200 ease-in-out",
+        collapsed ? SIDEBAR_W_COL : SIDEBAR_W
+      )}>
 
-            {/* Logo */}
-            <Link href="/admin" className="flex items-center gap-2 shrink-0">
-              <img
-                src="/assets/brand/icone-LOGO.png"
-                alt="Spanker"
-                className="w-8 h-8 object-contain"
-              />
-              <span className="text-brand-dark font-bold hidden sm:inline">سبانكر</span>
-              <span className="text-xs px-2 py-1 rounded-full bg-brand-green/10 text-brand-green font-medium hidden sm:inline">
-                لوحة الإدارة
-              </span>
-            </Link>
+        {/* Logo */}
+        <div className={cn(
+          "flex items-center gap-2.5 h-16 px-4 border-b border-border-light shrink-0",
+          collapsed && "justify-center px-0"
+        )}>
+          <img src="/assets/brand/icone-LOGO.png" alt="Spanker" className="w-8 h-8 object-contain shrink-0" />
+          {!collapsed && (
+            <div className="overflow-hidden">
+              <p className="font-black text-brand-dark text-sm leading-tight">سبانكر</p>
+              <p className="text-[10px] text-brand-green font-semibold">لوحة الإدارة</p>
+            </div>
+          )}
+        </div>
 
-            {/* Desktop nav — hidden on small screens */}
-            <nav className="hidden lg:flex items-center gap-5 flex-1 justify-center">
-              {NAV_LINKS.map(({ href, label }) => (
-                <Link key={href} href={href} className={navClass(href)}>
-                  {label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Right controls */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Command palette trigger — desktop only */}
-              <button
-                onClick={() => setCommandOpen(true)}
-                className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border-default hover:bg-muted transition-colors text-sm"
-                title="Ctrl+K"
+        {/* Nav links */}
+        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+          {NAV_LINKS.map(({ href, label, icon: Icon }) => {
+            const active = isActive(href);
+            return (
+              <Link
+                key={href}
+                href={href}
+                title={collapsed ? label : undefined}
+                className={cn(
+                  "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all group",
+                  active
+                    ? "bg-brand-green text-white shadow-sm"
+                    : "text-text-secondary hover:bg-brand-green/8 hover:text-brand-green",
+                  collapsed && "justify-center px-0"
+                )}
               >
-                <Command className="h-4 w-4" />
-                <span className="hidden lg:inline">أوامر سريعة</span>
-                <kbd className="hidden lg:inline-flex h-5 select-none items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium">
-                  Ctrl+K
-                </kbd>
-              </button>
+                <Icon className={cn("w-5 h-5 shrink-0", active ? "text-white" : "text-text-muted group-hover:text-brand-green")} />
+                {!collapsed && <span className="truncate">{label}</span>}
+              </Link>
+            );
+          })}
+        </nav>
 
-              {/* User info */}
-              <div className="hidden sm:block text-sm text-right leading-tight">
-                <p className="font-medium text-text-primary truncate max-w-[100px]">
-                  {staffInfo?.full_name || "موظف"}
-                </p>
-                <p className="text-xs text-text-muted">
-                  {roleLabel[staffInfo?.role] ?? staffInfo?.role}
-                </p>
+        {/* Bottom: user + collapse toggle */}
+        <div className="border-t border-border-light px-2 py-3 space-y-1 shrink-0">
+          {/* Command palette */}
+          <button
+            onClick={() => setCommandOpen(true)}
+            title={collapsed ? "أوامر سريعة" : undefined}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-3 py-2.5 w-full text-sm font-medium transition-all",
+              "text-text-secondary hover:bg-muted hover:text-brand-green",
+              collapsed && "justify-center px-0"
+            )}
+          >
+            <Command className="w-5 h-5 shrink-0 text-text-muted" />
+            {!collapsed && (
+              <span className="flex-1 text-right">أوامر سريعة</span>
+            )}
+            {!collapsed && (
+              <kbd className="hidden xl:inline-flex h-5 select-none items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-medium">
+                Ctrl+K
+              </kbd>
+            )}
+          </button>
+
+          {/* User info */}
+          {!collapsed && (
+            <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-muted/50">
+              <div className="w-8 h-8 rounded-full bg-brand-green/20 flex items-center justify-center text-brand-green font-bold text-sm shrink-0">
+                {(staffInfo?.full_name ?? "م")[0]}
               </div>
-
-              {/* Logout */}
-              <button
-                onClick={handleLogout}
-                className="p-2 rounded-lg text-text-secondary hover:bg-muted hover:text-red-500 transition-colors"
-                title="تسجيل الخروج"
-              >
-                <LogOut className="h-4 w-4" />
-              </button>
-
-              {/* Hamburger — mobile only */}
-              <button
-                onClick={() => setMobileOpen((v) => !v)}
-                className="lg:hidden p-2 rounded-lg text-text-secondary hover:bg-muted transition-colors"
-                aria-label="فتح القائمة"
-              >
-                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-text-primary truncate">{staffInfo?.full_name ?? "موظف"}</p>
+                <p className="text-xs text-text-muted">{roleLabel[staffInfo?.role ?? ""] ?? staffInfo?.role}</p>
+              </div>
+              <button onClick={handleLogout} title="تسجيل الخروج"
+                className="p-1.5 rounded-lg text-text-muted hover:text-red-500 hover:bg-red-50 transition-all">
+                <LogOut className="w-4 h-4" />
               </button>
             </div>
+          )}
+
+          {collapsed && (
+            <button onClick={handleLogout} title="تسجيل الخروج"
+              className="flex items-center justify-center w-full py-2 rounded-xl text-text-muted hover:text-red-500 hover:bg-red-50 transition-all">
+              <LogOut className="w-5 h-5" />
+            </button>
+          )}
+
+          {/* Collapse toggle */}
+          <button
+            onClick={() => setCollapsed(v => !v)}
+            className={cn(
+              "flex items-center gap-3 rounded-xl px-3 py-2 w-full text-xs font-medium transition-all",
+              "text-text-muted hover:bg-muted hover:text-text-secondary",
+              collapsed && "justify-center px-0"
+            )}
+          >
+            <ChevronLeft className={cn("w-4 h-4 transition-transform", collapsed && "rotate-180")} />
+            {!collapsed && <span>طي القائمة</span>}
+          </button>
+        </div>
+      </aside>
+
+      {/* ─────────────────────────────────────────────────────────────────
+          MOBILE TOPBAR  (only on mobile — lg:hidden)
+          ───────────────────────────────────────────────────────────────── */}
+      <header className="lg:hidden bg-white border-b border-border-light sticky top-0 z-40">
+        <div className="px-4 h-14 flex items-center justify-between gap-3">
+          <Link href="/admin" className="flex items-center gap-2">
+            <img src="/assets/brand/icone-LOGO.png" alt="Spanker" className="w-7 h-7 object-contain" />
+            <span className="font-bold text-brand-dark text-sm">سبانكر</span>
+          </Link>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setCommandOpen(true)}
+              className="p-2 rounded-lg text-text-secondary hover:bg-muted transition-all">
+              <Command className="w-5 h-5" />
+            </button>
+            <button onClick={() => setMobileOpen(v => !v)}
+              className="p-2 rounded-lg text-text-secondary hover:bg-muted transition-all">
+              {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
 
-        {/* Mobile drawer */}
+        {/* Mobile dropdown */}
         {mobileOpen && (
-          <div className="lg:hidden border-t border-border-light bg-white px-4 pb-4 pt-2 shadow-lg">
+          <div className="border-t border-border-light bg-white px-4 pb-4 pt-2 shadow-lg">
             <nav className="flex flex-col gap-1">
-              {NAV_LINKS.map(({ href, label }) => (
-                <Link key={href} href={href} className={mobileNavClass(href)}>
+              {NAV_LINKS.map(({ href, label, icon: Icon }) => (
+                <Link key={href} href={href}
+                  className={cn(
+                    "flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-xl transition-all",
+                    isActive(href)
+                      ? "bg-brand-green/10 text-brand-green"
+                      : "text-text-secondary hover:bg-muted hover:text-brand-green"
+                  )}>
+                  <Icon className="w-4 h-4 shrink-0" />
                   {label}
                 </Link>
               ))}
             </nav>
-
-            {/* Command palette trigger inside mobile drawer */}
-            <button
-              onClick={() => { setCommandOpen(true); setMobileOpen(false); }}
-              className="mt-3 flex items-center gap-2 w-full px-4 py-3 rounded-xl border border-border-default text-sm text-text-secondary hover:bg-muted transition-colors"
-            >
-              <Command className="h-4 w-4" />
-              أوامر سريعة
-            </button>
-
-            {/* Mobile user info */}
             <div className="mt-3 flex items-center justify-between px-4 py-3 bg-muted/50 rounded-xl">
               <div>
-                <p className="font-medium text-sm">{staffInfo?.full_name || "موظف"}</p>
-                <p className="text-xs text-text-muted">{roleLabel[staffInfo?.role] ?? staffInfo?.role}</p>
+                <p className="font-medium text-sm">{staffInfo?.full_name ?? "موظف"}</p>
+                <p className="text-xs text-text-muted">{roleLabel[staffInfo?.role ?? ""] ?? staffInfo?.role}</p>
               </div>
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 transition-colors"
-              >
-                <LogOut className="h-4 w-4" />
-                خروج
+              <button onClick={handleLogout}
+                className="flex items-center gap-1.5 text-sm text-red-500 hover:text-red-600 transition-colors">
+                <LogOut className="w-4 h-4" /> خروج
               </button>
             </div>
           </div>
         )}
       </header>
 
-      {/* ── Main ───────────────────────────────────────────────── */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Onboarding — shown once on first visit */}
+      {/* ─────────────────────────────────────────────────────────────────
+          MAIN CONTENT — offset by sidebar width on desktop
+          ───────────────────────────────────────────────────────────────── */}
+      <main className={cn(
+        "transition-all duration-200 ease-in-out",
+        // On desktop: push content left to make room for the sidebar (sidebar is on the RIGHT in RTL)
+        collapsed ? "lg:mr-16" : "lg:mr-60",
+        // Padding
+        "px-4 sm:px-6 py-6 pb-24 lg:pb-6"
+      )}>
         <AdminOnboarding />
         {children}
       </main>
 
-      {/* Mobile bottom nav — rendered once here, available on all admin pages */}
+      {/* Mobile bottom nav */}
       <MobileBottomNav />
     </div>
   );
