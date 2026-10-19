@@ -9,6 +9,7 @@ import { CommandPalette } from "@/components/admin/CommandPalette";
 import { KeyboardShortcutsHelp } from "@/components/admin/KeyboardShortcutsHelp";
 import { AdminOnboarding } from "@/components/admin/AdminOnboarding";
 import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
+import { FeatureTour, TourTrigger } from "@/components/admin/FeatureTour";
 import {
   Command, Menu, X, LogOut,
   LayoutDashboard, BookOpen, Users, Hotel,
@@ -60,7 +61,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (!staffRecord || !["admin", "agent", "reviewer"].includes(staffRecord.role)) {
         router.push("/admin/login"); return;
       }
-      setStaffInfo(staffRecord);
+      setStaffInfo({ full_name: staffRecord.full_name ?? undefined, role: staffRecord.role ?? undefined });
       setChecking(false);
     } catch { router.push("/admin/login"); }
   }
@@ -187,17 +188,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           )}
 
           {/* Collapse toggle */}
-          <button
-            onClick={() => setCollapsed(v => !v)}
-            className={cn(
-              "flex items-center gap-3 rounded-xl px-3 py-2 w-full text-xs font-medium transition-all",
-              "text-text-muted hover:bg-muted hover:text-text-secondary",
-              collapsed && "justify-center px-0"
-            )}
-          >
-            <ChevronLeft className={cn("w-4 h-4 transition-transform", collapsed && "rotate-180")} />
-            {!collapsed && <span>طي القائمة</span>}
-          </button>
+          <div className="flex items-center gap-1">
+            <TourTrigger pathname={pathname} className="flex-1 justify-start" />
+            <button
+              onClick={() => setCollapsed(v => !v)}
+              className={cn(
+                "flex items-center gap-3 rounded-xl px-3 py-2 flex-1 text-xs font-medium transition-all",
+                "text-text-muted hover:bg-muted hover:text-text-secondary",
+                collapsed && "justify-center px-0"
+              )}
+            >
+              <ChevronLeft className={cn("w-4 h-4 transition-transform", collapsed && "rotate-180")} />
+              {!collapsed && <span>طي القائمة</span>}
+            </button>
+          </div>
         </div>
       </aside>
 
@@ -269,6 +273,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Mobile bottom nav */}
       <MobileBottomNav />
+
+      {/* Feature tour — shows once per section */}
+      <FeatureTour pathname={pathname} />
     </div>
   );
 }
