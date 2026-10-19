@@ -49,9 +49,11 @@ export default function ToursPage() {
   }, []);
 
   const filtered = trips.filter((t) => {
-    const matchSearch = !searchText || t.title_ar.includes(searchText) || t.destination.includes(searchText);
-    if (category === "local")    return matchSearch && t.country === "مصر";
-    if (category === "intl")     return matchSearch && t.country !== "مصر";
+    const matchSearch = !searchText || 
+      (t.title_ar && t.title_ar.includes(searchText)) || 
+      (t.destination && t.destination.includes(searchText));
+    if (category === "local")    return matchSearch && (t.is_domestic === true || t.country === "مصر");
+    if (category === "intl")     return matchSearch && (t.is_domestic !== true && t.country !== "مصر");
     if (category === "featured") return matchSearch && t.is_featured;
     return matchSearch;
   });
