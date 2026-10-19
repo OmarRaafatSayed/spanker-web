@@ -81,30 +81,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { title, description, destination, price, duration } = body;
+  // Accept both old shape (title/price/duration) and new shape (name/price_per_person/duration_days)
+  const name        = (body.name ?? body.title) as string | undefined;
+  const destination = body.destination as string | undefined;
+  const price       = body.price_per_person ?? body.price;
+  const duration    = body.duration_days ?? body.duration;
 
-  if (!title || !description || !destination || price == null || duration == null) {
+  if (!name || !destination || price == null || !duration) {
     return NextResponse.json(
-      {
-        success: false,
-        error: "Missing required fields: title, description, destination, price, duration",
-      },
+      { success: false, error: "Missing required fields: name, destination, price_per_person, duration_days" },
       { status: 400 }
     );
   }
 
   if (Number(price) <= 0) {
-    return NextResponse.json(
-      { success: false, error: "price must be greater than 0" },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: false, error: "price must be greater than 0" }, { status: 400 });
   }
 
   if (Number(duration) <= 0) {
-    return NextResponse.json(
-      { success: false, error: "duration must be greater than 0" },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: false, error: "duration must be greater than 0" }, { status: 400 });
   }
 
   const supabase = getServiceClient();
@@ -112,17 +107,23 @@ export async function POST(req: NextRequest) {
   const { data, error } = await supabase
     .from(TABLES.trips)
     .insert({
-      name:          title as string,
-      description:   description as string,
-      destination:   destination as string,
+      name:             name,
+      description:      (body.description as string | undefined) ?? null,
+      destination:      destination,
       price_per_person: Number(price),
-      currency:      (body.currency as string | undefined) ?? "EGP",
-      duration_days: Number(duration),
-      is_active:     body.is_active !== undefined ? Boolean(body.is_active) : true,
-      created_by:    auth.userId,
-      start_date:    (body.start_date as string | undefined) ?? new Date().toISOString().split("T")[0],
-      end_date:      (body.end_date as string | undefined) ?? new Date().toISOString().split("T")[0],
-    })
+      currency:         (body.currency as string | undefined) ?? "EGP",
+      duration_days:    Number(duration),
+      is_active:        body.is_active !== undefined ? Boolean(body.is_active) : true,
+      is_public:        body.is_public !== undefined ? Boolean(body.is_public) : true,
+      available_spots:  body.available_spots != null ? Number(body.available_spots) : 20,
+      max_travelers:    body.max_travelers != null ? Number(body.max_travelers) : 25,
+      inclusions:       (body.inclusions as string[] | null | undefined) ?? null,
+      exclusions:       (body.exclusions as string[] | null | undefined) ?? null,
+      itinerary:        (body.itinerary as unknown[] | null | undefined) ?? null,
+      created_by:       auth.userId,
+      start_date:       (body.start_date as string | undefined) ?? new Date().toISOString().split("T")[0],
+      end_date:         (body.end_date as string | undefined) ?? new Date().toISOString().split("T")[0],
+    } as never)
     .select()
     .single();
 

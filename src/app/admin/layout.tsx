@@ -12,12 +12,15 @@ import { MobileBottomNav } from "@/components/admin/MobileBottomNav";
 import { Command, Menu, X, LogOut } from "lucide-react";
 
 const NAV_LINKS = [
-  { href: "/admin",           label: "لوحة التحكم" },
-  { href: "/admin/bookings",  label: "الحجوزات" },
-  { href: "/admin/documents", label: "المستندات" },
-  { href: "/admin/analytics", label: "التحليلات" },
-  { href: "/admin/workflows", label: "سير العمل" },
-  { href: "/admin/visas",     label: "التأشيرات" },
+  { href: "/admin",              label: "لوحة التحكم" },
+  { href: "/admin/bookings",     label: "الحجوزات" },
+  { href: "/admin/leads",        label: "العملاء المحتملون" },
+  { href: "/admin/hotels",       label: "الفنادق" },
+  { href: "/admin/packages",     label: "الرحلات" },
+  { href: "/admin/documents",    label: "المستندات" },
+  { href: "/admin/analytics",    label: "التحليلات" },
+  { href: "/admin/workflows",    label: "سير العمل" },
+  { href: "/admin/visas",        label: "التأشيرات" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

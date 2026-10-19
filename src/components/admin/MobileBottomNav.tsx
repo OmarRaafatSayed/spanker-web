@@ -8,20 +8,24 @@ import {
   FileText,
   BarChart3,
   MoreHorizontal,
+  Map,
 } from 'lucide-react';
 import { useState } from 'react';
 
 const PRIMARY_LINKS = [
   { href: '/admin',           icon: LayoutDashboard, label: 'الرئيسية' },
   { href: '/admin/bookings',  icon: Package,         label: 'الحجوزات' },
+  { href: '/admin/packages',  icon: Map,             label: 'الرحلات' },
   { href: '/admin/documents', icon: FileText,        label: 'المستندات' },
   { href: '/admin/analytics', icon: BarChart3,       label: 'التحليلات' },
 ];
 
 const MORE_LINKS = [
-  { href: '/admin/workflows',      label: 'سير العمل' },
-  { href: '/admin/visas',          label: 'التأشيرات' },
-  { href: '/admin/my-assignments', label: 'حجوزاتي' },
+  { href: '/admin/hotels',        label: 'الفنادق' },
+  { href: '/admin/leads',         label: 'العملاء' },
+  { href: '/admin/workflows',     label: 'سير العمل' },
+  { href: '/admin/visas',         label: 'التأشيرات' },
+  { href: '/admin/my-assignments',label: 'حجوزاتي' },
 ];
 
 export function MobileBottomNav() {
