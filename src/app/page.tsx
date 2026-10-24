@@ -1,10 +1,10 @@
-import { Navbar } from "@/components/layout/Navbar";
+import { TopBar } from "@/components/layout/TopBar";
 import { Footer } from "@/components/layout/Footer";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { PageLoader } from "@/components/ui/PageLoader";
 import { HeroBanner } from "@/components/home/HeroBanner";
+import { AiTripPlannerSection } from "@/components/home/AiTripPlannerSection";
 import { FlyingServiceSection } from "@/components/home/FlyingServiceSection";
-import { StatsSection } from "@/components/home/StatsSection";
 import { SpecialOffersSection } from "@/components/home/SpecialOffersSection";
 import { BookingProcessSection } from "@/components/home/BookingProcessSection";
 import { HotelServiceSection } from "@/components/home/HotelServiceSection";
@@ -17,22 +17,19 @@ export default function Home() {
   return (
     <>
       <PageLoader />
-      <Navbar />
-      {/* pt-16 accounts for fixed navbar height (h-16) */}
-      <main className="pt-16 pb-20 lg:pb-0 overflow-x-hidden w-full max-w-full">
-        {/* 1 — Hero (transparent/dark image bg) */}
+      <TopBar />
+      {/* Hero starts from very top — navbar floats over it */}
+      <main className="pt-0 pb-20 lg:pb-0 overflow-x-hidden w-full max-w-full">
+        {/* 1 — Hero (navbar floats over this) */}
         <HeroBanner />
 
-        {/* Hero → FlyingService: dark bg slides in */}
-        <SectionDivider from="dark" to="dark" variant="wave" />
+        {/* 2 — AI Trip Planner */}
+        <AiTripPlannerSection />
+
+        {/* Hero → FlyingService: no dark divider needed */}
         <FlyingServiceSection />
 
-        {/* FlyingService → Stats: wave up */}
-        <SectionDivider from="dark" to="green-dark" variant="tilt" flip />
-        <StatsSection />
-
-        {/* Stats → SpecialOffers: curve down */}
-        <SectionDivider from="green-dark" to="dark" variant="curve" />
+        {/* FlyingService → SpecialOffers */}
         <SpecialOffersSection />
 
         {/* SpecialOffers → BookingProcess */}
@@ -40,19 +37,13 @@ export default function Home() {
         <BookingProcessSection />
 
         {/* BookingProcess → HotelService */}
-        <SectionDivider from="green-dark" to="dark" variant="tilt" />
         <HotelServiceSection />
 
         {/* HotelService → Testimonials */}
-        <SectionDivider from="dark" to="dark" variant="zigzag" />
         <TestimonialsSection />
 
-        {/* Testimonials → TravelNews */}
-        <SectionDivider from="dark" to="green-dark" variant="curve" flip />
         <TravelNewsSection />
 
-        {/* TravelNews → FAQ */}
-        <SectionDivider from="green-dark" to="dark" variant="wave" />
         <FAQSection />
       </main>
       <Footer />

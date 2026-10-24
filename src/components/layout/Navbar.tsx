@@ -125,12 +125,13 @@ function Dropdown({ item, id }: { item: NavItem; id: string }) {
         aria-haspopup="true"
         aria-controls={`${id}-menu`}
         className={cn(
-          "flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-lg",
-          "transition-colors whitespace-nowrap",
+          "flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-full",
+          "transition-all whitespace-nowrap",
           open
-            ? "text-white bg-white/15"
-            : "text-white/90 hover:text-white hover:bg-white/10"
+            ? "bg-white/25"
+            : "hover:bg-white/20"
         )}
+        style={{ color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}
       >
         {item.label}
         <Chevron open={open} />
@@ -148,14 +149,15 @@ function Dropdown({ item, id }: { item: NavItem; id: string }) {
             : "opacity-0 scale-95 -translate-y-1 pointer-events-none"
         )}
       >
-        <div className="bg-[#1a3a1f] border border-white/15 rounded-xl shadow-2xl overflow-hidden py-1">
+        <div className="bg-white border border-[#3D6833]/15 rounded-xl shadow-2xl overflow-hidden py-2">
           {item.links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               role="menuitem"
               onClick={() => setOpen(false)}
-              className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+              className="block px-4 py-3 text-sm font-medium transition-all hover:bg-[#3D6833]/08"
+              style={{ color: "#1b4332" }}
             >
               {link.label}
             </Link>
@@ -166,7 +168,7 @@ function Dropdown({ item, id }: { item: NavItem; id: string }) {
   );
 }
 
-export function Navbar() {
+export function Navbar({ announcementH = 0 }: { announcementH?: number }) {
   const { t, locale, toggleLocale } = useI18n();
   const { user, logout } = useAuth();
   const pathname = usePathname();
@@ -175,22 +177,14 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const [loginOpen, setLoginOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   const isRtl = locale === "ar";
-  const userName = (user as { first_name?: string; email: string } | null);
+  const userName = (user as { first_name?: string; email: string; avatar_url?: string | null } | null);
 
   useEffect(() => {
     setMobileOpen(false);
     setMobileExpanded(null);
   }, [pathname]);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 10);
-    fn();
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -210,146 +204,179 @@ export function Navbar() {
     <>
       <header
         dir={isRtl ? "rtl" : "ltr"}
-        className={cn(
-          "fixed top-0 inset-x-0 z-[100] h-16 bg-brand-dark",
-          "transition-shadow duration-300",
-          scrolled && "shadow-lg shadow-black/30"
-        )}
+        className="fixed inset-x-0 z-[100] pointer-events-none"
+        style={{ top: announcementH + 12 }}
       >
-        <div className="max-w-7xl mx-auto h-full px-2 sm:px-4 lg:px-8 flex items-center justify-between gap-2">
-          <Link href={`/${locale}`} className="shrink-0 hover:opacity-85 transition-opacity">
-            <Image
-              src="/width-logo.png"
-              alt="Spanker"
-              width={100}
-              height={34}
-              priority
-              className="h-8 sm:h-9 w-auto object-contain"
-            />
-          </Link>
-
-          <nav
-            aria-label="Main navigation"
-            className="hidden lg:flex items-center gap-0.5 flex-1 justify-center min-w-0"
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Floating pill */}
+          <div
+            className="pointer-events-auto flex items-center justify-between h-14 gap-4 px-4 sm:px-5"
+            style={{
+              borderRadius: "9999px",
+              background: "rgba(255,255,255,0.10)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+              border: "1px solid rgba(255,255,255,0.20)",
+              boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+            }}
           >
-            {navItems.map((item, i) =>
-              item.links?.length ? (
-                <Dropdown key={item.label} item={item} id={`nav-dd-${i}`} />
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href!}
-                  className={cn(
-                    "px-3 py-2 text-sm font-medium rounded-lg transition-colors whitespace-nowrap",
-                    pathname === item.href
-                      ? "text-white bg-white/15"
-                      : "text-white/90 hover:text-white hover:bg-white/10"
-                  )}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </nav>
-
-          <div className="flex items-center justify-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={toggleLocale}
-              className="h-8 px-3 rounded-full border border-white/25 text-xs font-bold text-white hover:bg-white/10 transition-colors"
-              aria-label={isRtl ? "Switch to English" : "??????? ???????"}
+            {/* Logo */}
+            <Link 
+              href={`/${locale}`} 
+              className="shrink-0 hover:opacity-90 transition-opacity"
             >
-              {isRtl ? "EN" : "?"}
-            </button>
+              <Image
+                src="/width-logo.png"
+                alt="Spanker"
+                width={120}
+                height={40}
+                priority
+                className="h-9 sm:h-10 w-auto object-contain"
+              />
+            </Link>
 
-            {user ? (
-              <div className="relative group">
-                <Link
-                  href="/profile"
-                  className="flex items-center gap-2 h-9 px-3 rounded-lg border border-white/25 hover:bg-white/10 transition-colors"
-                >
-                  <div className="w-7 h-7 rounded-full bg-brand-green flex items-center justify-center text-sm font-bold text-white">
-                    {(userName?.first_name?.[0] ?? userName?.email?.[0] ?? 'U').toUpperCase()}
-                  </div>
-                  <span className="hidden sm:inline text-sm text-white/90 max-w-[120px] truncate">
-                    {userName?.first_name ?? userName?.email}
-                  </span>
-                </Link>
-                <div className="absolute end-0 top-full pt-2 hidden group-hover:block z-50">
-                  <div className="bg-[#1a3a1f] border border-white/15 rounded-xl shadow-2xl overflow-hidden py-1 min-w-[180px]">
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2.5 text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
-                    >
-                      {isRtl ? 'الملف الشخصي' : 'Profile'}
-                    </Link>
-                    <div className="h-px bg-white/10 my-1" />
-                    <button
-                      type="button"
-                      onClick={logout}
-                      className="w-full text-start px-4 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 transition-colors"
-                    >
-                      {t.common.logout}
-                    </button>
+            {/* Desktop Navigation - Centered */}
+            <nav
+              aria-label="Main navigation"
+              className="hidden lg:flex items-center gap-1 flex-1 justify-center"
+            >
+              {navItems.map((item, i) =>
+                item.links?.length ? (
+                  <Dropdown key={item.label} item={item} id={`nav-dd-${i}`} />
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href!}
+                    className={cn(
+                      "px-3 py-2 text-sm font-medium rounded-full transition-all whitespace-nowrap",
+                      pathname === item.href
+                        ? "bg-white/25"
+                        : "hover:bg-white/20"
+                    )}
+                    style={{ color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.3)" }}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+            </nav>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              {/* Language Toggle */}
+              <button
+                type="button"
+                onClick={toggleLocale}
+                className="h-9 w-9 rounded-full text-sm font-bold transition-all flex items-center justify-center"
+                style={{ background: "#F5C518", color: "#0d1f0d" }}
+                aria-label={isRtl ? "Switch to English" : "التبديل للعربية"}
+              >
+                {isRtl ? "EN" : "ع"}
+              </button>
+
+              {/* User Profile or Login */}
+              {user ? (
+                <div className="relative group">
+                  <Link
+                    href="/profile"
+                    className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden transition-all shadow-sm ring-2 ring-[#3D6833]/30 hover:ring-[#3D6833]/60"
+                    style={{ background: "#3D6833" }}
+                  >
+                    {userName?.avatar_url ? (
+                      <img
+                        src={userName.avatar_url}
+                        alt="avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.85)" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+                      </svg>
+                    )}
+                  </Link>
+                  <div className="absolute end-0 top-full pt-2 hidden group-hover:block z-50">
+                    <div className="bg-white border border-[#3D6833]/15 rounded-xl shadow-2xl overflow-hidden py-1 min-w-[200px]">
+                      <Link
+                        href="/profile"
+                        className="block px-4 py-3 text-sm transition-colors hover:bg-[#3D6833]/08"
+                        style={{ color: "#1b4332" }}
+                      >
+                        {isRtl ? 'الملف الشخصي' : 'Profile'}
+                      </Link>
+                      <div className="h-px bg-[#3D6833]/10 my-1" />
+                      <button
+                        type="button"
+                        onClick={logout}
+                        className="w-full text-start px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        {t.common.logout}
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setLoginOpen(true)}
-                  className="lg:hidden inline-flex items-center justify-center h-8 px-3 text-xs font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
-                >
-                  {t.common.login}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setLoginOpen(true)}
-                  className="hidden lg:inline-flex items-center justify-center h-9 px-4 text-sm font-semibold bg-brand-green text-white rounded-xl hover:bg-brand-green-dark transition-colors shadow-sm"
-                >
-                  {t.common.login}
-                </button>
-              </>
-            )}
-
-            <button
-              type="button"
-              onClick={() => setMobileOpen((v) => !v)}
-              className="lg:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-              aria-label={mobileOpen ? t.common.closeMenu : t.common.openMenu}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu"
-            >
-              {mobileOpen ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
               ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-                  <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
-                </svg>
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setLoginOpen(true)}
+                    className="lg:hidden inline-flex items-center justify-center h-9 px-3 text-xs font-bold rounded-lg transition-all"
+                    style={{ background: "#F5C518", color: "#0d1f0d" }}
+                  >
+                    {t.common.login}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLoginOpen(true)}
+                    className="hidden lg:inline-flex items-center justify-center h-9 px-5 text-sm font-bold rounded-lg transition-all"
+                    style={{ background: "#F5C518", color: "#0d1f0d" }}
+                  >
+                    {t.common.login}
+                  </button>
+                </>
               )}
-            </button>
-          </div>
-        </div>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                type="button"
+                onClick={() => setMobileOpen((v) => !v)}
+                className="lg:hidden p-2 rounded-full transition-all hover:bg-white/20"
+                style={{ color: "#fff" }}
+                aria-label={mobileOpen ? t.common.closeMenu : t.common.openMenu}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-menu"
+              >
+                {mobileOpen ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>{/* end pill */}
+        </div>{/* end max-w container */}
       </header>
 
       <div
         id="mobile-menu"
         className={cn(
-          "lg:hidden fixed top-16 inset-x-0 bottom-0 z-[99]",
-          "bg-brand-dark border-t border-white/10 shadow-2xl",
+          "lg:hidden fixed inset-x-0 bottom-0 z-[99]",
+          "bg-white/95 border-t border-[#3D6833]/20 shadow-2xl",
           "overflow-y-auto overflow-x-hidden overscroll-contain",
           "transition-[opacity,transform] duration-200",
           mobileOpen
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 -translate-y-2 pointer-events-none"
         )}
+        style={{ top: announcementH + 68, backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
         dir={isRtl ? "rtl" : "ltr"}
         aria-hidden={!mobileOpen}
       >
-        <div className="px-4 py-3 space-y-1">
+        <div className="px-4 py-4 space-y-1">
           {navItems.map((item) => {
             const expanded = mobileExpanded === item.label;
             return (
@@ -360,7 +387,8 @@ export function Navbar() {
                       type="button"
                       onClick={() => setMobileExpanded(expanded ? null : item.label)}
                       aria-expanded={expanded}
-                      className="w-full flex items-center justify-between gap-2 px-3 py-3 text-sm font-semibold text-white/90 rounded-lg hover:bg-white/10 transition-colors"
+                      className="w-full flex items-center justify-between gap-2 px-4 py-3 text-sm font-semibold rounded-lg hover:bg-[#3D6833]/08 transition-all"
+                      style={{ color: "#1b4332" }}
                     >
                       <span>{item.label}</span>
                       <Chevron open={expanded} />
@@ -373,13 +401,14 @@ export function Navbar() {
                       )}
                     >
                       <div className="overflow-hidden">
-                        <div className="ms-4 mt-1 space-y-0.5 border-s border-white/15 ps-3">
+                        <div className="ms-4 mt-1 space-y-1 border-s-2 border-[#3D6833]/25 ps-4">
                           {item.links.map((link) => (
                             <Link
                               key={link.href}
                               href={link.href}
                               onClick={() => setMobileOpen(false)}
-                              className="block px-3 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                              className="block px-3 py-2.5 text-sm font-medium rounded-lg transition-all hover:bg-[#3D6833]/08"
+                              style={{ color: "#2d5128" }}
                             >
                               {link.label}
                             </Link>
@@ -392,7 +421,8 @@ export function Navbar() {
                   <Link
                     href={item.href!}
                     onClick={() => setMobileOpen(false)}
-                    className="block px-3 py-3 text-sm font-semibold text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                    className="block px-4 py-3 text-sm font-semibold rounded-lg hover:bg-[#3D6833]/08 transition-all"
+                    style={{ color: "#1b4332" }}
                   >
                     {item.label}
                   </Link>
@@ -401,28 +431,36 @@ export function Navbar() {
             );
           })}
 
-          <div className="pt-3 border-t border-white/10 mt-3">
+          <div className="pt-4 border-t border-[#3D6833]/15 mt-4">
             {user ? (
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Link
                   href="/profile"
                   onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-white/10 transition-colors"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-[#3D6833]/08 transition-all"
                 >
-                  <div className="w-9 h-9 rounded-full bg-brand-green flex items-center justify-center text-sm font-bold text-white">
-                    {(userName?.first_name?.[0] ?? userName?.email?.[0] ?? 'U').toUpperCase()}
+                  <div className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center shrink-0"
+                    style={{ background: "#3D6833" }}>
+                    {userName?.avatar_url ? (
+                      <img src={userName.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none" className="w-6 h-6" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.85)" />
+                        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="rgba(255,255,255,0.85)" strokeWidth="1.8" strokeLinecap="round" fill="none" />
+                      </svg>
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-white truncate">
+                    <div className="text-sm font-semibold truncate" style={{ color: "#1b4332" }}>
                       {userName?.first_name ?? userName?.email}
                     </div>
-                    <div className="text-xs text-white/60">{isRtl ? 'عرض الملف الشخصي' : 'View profile'}</div>
+                    <div className="text-xs" style={{ color: "#3D6833" }}>{isRtl ? 'عرض الملف الشخصي' : 'View profile'}</div>
                   </div>
                 </Link>
                 <button
                   type="button"
                   onClick={() => { logout(); setMobileOpen(false); }}
-                  className="w-full text-start px-3 py-2.5 text-sm text-red-400 hover:text-red-300 hover:bg-white/10 rounded-lg transition-colors"
+                  className="w-full text-start px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-all"
                 >
                   {t.common.logout}
                 </button>
@@ -431,7 +469,8 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => { setLoginOpen(true); setMobileOpen(false); }}
-                className="w-full h-11 bg-brand-green text-white text-sm font-semibold rounded-xl hover:bg-brand-green-dark transition-colors"
+                className="w-full h-12 text-white text-sm font-semibold rounded-xl transition-all shadow-md"
+                style={{ background: "#3D6833" }}
               >
                 {t.common.login}
               </button>
