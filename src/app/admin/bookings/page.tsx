@@ -11,15 +11,13 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { toast } from "sonner";
 
 const STATUS_LABELS: Record<string, { ar: string; color: string }> = {
-  draft:           { ar: "مسودة",          color: "bg-gray-100 text-gray-600" },
-  pending:         { ar: "قيد الانتظار",   color: "bg-yellow-100 text-yellow-700" },
-  pending_payment: { ar: "انتظار الدفع",   color: "bg-amber-100 text-amber-700" },
-  quoted:          { ar: "عرض سعر",        color: "bg-blue-100 text-blue-700" },
-  confirmed:       { ar: "مؤكد",           color: "bg-green-100 text-green-700" },
-  cancelled:       { ar: "ملغي",           color: "bg-red-100 text-red-600" },
-  expired:         { ar: "منتهي",          color: "bg-gray-100 text-gray-500" },
-  refunded:        { ar: "مسترد",          color: "bg-blue-100 text-blue-600" },
-  completed:       { ar: "مكتمل",          color: "bg-emerald-100 text-emerald-700" },
+  draft:     { ar: "مسودة",        color: "bg-gray-100 text-gray-600" },
+  pending:   { ar: "قيد الانتظار", color: "bg-yellow-100 text-yellow-700" },
+  confirmed: { ar: "مؤكد",        color: "bg-green-100 text-green-700" },
+  cancelled: { ar: "ملغي",        color: "bg-red-100 text-red-600" },
+  expired:   { ar: "منتهي",       color: "bg-gray-100 text-gray-500" },
+  refunded:  { ar: "مسترد",       color: "bg-blue-100 text-blue-600" },
+  completed: { ar: "مكتمل",       color: "bg-emerald-100 text-emerald-700" },
 };
 
 const VERTICAL_ICONS: Record<string, string> = {
@@ -173,13 +171,13 @@ export default function AdminBookingsPage() {
 
   const ActionButtons = ({ b }: { b: any }) => (
     <div className="flex gap-1.5">
-      {["pending_payment", "quoted"].includes(b.status) && (
+      {b.status === "pending" && (
         <button onClick={() => confirmBooking(b.booking_id)} disabled={actionLoading}
           className="px-2.5 py-1 rounded-lg bg-brand-green text-white text-xs font-medium disabled:opacity-50">
           تأكيد
         </button>
       )}
-      {["pending_payment", "quoted", "confirmed"].includes(b.status) && (
+      {["pending", "confirmed"].includes(b.status) && (
         <button onClick={() => cancelBooking(b.booking_id)} disabled={actionLoading}
           className="px-2.5 py-1 rounded-lg border border-red-200 text-red-600 text-xs font-medium hover:bg-red-50 disabled:opacity-50">
           إلغاء

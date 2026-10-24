@@ -15,6 +15,9 @@
   --color-brand-green-light: #4d7d43;
   --color-brand-green-dark: #2d5128;
   --color-brand-dark: #1a1a1a;
+  /* Font families */
+  --font-display-en: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-display-ar: var(--font-cairo), 'Cairo', sans-serif;
 
   /* Semantic mappings */
   --color-primary: #3D6833;

@@ -1,11 +1,34 @@
-﻿import type { Metadata, Viewport } from "next";
-import { Cairo } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Cairo, Playfair_Display, Bebas_Neue, Plus_Jakarta_Sans } from "next/font/google";
 import { I18nProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
 const cairo = Cairo({
   subsets: ["arabic"],
   variable: "--font-cairo",
+  display: "swap",
+  preload: false,
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  preload: false,
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas",
+  display: "swap",
+  preload: false,
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["800"],
+  variable: "--font-jakarta",
   display: "swap",
   preload: false,
 });
@@ -51,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${cairo.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth" suppressHydrationWarning>
+    <html lang="ar" dir="rtl" className={`${cairo.variable} ${playfair.variable} ${bebasNeue.variable} ${plusJakarta.variable} h-full antialiased overflow-x-hidden`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden w-full max-w-full" suppressHydrationWarning>
         <I18nProvider>
           {children}
